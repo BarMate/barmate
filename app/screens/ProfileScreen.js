@@ -10,12 +10,10 @@ class ProfileScreen extends Component {
     render() {
 
         return (
-            <Container>
-                <View>
-                    <Text>Hello World</Text>
-                </View>
-                
-            </Container>
+            <View>
+                <Text>Hello World</Text>
+            </View>
+            
         )
     }
 }
