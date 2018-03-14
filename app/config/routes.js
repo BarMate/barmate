@@ -23,5 +23,28 @@ export default TabNavigator(
                 ),
             }
         },
+    },
+    {
+        initialRouteName: 'Profile',
+        tabBarPosition: 'bottom',
+        animationEnabled: false,
+        swipeEnabled: false,
+        tabBarOptions: {
+            showIcon: true,
+            showLabel: false,
+            activeTintColor: '#003E5B',
+            inactiveTintColor: '#F0F0F0',
+            allowFontScaling: false,
+            style: {
+                height: height*.08,
+                backgroundColor: 'white',
+            },
+            labelStyle: {
+                fontSize: 10,
+            },
+            indicatorStyle: {
+                height: 0,
+            }
+        }
     }
 );
