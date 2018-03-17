@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import { Icon } from 'native-base';
 import React from 'react';
-import Navigator from './routes'
+import BarsMap from '../screens/BarsMap'
 import LoginScreen from '../screens/LoginScreen'
 import { updateFocus } from 'react-navigation-is-focused-hoc'
 
@@ -13,7 +13,7 @@ const AppNavigator = StackNavigator({
         },
     },
     Main: {
-        screen: Navigator,
+        screen: BarsMap,
         navigationOptions: {
             header: null,
         }
