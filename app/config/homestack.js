@@ -1,10 +1,10 @@
 import { StackNavigator } from 'react-navigation';
 import React from 'react';
-import ProfileScreen from '../screens/ProfileScreen';
+import BarsMap from '../screens/BarsMap';
 
-export default ProfileNavigator = StackNavigator({
-    Profile: {
-        screen: ProfileScreen,
+export default BarsMapNavigator = StackNavigator({
+    BarsMapNavigator: {
+        screen: BarsMap,
         navigationOptions: {
             header: null,
         },

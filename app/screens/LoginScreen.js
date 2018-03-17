@@ -76,7 +76,7 @@ export default class LoginScreen extends React.Component {
 const styles = EStyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: '$primaryBlue',
+    backgroundColor: '#131F2E',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -104,18 +104,18 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
     width: width*.45,
     height: width*.11,
-    backgroundColor: 'white',
+    backgroundColor: '#BE1E2D',
     borderRadius: 5,
     marginTop: 30,
     marginBottom: 15,
   },
   buttonText: {
     fontSize: 14,
-    color: '$primaryBlue',
+    color: '#676C6E',
   },
   forgotText: {
     fontSize: 12,
-    color: 'black',
+    color: 'white',
     alignSelf: 'center'
   },
   iconRow: {

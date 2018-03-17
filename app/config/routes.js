@@ -3,15 +3,15 @@ import { Dimensions } from 'react-native';
 import { Icon } from 'native-base';
 import React from 'react';
 
-import ProfileNavigator from './homestack';
-import ProfileScreen from '../screens/ProfileScreen';
+import BarMapNavigator from './homestack';
+import BarsMap from '../screens/BarsMap';
 
 var {height, width} = Dimensions.get('window');
 
 export default TabNavigator(
     {
-        Profile: {
-            screen: ProfileNavigator,
+        BarsMap: {
+            screen: BarsMapNavigator,
             navigationOptions: {
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ tintColor }) => (
@@ -25,7 +25,7 @@ export default TabNavigator(
         },
     },
     {
-        initialRouteName: 'Profile',
+        initialRouteName: 'BarsMap',
         tabBarPosition: 'bottom',
         animationEnabled: false,
         swipeEnabled: false,
