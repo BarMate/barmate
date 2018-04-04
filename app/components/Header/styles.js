@@ -7,7 +7,6 @@ var {height, width} = Dimensions.get('window');
 export default EStyleSheet.create({
     container: {
       height: height*.12,
-      alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#BE1E2D',
     },
@@ -16,13 +15,17 @@ export default EStyleSheet.create({
       height: Constants.statusBarHeight,
     }, 
     title: {
+      paddingBottom: 30,
+      textAlign: 'center',
+      justifyContent: 'center',
+      textAlignVertical: 'center',
       fontSize: 22,
       color: '#FFFFFF',
     },
     sandwichMenu: {
-      width: 35,
-      height: 5,
-      backgroundColor: 'black',
-      margin: 1,
+      width: width*.05,
+      height: height*.004,
+      backgroundColor: 'white',
+      margin: 1.6,
     },
 });
