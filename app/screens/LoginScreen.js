@@ -86,8 +86,8 @@ const styles = EStyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    height: width*.4,
-    width: width*.6,
+    height: width*.8,
+    width: width*1.2,
   },
   credview: {
     flex: .15,

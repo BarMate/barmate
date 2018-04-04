@@ -5,7 +5,16 @@ import { Container } from '../components/Container'
 import { Header } from '../components/Header'
 var {deviceHeight, deviceWidth} = Dimensions.get('window');
 
+import { DrawerNavigator } from 'react-navigation'
+import {Icon, Button, Content, Left } from 'native-base'  // Using custom container and header
+
+import HomeScreen from './HomeScreen'
+import SettingsScreen from './SettingsScreen'
+
+var {height, width} = Dimensions.get('window');
+
 export default class App extends Component {
+  
   state = {
     mapRegion: { 
       latitude: 41.0709053,
@@ -19,22 +28,30 @@ export default class App extends Component {
     this.setState({ mapRegion });
   };
 
-  render() {
-    return (
+  render() { 
+    return ( 
       <Container>
-        <Header title={'BarMate'}/>
+          <Header title='BarMate'/>
           <View style={styles.container}>
             <MapView
               style={{ alignSelf: 'stretch', height: 750}}
-              region={this.state.mapRegion}
+              initialRegion={this.state.mapRegion}
               onRegionChange={this._handleMapRegionChange}
             />
-          </View>        
+          </View>  
       </Container>
-      
     );
   }
 }
+
+const MyApp = DrawerNavigator ({  // Drawer navigator constructor
+  Settings:{
+    screen: SettingsScreen
+  },
+  Home:{
+    screen: HomeScreen
+  },
+})
 
 const styles = StyleSheet.create({
   container: {
