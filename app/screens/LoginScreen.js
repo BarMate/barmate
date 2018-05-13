@@ -7,7 +7,14 @@ import { Dimensions } from 'react-native';
 import { EmailInput } from '../components/EmailInput';
 import { PasswordInput } from '../components/PasswordInput';
 
+//Used to handy facebook-related functions
+import Expo from 'expo';
+//Firebase import/functions
+import firebase from 'firebase';
+
 var {height, width} = Dimensions.get('window');
+
+const fbId = 791668991006897;
 
 export default class LoginScreen extends React.Component {
 
@@ -16,12 +23,41 @@ export default class LoginScreen extends React.Component {
     password: '',
   }
 
+  fbLogin = async () => {
+    const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(fbId, {permissions: ['public_profile', 'email', 'user_friends']});
+
+    if(type == 'success'){
+
+      const response = await fetch(
+        'https://graph.facebook.com/me?access_token=$(token)&fields=id,name,email,about,picture'
+      );
+
+      console.log('Response: ', response);
+
+      const json = await response.json();
+
+      console.log('USER INFO: ', json);
+
+      try{
+        var credential = firebase.auth.FacebookAuthProvider.credential(token);
+        await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+        this.props.navigation.navigate('Main');
+      }catch(error){
+        console.error(error);
+      }
+    }else{
+      conesole.log('ERROR: ', type);
+    }
+  }
+
   render() {
     
     const { email, password } = this.state
     const { navigate } = this.props.navigation
     const { isLoading, onLoginPress } = this.props
     const isValid = email !== '' && password !== ''
+
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View style={styles.main}>
@@ -46,7 +82,7 @@ export default class LoginScreen extends React.Component {
           <View style={styles.miscView}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.props.navigation.navigate('Main')}>
+              onPress={/*() => this.props.navigation.navigate('Main')*/ () => this.fbLogin() }>
               <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
             <Text style={styles.forgotText}>Forgot Password?</Text>
