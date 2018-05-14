@@ -7,13 +7,14 @@ import { Dimensions } from 'react-native';
 import { EmailInput } from '../components/EmailInput';
 import { PasswordInput } from '../components/PasswordInput';
 
-//Used to handy facebook-related functions
+//Used for handy facebook-related functions
 import Expo from 'expo';
-//Firebase import/functions
+//Firebase import and functions
 import firebase from 'firebase';
 
 var {height, width} = Dimensions.get('window');
 
+//unique Facebook Id, do not change
 const fbId = 791668991006897;
 
 export default class LoginScreen extends React.Component {
@@ -23,6 +24,7 @@ export default class LoginScreen extends React.Component {
     password: '',
   }
 
+  //Facebook login function
   fbLogin = async () => {
     const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(fbId, {permissions: ['public_profile', 'email', 'user_friends']});
 
@@ -49,6 +51,31 @@ export default class LoginScreen extends React.Component {
     }else{
       conesole.log('ERROR: ', type);
     }
+  }
+
+  //Register function. Creates user entry in database. Requires error checking (i.e. are email and password fields blank?)
+  onRegister = () => {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then((registeredUser) => {
+      //Need to do anything here?
+      this.props.navigation.navigate('Main');
+     }).catch((error) => {
+      //Cast error log
+      console.log(error);
+    });
+  }
+
+  //Login function. Checks to see if user exists in database or if password matches. Also requires error checking
+  onLogin = () => {
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then((loggedUser) => {
+      //Need to do anything else here?
+      this.props.navigation.navigate('Main');
+    }).catch((error) => {
+      //Error log
+      console.log(error);
+      alert("Sign in failed, please try again");
+    })
   }
 
   render() {
@@ -82,7 +109,8 @@ export default class LoginScreen extends React.Component {
           <View style={styles.miscView}>
             <TouchableOpacity
               style={styles.button}
-              onPress={/*() => this.props.navigation.navigate('Main')*/ () => this.fbLogin() }>
+              //overrode onPress here, just for fbLogin. Once facebook button is added, we can change this
+              onPress={/*() => this.props.navigation.navigate('Main')*/ () => this.onLogin() }>
               <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
             <Text style={styles.forgotText}>Forgot Password?</Text>
