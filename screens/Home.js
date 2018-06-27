@@ -27,6 +27,8 @@ import Common from '../native-base-theme/variables/commonColor';
 import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text } from 'native-base';
 // =================================================
 
+import Bar from '../components/Bar';
+
 var { height, width } = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component {
@@ -66,6 +68,7 @@ export default class HomeScreen extends React.Component {
                     </Header>
                     <Content>
                         {/* Where the Bar component should be stored */}
+                        <Bar/>
                     </Content>
                 </Container>
             </StyleProvider>

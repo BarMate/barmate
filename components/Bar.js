@@ -9,11 +9,22 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
-  Text,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons'
 
+// Native base used for the front end
+// Use this instead of react native default styling
+import getTheme from '../native-base-theme/components';
+import Common from '../native-base-theme/variables/commonColor';
+import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text } from 'native-base';
+// =================================================
+
+// Used to help layout objects on the screen for compatibility between devices
+// Google react native easy grid for more info
+import { Col, Row, Grid } from 'react-native-easy-grid';
+
+var { height, width } = Dimensions.get('window');
 
 /*
     Bar.js is used as the component for getting and rendering the saved bar a person has on their home page.
@@ -30,5 +41,32 @@ import { Ionicons } from '@expo/vector-icons'
 */
 
 class Bar extends React.Component {
-        
+
+  constructor(props) {
+    super(props);
+    this.state = {
+        component: [],
+    };
+  } 
+
+  render() {
+    return (
+            // Get the theme for the app from Common located inside nativebasetheme/commonColor.js
+            // For help look at guides for native base custom styling
+            <StyleProvider style={getTheme(Common)}>
+                <Container>
+                    <Content>
+                      <View style={{width: width, height: height}}>
+                        <Grid>
+                            <Row style={{backgroundColor: '#f3D'}} size={50}></Row>
+                            <Row style={{backgroundColor: '#3dF'}} size={50}></Row>
+                        </Grid>
+                      </View>
+                    </Content>                      
+                </Container>
+            </StyleProvider>
+    );
+  }
 }
+
+export default Bar;
