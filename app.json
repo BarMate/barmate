@@ -1,5 +1,10 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "sdkVersion": "27.0.0",
+    "name": "Barmate",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.josephcontumelio.barmate"
+    }
   }
 }

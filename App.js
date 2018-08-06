@@ -22,6 +22,9 @@ import ProfileScreen from './screens/Profile.js';
 import SignUpScreen from './screens/SignUp.js';
 //========================
 
+import Page1 from './screens/Page1.js';
+import Page2 from './screens/Page2.js';
+
 // Native base used for the front end
 // Use this instead of react native default styling
 import getTheme from './native-base-theme/components';
@@ -34,6 +37,16 @@ import { Col, Row, Grid } from 'react-native-easy-grid';
 
 // Firebase backend for accounts, logging in, etc..
 import * as firebase from 'firebase';
+
+var firstTime = require('react-native-catch-first-time');
+var DeviceInfo = require('react-native-device-info');
+var startup = true;
+
+firstTime('fbc9086d-e4b4-427e-8216-91ef3eac496b')
+  .catch(function () {
+    startup = true;
+});
+
 
 var { height, width } = Dimensions.get('window');
 
@@ -237,6 +250,7 @@ const styles = StyleSheet.create({
 // Creates the tab navigator for inside the app and the stack navigator for the log in and sign up screen
 const AppTab = createBottomTabNavigator({ Home: HomeScreen, Search: SearchScreen, Message: MessageScreen, Profile: ProfileScreen });
 const AuthStack = createStackNavigator({ SignIn: SignInScreen, SignUp: SignUpScreen });
+const firstTime = createSwitchNavigator({page1: Page1, page2: Page2})
 
 // Creates a switch navigator to switch between Apptab and Authstack depending on if logged in
 export default createSwitchNavigator(
@@ -244,8 +258,9 @@ export default createSwitchNavigator(
     AuthLoading: AuthLoadingScreen,
     App: AppTab,
     Auth: AuthStack,
+    firstTime: firstTime,
   },
   {
-    initialRouteName: 'AuthLoading',
+    initialRouteName: startup ? 'firstTime' : 'AuthLoading',
   },
 );
