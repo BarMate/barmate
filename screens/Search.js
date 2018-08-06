@@ -56,7 +56,7 @@ class SearchScreen extends React.Component {
     static navigationOptions = {
         tabBarIcon: ({ focused, tintColor }) => (
             focused ? <Ionicons name={'ios-search'} size={25} color={'#FFFFFF'} />
-                : <Ionicons name={'ios-search'} size={25} color={'#536497'} />
+                : <Ionicons name={'ios-search'} size={25} color={'#536497'}/>
         ),
         tabBarPosition: 'bottom',
         tabBarOptions: {
@@ -215,7 +215,7 @@ class SearchScreen extends React.Component {
                                             <Col style={{ backgroundColor: '#19233F'}} size={40}>
                                                 <Body>
                                                     <Button style={{marginTop: 80}}success>
-                                                        <Text style={{color: '#FFFFFF', fontStyle: 'bold'}}>    Add    </Text> 
+                                                        <Text style={{color: '#FFFFFF', fontStyle: 'bold'}}>    Add    </Text>
                                                     </Button>
                                                 </Body>                                               
                                             </Col>
