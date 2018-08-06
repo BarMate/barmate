@@ -24,7 +24,7 @@ var { height, width } = Dimensions.get('window');
 class MessageScreen extends React.Component {
     static navigationOptions = {
         tabBarIcon: ({ focused, tintColor }) => (
-            focused ? <Ionicons name={'ios-text'} size={25} color={'#FFFFFF'} />
+            focused ? <Ionicons name={'ios-text'} size={25} color={'#FFFFFF'}/>
                 : <Ionicons name={'ios-text'} size={25} color={'#536497'} />
         ),
         tabBarPosition: 'bottom',

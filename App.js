@@ -100,7 +100,7 @@ class SignInScreen extends React.Component {
     const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
                     .then(() => { AsyncStorage.setItem('userToken', 'success');
-                                  this.props.navigation.navigate('AuthLoading'); 
+                                  this.props.navigation.navigate('AuthLoading');
                                 })
                     .catch(() => {
                         this.setState({ error: 'Authentication failed.', loading: false, success: '' })
@@ -114,56 +114,81 @@ class SignInScreen extends React.Component {
             <Container>
               <Content scrollEnabled={false}>
                 <View style={{width: width, height: height}}>
-
                     <Grid>
-                      
+                      {/*unused but needed*/}
+                      <Row style={{backgroundColor: '#1c2e63'}} size={0.3}/>
                       {/* Houses the logo */}
                       <Row style={{backgroundColor: '#fec'}} size={1}>
                         <Grid>
-                          <Row style={{backgroundColor: '#1c2e63'}} size={1}></Row>  {/*unused but needed*/}
                           <Row style={{backgroundColor: '#1c2e63'}} size={1}>
                             <Body>
-                              <Image
-                                style={styles.image}
-                                source={require('./assets/login/title_logo.png')}
-                              />
+                              <View>
+                                <Image
+                                  style={styles.image}
+                                  source={require('./assets/login/title_logo.png')}
+                                />
+                              </View>
                             </Body>
                           </Row>
+                          {/*unused but needed*/}
+                          <Row style={{backgroundColor: '#1c2e63'}} size={0.2}/>
                         </Grid>
                       </Row>
 
-                      {/* Houses the input text fields */}
-                      <Row style={{backgroundColor: '#1c2e63'}} size={1}>
-                        <Form style={{width: width, marginTop: 60}}>
-                          <Item floatingLabel last>
-                            <Label>Username</Label>
-                            <Input value={this.state.email}
-                                   onChangeText={email => this.setState({email})}/>
-                          </Item>
-                          <Item floatingLabel last>
-                            <Label>Password</Label>
-                            <Input secureTextEntry
-                                   value={this.state.password}
-                                   onChangeText={password => this.setState({password})}/>
-                          </Item>
+                      <Row style={{backgroundColor: '#1c2e63', alignItems: 'center'}} size={0.2}>
+                        <Col size={1} style={{paddingLeft: width * 0.10}}>
+                          <View style={{ width: width * 0.35, height: height * 0.00075, backgroundColor: '#FFFFFF' }}/>
+                        </Col>
+                        <Col size={0.5} style={{backgroundColor: '#1c2e63', justifyContent: 'center', alignItems: 'center'}}>
+                          <Text>Log In</Text>
+                        </Col>
+                        <Col size={1} style={{paddingRight: width * 0.10,}}>
+                          <View style={{ paddingLeft: width * 0.15, width: width * 0.35, height: height * 0.00075, backgroundColor: '#FFFFFF' }}/>
+                        </Col>
+                      </Row>
+
+                      {/* Houses the input text fields and Login button*/}
+                      <Row style={{backgroundColor: '#1c2e63'}} size={1.5}>
+                        <Form style={{width: width }}>
+                          <View style={{alignItems: "center", paddingBottom: 10}}>
+                            <Item rounded last style={{backgroundColor: '#536497', borderColor: '#536497', width: width * 0.85 }}>
+                              <Label>Username</Label>
+                              <Input value={this.state.email}
+                                    onChangeText={email => this.setState({email})}
+                              />
+                            </Item>
+                          </View>
+
+                          <View style={{alignItems: "center"}}>
+                            <Item rounded last style={{backgroundColor: '#536497', borderColor: '#536497', width: width * 0.85}}>
+                              <Label>Password</Label>
+                              <Input secureTextEntry
+                                    value={this.state.password}
+                                    onChangeText={password => this.setState({password})}/>
+                            </Item>
+                          </View>
+                        
+                          <View style={{alignItems: "center", paddingTop: 25}}>
+                              <Body>
+                                <Button rounded style={{width: width * 0.85, backgroundColor: '#030E2C', borderColor: '#030E2C', justifyContent: 'center' }} onPress={this._signInAsync.bind(this)}>
+                                  <Text style={styles.text}>Log In</Text>
+                                </Button>
+                              </Body>
+                          </View>
                         </Form>
                       </Row>
 
-                      {/* Houses the Log in button and footer */}
-                      <Row style={{backgroundColor: '#1c2e63'}} size={1}>
-                        <Button full style={{width: width, backgroundColor: '#536497'}} onPress={this._signInAsync.bind(this)}> 
-                          <Text style={styles.text}>Log In</Text>
-                        </Button>
+                      {/* Houses the footer */}
+                      <Row style={{backgroundColor: '#1c2e63', alignItems: "center"}} size={0.4}>
+                          
                         <View style={styles.footer}>
                           <Text style={styles.footerText}>Don't have an account? </Text>
                           <TouchableOpacity onPress={() => {this.props.navigation.navigate('SignUp')}}>
                             <Text style={styles.signUpButton}>Sign Up.</Text>
                           </TouchableOpacity>
                         </View>
-                      </Row>
-
+                      </Row>  
                     </Grid>
-
                   </View>
               </Content>
             </Container>

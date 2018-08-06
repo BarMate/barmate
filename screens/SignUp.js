@@ -59,7 +59,9 @@ class SignUpScreen extends React.Component {
         if (this.state.loading) {
             return <Text>Loading...</Text>
         }
-        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text> </Button>;
+        return  <Button onPress={this.signUp.bind(this)} block light>
+                    <Text>Sign up</Text>
+                </Button>;
     }
 
     render() {
@@ -75,13 +77,13 @@ class SignUpScreen extends React.Component {
                                     <Item underline>
                                         <Input placeholder='Email address...'
                                                value={this.state.email}
-                                               onChangeText={email => this.setState({email})} />
+                                               onChangeText={email => this.setState({email})}/>
                                     </Item>
                                     <Item underline>
-                                        <Input placeholder='Password' 
+                                        <Input placeholder='Password'
                                                secureTextEntry
                                                value={this.state.password}
-                                               onChangeText={password => this.setState({password})} />
+                                               onChangeText={password => this.setState({password})}/>
                                     </Item>
                                 </Form>
                             </Body>

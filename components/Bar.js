@@ -62,7 +62,7 @@ class Bar extends React.Component {
                             <Row style={{backgroundColor: '#3dF'}} size={50}></Row>
                         </Grid>
                       </View>
-                    </Content>                      
+                    </Content>
                 </Container>
             </StyleProvider>
     );
