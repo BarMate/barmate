@@ -152,19 +152,14 @@ class SignInScreen extends React.Component {
                         <Form style={{width: width }}>
                           <View style={{alignItems: "center", paddingBottom: 10}}>
                             <Item rounded last style={{backgroundColor: '#536497', borderColor: '#536497', width: width * 0.85 }}>
-                              <Label>Username</Label>
-                              <Input value={this.state.email}
-                                    onChangeText={email => this.setState({email})}
+                              <Input placeholder="Username" value={this.state.email} onChangeText={email => this.setState({email})}
                               />
                             </Item>
                           </View>
 
                           <View style={{alignItems: "center"}}>
                             <Item rounded last style={{backgroundColor: '#536497', borderColor: '#536497', width: width * 0.85}}>
-                              <Label>Password</Label>
-                              <Input secureTextEntry
-                                    value={this.state.password}
-                                    onChangeText={password => this.setState({password})}/>
+                              <Input placeholder="Password" secureTextEntry value={this.state.password} onChangeText={password => this.setState({password})}/>
                             </Item>
                           </View>
                         
@@ -183,7 +178,7 @@ class SignInScreen extends React.Component {
                           
                         <View style={styles.footer}>
                           <Text style={styles.footerText}>Don't have an account? </Text>
-                          <TouchableOpacity onPress={() => {this.props.navigation.navigate('SignUp')}}>
+                          <TouchableOpacity onPress={() => {this.props.navigation.navigate('Page1')}}>
                             <Text style={styles.signUpButton}>Sign Up.</Text>
                           </TouchableOpacity>
                         </View>
