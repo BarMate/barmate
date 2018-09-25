@@ -42,7 +42,7 @@ class AuthLoadingScreen extends React.Component {
     render() {
       return (
         <View style={{backgroundColor: '#fff', flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-          <ActivityIndicator />
+          <ActivityIndicator/>
           <StatusBar barStyle="light-content" />
         </View>
       );

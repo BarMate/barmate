@@ -67,11 +67,12 @@ class SignInScreen extends React.Component {
                 <StatusBar barStyle="light-content" />
                 <Content scrollEnabled={false}>
                     <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                    <Grid>  
+                    <Grid> 
                         {/* Houses the logo */}
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                         <Grid>
-                            <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}></Row>  {/*unused but needed*/}
+                            {/*unused but needed*/}
+                            <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}></Row>
                             <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                             <Body>
                                 <Image

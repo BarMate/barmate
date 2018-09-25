@@ -50,9 +50,9 @@ export default class Signup_page1 extends React.Component {
 
     renderButtonOrLoading() {
         if (this.state.loading) {
-            return <Text>Loading...</Text>
+            return (<Text>Loading...</Text>);
         }
-        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text> </Button>;
+        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text></Button>;
     }
 
     render() {
