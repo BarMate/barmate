@@ -32,7 +32,7 @@ class SignInScreen extends React.Component {
           password: '',
           success: '',
           showToast: false,
-          isReady:true,
+          isFontReady:true,
         };
       }
 
@@ -46,7 +46,7 @@ class SignInScreen extends React.Component {
             'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
             'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
         });
-        this.setState({isReady:true})
+        this.setState({isFontReady:true})
       }
 
     _signInAsync = async () => {
@@ -71,7 +71,7 @@ class SignInScreen extends React.Component {
     };
 
     render(){
-        if (!this.state.isReady) {
+        if (!this.state.isFontReady) {
             return <Expo.AppLoading />;
           }
         return(
@@ -101,7 +101,8 @@ class SignInScreen extends React.Component {
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                         <Form style={{width: Variables.deviceWidth, marginTop: 60}}>
                             <Item floatingLabel underline last>
-                            <Label>Username</Label>
+                            {/* padding is necessary to prevent the word "username" from getting cut off*/}
+                            <Label style={{paddingTop: 6}}>Username</Label>
                             <Input value={this.state.email}
                                     onChangeText={email => this.setState({email})}/>
                             </Item>
@@ -116,7 +117,7 @@ class SignInScreen extends React.Component {
 
                         {/* Houses the Log in button and footer */}
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                            <Button rounded style={{width: 150, backgroundColor: '#100D64', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}> 
+                            <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}> 
                                 <Text style={styles.text}>Sign In</Text>
                             </Button>
                         <View style={styles.footer}>
@@ -126,7 +127,6 @@ class SignInScreen extends React.Component {
                             </TouchableOpacity>
                         </View>
                         </Row>
-
                             </Grid>
                         </LinearGradient>
                     </Content>

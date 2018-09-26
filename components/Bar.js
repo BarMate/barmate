@@ -39,10 +39,23 @@ class Bar extends React.Component {
       this.state = {
         opened: false,
         joinable: false,
+        isFontReady: false,
       }
     }
 
+    componentDidMount() {
+      Expo.Font.loadAsync({
+          'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
+          'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+      });
+      this.setState({isFontReady:true})
+    }
+
+
     render(){
+      if (!this.state.isFontReady) {
+        return <Expo.AppLoading />;
+      }
       return(
           <View style={styles.content}>
             <LinearGradient style={styles.gradient} colors={['rgba(0, 0, 0, 0.5)', COLORS.TRANSPARENT_COLOR]}>
@@ -51,12 +64,12 @@ class Bar extends React.Component {
 
                 <Row style={{backgroundColor: COLORS.TRANSPARENT_COLOR}} size={16}>
                     <Body>
-                    <Text style={{color: 'white', fontSize: 20}}>Mannys Bar</Text>
+                      <Text style={{color: 'white', fontSize: 20}}>Mannys Bar</Text>
                     </Body>
                 </Row>
 
 
-                <Row style={{backgroundColor: COLORS.TRANSPARENT_COLOR}} size={68}>>
+                <Row style={{backgroundColor: COLORS.TRANSPARENT_COLOR}} size={68}>
         
                 </Row>
 

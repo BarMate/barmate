@@ -56,6 +56,9 @@ export default class Signup_page1 extends React.Component {
     }
 
     render() {
+        if (!this.state.isFontReady) {
+            return <Expo.AppLoading />;
+          }
         return (
         <StyleProvider style={getTheme(Common)}>
             <Container>

@@ -42,10 +42,16 @@ class Profile extends React.Component {
             stores: [],
             modalSettingsVisible: false,
             modalEditVisibles: false,
+            isFontReady: false,
         };
     }
 
     componentDidMount() {
+        Expo.Font.loadAsync({
+            'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({isFontReady:true})
         // this.readUserData();
     }
 
