@@ -7,10 +7,11 @@ import {
     TouchableOpacity,
     StyleSheet,
     AsyncStorage,
+    Text,
 } from 'react-native';
 
 import AuthLoadingScreen from '../components/Auth.js';
-import { Form, Label, Input, Item, Container, Content, Body, StyleProvider, Text, Button, Toast } from 'native-base';
+import { Form, Label, Input, Item, Container, Content, Body, StyleProvider,  Button, Toast } from 'native-base';
 import { Row, Grid } from 'react-native-easy-grid';
 import getTheme from '../native-base-theme/components';
 import Common from '../native-base-theme/variables/commonColor';
@@ -31,6 +32,7 @@ class SignInScreen extends React.Component {
           password: '',
           success: '',
           showToast: false,
+          isReady:true,
         };
       }
 
@@ -38,6 +40,14 @@ class SignInScreen extends React.Component {
         header: null,
         headerMode: 'none',
     };
+    
+    componentDidMount() {
+        Expo.Font.loadAsync({
+            'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({isReady:true})
+      }
 
     _signInAsync = async () => {
     const { email, password } = this.state;
@@ -61,6 +71,9 @@ class SignInScreen extends React.Component {
     };
 
     render(){
+        if (!this.state.isReady) {
+            return <Expo.AppLoading />;
+          }
         return(
             <StyleProvider style={getTheme(Common)}>
                 <Container>
@@ -104,9 +117,7 @@ class SignInScreen extends React.Component {
                         {/* Houses the Log in button and footer */}
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                             <Button rounded style={{width: 150, backgroundColor: '#100D64', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}> 
-                            <Body>
                                 <Text style={styles.text}>Sign In</Text>
-                            </Body>
                             </Button>
                         <View style={styles.footer}>
                             <Text style={styles.footerText}>Don't have an account? </Text>
