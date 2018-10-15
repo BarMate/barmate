@@ -17,7 +17,6 @@ import getTheme from '../native-base-theme/components';
 import Common from '../native-base-theme/variables/commonColor';
 import { LinearGradient } from 'expo';
 import firebase from '../config/Firebase.js'
-
 import Variables from '../config/Variables.js';
 import COLORS from '../config/Colors.js';
 
@@ -122,8 +121,8 @@ class SignInScreen extends React.Component {
                             </Button>
                         <View style={styles.footer}>
                             <Text style={styles.footerText}>Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => {this.props.navigation.navigate('SignUp')}}>
-                            <Text style={styles.signUpButton}>Sign Up.</Text>
+                            <TouchableOpacity onPress={() => {this.props.navigation.navigate('p1')}}>
+                                <Text style={styles.signUpButton}>Sign Up.</Text>
                             </TouchableOpacity>
                         </View>
                         </Row>

@@ -36,12 +36,12 @@ import AuthLoadingScreen from './components/Auth.js';
 //=============================================================
 // Stack of pages for signing up user
 //=============================================================
-import Signup_page1 from './screens/SignUp.js';
-import Signup_page2 from './screens/SignUp.js';
-import Signup_page3 from './screens/SignUp.js';
-import Signup_page4 from './screens/SignUp.js';
-import Signup_page5 from './screens/SignUp.js';
-import Signup_page6 from './screens/SignUp.js';
+import Signup_page1 from './screens/SignUpScreens/SignUp.js';
+import Signup_page2 from './screens/SignUpScreens/SignUp2.js';
+import Signup_page3 from './screens/SignUpScreens/SignUp3.js';
+import Signup_page4 from './screens/SignUpScreens/SignUp4.js';
+import Signup_page5 from './screens/SignUpScreens/SignUp5.js';
+import Signup_page6 from './screens/SignUpScreens/SignUp6.js';
 //=============================================================
 
 
