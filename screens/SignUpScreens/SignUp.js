@@ -68,7 +68,7 @@ export default class Signup_page1 extends React.Component {
         else{
             this.setState({password:text, passwordInputSuccess:true});
             return true;
-        }   
+        }
     };
 
     render() {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         borderRadius: 75/2.0,
-        backgroundColor: 'red'
+        backgroundColor: 'black'
     },
     externalOptions: {
       flexDirection: 'row',

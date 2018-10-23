@@ -44,16 +44,9 @@ class Profile extends React.Component {
             modalEditVisibles: false,
             isFontReady: false,
         };
+        this.readUserData();
     }
 
-    componentDidMount() {
-        Expo.Font.loadAsync({
-            'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
-            'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
-        });
-        this.setState({isFontReady:true})
-        // this.readUserData();
-    }
 
     readUserData() {
         var profileRef = firebase.database().ref('/users/j000000001');
@@ -229,9 +222,15 @@ class Profile extends React.Component {
     /*this.state.stores.name*/
 
     // FIX: For some reason, when signing out, the header on the login screen pops up for a split second
+
     _signOutAsync = async () => {
-        await AsyncStorage.clear();
-        this.props.navigation.navigate('SignIn');
+        firebase.auth().signOut().then( () => {
+             AsyncStorage.clear().then(async () => {
+                this.props.navigation.navigate('SignUp');
+            })
+          }).catch(function(error) {
+            console.log(error);
+          });
     };
 }
 

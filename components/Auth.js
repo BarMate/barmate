@@ -15,6 +15,7 @@ import {
   AsyncStorage,
   StatusBar,
   View,
+  YellowBox 
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
@@ -33,10 +34,21 @@ class AuthLoadingScreen extends React.Component {
         header: null,
         headerMode: 'none',
     };
+     
 
     _bootstrapAsync = async () => {
-      const userToken = await AsyncStorage.getItem('userToken');
-      this.props.navigation.navigate(userToken ? 'App' : 'SignUp');
+      try {
+        Expo.Font.loadAsync({
+          'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
+          'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+        }).then(async (response) => {
+          const userToken = await AsyncStorage.getItem('userToken');
+          this.props.navigation.navigate(userToken ? 'App' : 'SignUp');
+        })
+      } 
+      catch (error) {
+        console.log('error loading icon fonts', error);
+      }
     };
   
     render() {
