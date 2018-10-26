@@ -21,10 +21,21 @@ import { Form, Label, Input, Item, Container, Header, Title, Content, Left, Righ
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import getTheme from '../../native-base-theme/components/index.js';
 import Common from '../../native-base-theme/variables/commonColor.js';
-
 import Variables from '../../config/Variables.js';
 import COLORS from '../../config/Colors.js';
 export default class Signup_page1 extends React.Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+            emailInputSuccess: null,
+            passwordInputSuccess: null,
+            email : '',
+            password: '',
+        };
+      }
 
     static navigationOptions = {
         header: null,
@@ -32,18 +43,15 @@ export default class Signup_page1 extends React.Component {
     };
 
 
-        state = {
-            isLoading: true,
-            emailInputSuccess: null,
-            passwordInputSuccess: null,
-            email : '',
-            password: '',
-        };
+        
     
     validateEmail = (text) => {
-        console.log(text);
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-        if(reg.test(text) === false){
+
+        if(text.length == 0){
+            this.setState({email:text, emailInputSuccess:null});
+        }
+        else if(reg.test(text) === false){
             this.setState({email:text, emailInputSuccess:false});
             return false;
         }
@@ -57,17 +65,43 @@ export default class Signup_page1 extends React.Component {
         var hasNumber = /\d/.test(text);
         var hasCapital = /[A-Z]/.test(text);
 
-        let symbols = /[$-/:-?{-~@#!"^_`\[\]]/;
-        var hasSymbol = symbols.test(text);
-
-
-        if(text.length < 8 || !hasNumber || !hasCapital || !hasSymbol){
+        if(text.length == 0){
+            this.setState({password:text, passwordInputSuccess:null});
+        }
+        else if(text.length < 8 || !hasNumber || !hasCapital){
             this.setState({password:text, passwordInputSuccess:false});
             return false;
         }
         else{
             this.setState({password:text, passwordInputSuccess:true});
             return true;
+        }
+    };
+
+    _signUpAsync = async () => {
+        const { emailInputSuccess, passwordInputSuccess, email, password } = this.state;
+        console.log('email success: ' + emailInputSuccess + '. Password Success: ' + passwordInputSuccess)
+        if(emailInputSuccess && passwordInputSuccess){
+            console.log('creating account');
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => { AsyncStorage.setItem('userToken', 'info');
+                            this.props.navigation.navigate('p2', {email: email});
+                        })
+            .catch(() => {
+                Toast.show({
+                    style: {
+                        backgroundColor: "#6D6ABF",
+                        borderRadius: 15,
+                    },
+                    text: "Email or password is inccorect. Try again.",
+                    buttonText: "Got it",
+                    duration: 3000,
+                    position: 'bottom',
+                    })
+                });
+        }
+        else{
+            console.log('account creation failed');
         }
     };
 
@@ -96,23 +130,23 @@ export default class Signup_page1 extends React.Component {
                                 </Row>
                                 <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                                     <Form style={{width: Variables.deviceWidth, marginTop: 60}}>
-                                        <Item floatingLabel underline last success={this.state.emailInputSuccess} error={!this.state.emailInputSuccess}>
+                                        <Item floatingLabel underline last success={this.state.emailInputSuccess} error={(this.state.emailInputSuccess == null) ? false : !this.state.emailInputSuccess}>
                                             {/* padding is necessary to prevent the word "username" from getting cut off*/}
                                             <Label style={{paddingTop: 6}}>Email address</Label>
                                             <Input value={this.state.email}
                                                     onChangeText={(text) => this.validateEmail(text)}/>
-                                                {(this.state.emailInputSuccess) ? <Icon name='checkmark-circle'/> : <Icon name='close-circle'/>}
+                                                {(this.state.email == '') ? null : (this.state.emailInputSuccess) ? <Icon name='checkmark-circle'/> : <Icon name='close-circle'/>}
                                             </Item>
-                                        <Item floatingLabel last success={this.state.passwordInputSuccess} error={!this.state.passwordInputSuccess}>
+                                        <Item floatingLabel last success={this.state.passwordInputSuccess} error={(this.state.passwordInputSuccess == null) ? false : !this.state.passwordInputSuccess}>
                                             <Label>Password</Label>
                                             <Input secureTextEntry value={this.state.password}
                                                     onChangeText={(text) => this.validatePassword(text)}/>
-                                                {(this.state.passwordInputSuccess) ? <Icon name='checkmark-circle'/> : <Icon name='close-circle'/>}
+                                                {(this.state.password == '') ? null : (this.state.passwordInputSuccess) ? <Icon name='checkmark-circle'/> : <Icon name='close-circle'/>}
                                         </Item>
                                     </Form>
                                 </Row>
                                 <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={0.33}>
-                                    <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={() => {this.props.navigation.navigate('p2')}}> 
+                                    <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={() => this.props.navigation.navigate('p2')}/*onPress={this._signUpAsync.bind(this)}*/> 
                                         <Text style={styles.text}>Sign Up</Text>
                                     </Button>
                                 </Row>
@@ -131,7 +165,7 @@ export default class Signup_page1 extends React.Component {
                                 <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={0.33}>
                                     <View style={styles.footer}>
                                         <Text style={styles.footerText}>Already have an account? </Text>
-                                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('SignIn')}}>
+                                        <TouchableOpacity onPress={() => {this.props.navigation.navigate('p2')}}>
                                             <Text style={styles.signInButton}>Log In.</Text>
                                         </TouchableOpacity>
                                     </View>

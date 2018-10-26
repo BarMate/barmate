@@ -43,7 +43,13 @@ class AuthLoadingScreen extends React.Component {
           'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
         }).then(async (response) => {
           const userToken = await AsyncStorage.getItem('userToken');
-          this.props.navigation.navigate(userToken ? 'App' : 'SignUp');
+          if(userToken == 'success')
+            this.props.navigation.navigate('App');
+          else if(userToken == 'info')
+            this.props.navigation.navigate('App');
+          else
+            this.props.navigation.navigate('SignUp');
+
         })
       } 
       catch (error) {

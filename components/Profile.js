@@ -24,7 +24,7 @@ import {
 
 import getTheme from '../native-base-theme/components';
 import Common from '../native-base-theme/variables/commonColor';
-
+import { withNavigation } from 'react-navigation';
 import firebase from '../config/Firebase';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
@@ -63,6 +63,22 @@ class Profile extends React.Component {
     setEditModalVisible(visible) {
         this.setState({modalEditVisibles: visible});
     }
+
+    /*this.state.stores.name*/
+
+    // FIX: For some reason, when signing out, the header on the login screen pops up for a split second
+
+    _signOutAsync = async () => {
+        firebase.auth().signOut().then( () => {
+             AsyncStorage.clear().then(async () => {
+                this.props.navigation.navigate('SignUp');
+            }).catch(function(error){
+                console.log(error);
+            })
+          }).catch(function(error) {
+            console.log(error);
+          });
+    };
 
     render() {
         return (
@@ -219,19 +235,7 @@ class Profile extends React.Component {
         </View>
         );
     }
-    /*this.state.stores.name*/
-
-    // FIX: For some reason, when signing out, the header on the login screen pops up for a split second
-
-    _signOutAsync = async () => {
-        firebase.auth().signOut().then( () => {
-             AsyncStorage.clear().then(async () => {
-                this.props.navigation.navigate('SignUp');
-            })
-          }).catch(function(error) {
-            console.log(error);
-          });
-    };
+    
 }
 
 const styles = StyleSheet.create({
