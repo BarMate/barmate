@@ -5,6 +5,10 @@
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#334393"
-    }
+    },
+    "name": "Barmate",
+    "slug": "barmate",
+    "version": "0.1.0",
+    "description": ""
   }
 }

@@ -51,7 +51,7 @@ class ProfileScreen extends React.Component {
 
     render() {
         return (
-            <Profile />
+            <Profile navigation={this.props.navigation}/>
         );
     }
 }

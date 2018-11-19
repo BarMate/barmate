@@ -11,19 +11,17 @@
 
 
 import React from 'react';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Root } from 'native-base';
+import { YellowBox } from 'react-native';
 
-
-//=============================================================
-// Tabs inside app
 //=============================================================
 import HomeScreen from './screens/TabNavigator/Home.js';
 import SearchScreen from './screens/TabNavigator/SearchNEW.js';
 import MessageScreen from './screens/TabNavigator/Message.js';
 import ProfileScreen from './screens/TabNavigator/Profile.js';
 //=============================================================
-
+import AppTab from './screens/TabNavigator/index.js';
 
 //=============================================================
 // Sign in screen and loading account screen
@@ -36,24 +34,33 @@ import AuthLoadingScreen from './components/Auth.js';
 //=============================================================
 // Stack of pages for signing up user
 //=============================================================
-import Signup_page1 from './screens/SignUp.js';
-import Signup_page2 from './screens/SignUp.js';
-import Signup_page3 from './screens/SignUp.js';
-import Signup_page4 from './screens/SignUp.js';
-import Signup_page5 from './screens/SignUp.js';
-import Signup_page6 from './screens/SignUp.js';
+import Signup_page1 from './screens/SignUpScreens/SignUp.js';
+import Signup_page2 from './screens/SignUpScreens/SignUp2.js';
+import Signup_page3 from './screens/SignUpScreens/SignUp3.js';
+import Signup_page4 from './screens/SignUpScreens/SignUp4.js';
+import Signup_page5 from './screens/SignUpScreens/SignUp5.js';
+import Signup_page6 from './screens/SignUpScreens/SignUp6.js';
 //=============================================================
 
+
+//=============================================================
+// Stops the timer warning on Android. This is a known 
+// problem with Expo but they haven't reached any resolution at
+// this time.
+//=============================================================
+YellowBox.ignoreWarnings(['Setting a timer']);
+const _console = _.clone(console);
+console.warn = message => {
+  if (message.indexOf('Setting a timer') <= -1) {
+    _console.warn(message);
+  }
+};
+//=============================================================
 
 //=============================================================
 // Navigators for each part of the app
 //=============================================================
-const AppTab = createBottomTabNavigator({   // App
-    Home: HomeScreen, 
-    Search: SearchScreen, 
-    Message: MessageScreen, 
-    Profile: ProfileScreen 
-});
+
 
 const SignUpStack = createStackNavigator({  // Sign up
   SignIn: SignInScreen,

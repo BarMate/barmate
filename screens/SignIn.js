@@ -69,7 +69,7 @@ class SignInScreen extends React.Component {
                 <Content scrollEnabled={false}>
                     <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
                     <Grid>
-                       
+                        {/* Houses the logo */}
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                         <Grid>
                             
@@ -170,4 +170,5 @@ const styles = StyleSheet.create({
       // borderWidth: 1,
     },
   });
+
   export default SignInScreen;
