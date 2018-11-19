@@ -42,16 +42,10 @@ class Profile extends React.Component {
             stores: [],
             modalSettingsVisible: false,
             modalEditVisibles: false,
-            isFontReady: false,
         };
     }
 
     componentDidMount() {
-        Expo.Font.loadAsync({
-            'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
-            'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
-        });
-        this.setState({isFontReady:true})
         // this.readUserData();
     }
 
@@ -183,17 +177,16 @@ class Profile extends React.Component {
                                 <Body>
                                     <Image
                                         style={styles.profile_picture}
-                                        source={require('../assets/global/profile_picture_template.png')}
-                                    />
+                                        source={require('../assets/global/profile_picture_template.png')}/>
                                     <Text style={styles.name}>Joseph</Text>
-                                    <Text style={styles.handle}>@joegainz</Text>
+                                    <Text style={styles.handle}>@joegainz</Text> 
                                 </Body>
                             </Row>
 
                             <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', alignItems: 'center',}} size={10}>
                                 <Col style={{backgroundColor: 'rgba(0,0,0,0.0)'}} size={49}>
                                     <Body>
-                                        <Text style={styles.subtitle}>20</Text>
+                                        <Text style={styles.subtitle}>20</Text> 
                                         <Text style={{fontSize: 15}}>years old</Text>
                                     </Body>
                                 </Col>
@@ -209,7 +202,7 @@ class Profile extends React.Component {
 
                             <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', justifyContent: 'center'}} size={45}>
                                 <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', justifyContent: 'center'}} size={60}>
-                                    <Text style={styles.bio}>"This is my greatest bio"</Text>
+                                    <Text style={styles.bio}>"This is my greatest bio"</Text> 
                                 </Row>
                                 
                                 <Button rounded style={styles.button} onPress={() => {this.setEditModalVisible(true)}}> 

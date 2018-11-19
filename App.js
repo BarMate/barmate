@@ -19,7 +19,7 @@ import { Root } from 'native-base';
 // Tabs inside app
 //=============================================================
 import HomeScreen from './screens/TabNavigator/Home.js';
-import SearchScreen from './screens/TabNavigator/Search.js';
+import SearchScreen from './screens/TabNavigator/SearchNEW.js';
 import MessageScreen from './screens/TabNavigator/Message.js';
 import ProfileScreen from './screens/TabNavigator/Profile.js';
 //=============================================================

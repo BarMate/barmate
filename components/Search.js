@@ -17,5 +17,13 @@ import {
 import { Ionicons } from '@expo/vector-icons'
 
 class Search extends React.Component {
-        
+        render() {
+          return(
+            <View style={{backgroundColor: 'white'}}>
+             <Text>Hello this is a test</Text>
+            </View>
+          )
+      }
 }
+
+export default Search;

@@ -17,7 +17,6 @@ import getTheme from '../native-base-theme/components';
 import Common from '../native-base-theme/variables/commonColor';
 import { LinearGradient } from 'expo';
 import firebase from '../config/Firebase.js'
-
 import Variables from '../config/Variables.js';
 import COLORS from '../config/Colors.js';
 
@@ -40,20 +39,12 @@ class SignInScreen extends React.Component {
         header: null,
         headerMode: 'none',
     };
-    
-    componentDidMount() {
-        Expo.Font.loadAsync({
-            'Roboto': require('../node_modules/native-base/Fonts/Roboto.ttf'),
-            'Roboto_medium': require('../node_modules/native-base/Fonts/Roboto_medium.ttf'),
-        });
-        this.setState({isFontReady:true})
-      }
 
     _signInAsync = async () => {
     const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
                     .then(() => { AsyncStorage.setItem('userToken', 'success');
-                                    this.props.navigation.navigate('AuthLoading'); 
+                                    this.props.navigation.navigate('AuthLoading');
                                 })
                     .catch(() => {
                         <AuthLoadingScreen error='Authentication failed' loading={false} success=''/>
@@ -71,37 +62,32 @@ class SignInScreen extends React.Component {
     };
 
     render(){
-        if (!this.state.isFontReady) {
-            return <Expo.AppLoading />;
-          }
         return(
             <StyleProvider style={getTheme(Common)}>
                 <Container>
                 <StatusBar barStyle="light-content" />
                 <Content scrollEnabled={false}>
                     <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                    <Grid> 
-                        {/* Houses the logo */}
+                    <Grid>
+                       
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                         <Grid>
-                            {/*unused but needed*/}
+                            
                             <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}></Row>
                             <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                             <Body>
                                 <Image
                                 style={styles.image}
-                                source={require('../assets/login/title_logo.png')}
-                                />
+                                source={require('../assets/login/title_logo.png')}/>
                             </Body>
                             </Row>
                         </Grid>
                         </Row>
 
-                        {/* Houses the input text fields */}
+                        
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
                         <Form style={{width: Variables.deviceWidth, marginTop: 60}}>
                             <Item floatingLabel underline last>
-                            {/* padding is necessary to prevent the word "username" from getting cut off*/}
                             <Label style={{paddingTop: 6}}>Username</Label>
                             <Input value={this.state.email}
                                     onChangeText={email => this.setState({email})}/>
@@ -115,15 +101,14 @@ class SignInScreen extends React.Component {
                         </Form>
                         </Row>
 
-                        {/* Houses the Log in button and footer */}
                         <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                            <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}> 
+                            <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}>
                                 <Text style={styles.text}>Sign In</Text>
                             </Button>
                         <View style={styles.footer}>
                             <Text style={styles.footerText}>Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => {this.props.navigation.navigate('SignUp')}}>
-                            <Text style={styles.signUpButton}>Sign Up.</Text>
+                            <TouchableOpacity onPress={() => {this.props.navigation.navigate('p1')}}>
+                                <Text style={styles.signUpButton}>Sign Up.</Text>
                             </TouchableOpacity>
                         </View>
                         </Row>
@@ -135,7 +120,6 @@ class SignInScreen extends React.Component {
         )
     }
 }
-
 const styles = StyleSheet.create({
     container: {
       backgroundColor: '#fff',
@@ -186,5 +170,4 @@ const styles = StyleSheet.create({
       // borderWidth: 1,
     },
   });
-
   export default SignInScreen;

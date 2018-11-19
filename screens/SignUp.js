@@ -50,15 +50,12 @@ export default class Signup_page1 extends React.Component {
 
     renderButtonOrLoading() {
         if (this.state.loading) {
-            return (<Text>Loading...</Text>);
+            return <Text>Loading...</Text>
         }
-        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text></Button>;
+        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text> </Button>;
     }
 
     render() {
-        if (!this.state.isFontReady) {
-            return <Expo.AppLoading />;
-          }
         return (
         <StyleProvider style={getTheme(Common)}>
             <Container>
@@ -71,12 +68,14 @@ export default class Signup_page1 extends React.Component {
                                     <Item underline>
                                         <Input placeholder='Email address...'
                                                value={this.state.email}
+                                               clearButtonMode='while-editing'
                                                onChangeText={email => this.setState({email})} />
                                     </Item>
                                     <Item underline>
                                         <Input placeholder='Password' 
                                                secureTextEntry
                                                value={this.state.password}
+                                               clearButtonMode='while-editing'
                                                onChangeText={password => this.setState({password})} />
                                     </Item>
                                 </Form>
@@ -85,6 +84,9 @@ export default class Signup_page1 extends React.Component {
                         <Row style={{backgroundColor: '#3F51B5'}}>
                             <Body>
                                 {this.renderButtonOrLoading()}
+                                <Button onPress={() => {this.props.navigation.navigate('SignIn')}}>
+                                    <Text>Page 2</Text>
+                                </Button>
                             </Body>
                         </Row>
                     </Grid>

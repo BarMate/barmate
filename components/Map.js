@@ -312,8 +312,7 @@ class Map extends React.Component {
                     results.push(
                         <LocationItem
                             key={element.name}
-                            value={element.description}
-                        />
+                            value={element.description}/>
                     )
                 })
             })
@@ -324,16 +323,14 @@ class Map extends React.Component {
             <MapView
             style={styles.map}
             initialRegion={this.state.region}
-            onRegionChange={() => this._handleMapRegionChange.bind(this)}
-        >
+            onRegionChange={() => this._handleMapRegionChange.bind(this)}>
             {this.state.barMarkers.map(marker => (
                     <Marker
                         key={marker.key}
                         coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
                         title={marker.name}
                         description={marker.description}
-                        onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}
-                        >
+                        onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}>
                         <View>
                             <Icon name='md-pin' style={{color: '#030e2c', fontSize: 40,}}/>
                         </View>
@@ -346,8 +343,7 @@ class Map extends React.Component {
                         coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
                         title={marker.name}
                         description={marker.description}
-                        onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}
-                    >
+                        onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}>
                         <View>
                             <Icon name='md-pin' style={{color: '#1c2e63', fontSize: 40,}}/>
                         </View>
