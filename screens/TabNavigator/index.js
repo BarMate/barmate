@@ -2,7 +2,7 @@
 // Tabs inside app
 //=============================================================
 import HomeScreen from './Home';
-import SearchScreen from './Search.js';
+import SearchScreen from './SearchNEW.js';
 import MessageScreen from './Message.js';
 import ProfileScreen from './Profile.js';
 

@@ -15,12 +15,7 @@ import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Root } from 'native-base';
 import { YellowBox } from 'react-native';
 
-//=============================================================
-import HomeScreen from './screens/TabNavigator/Home.js';
-import SearchScreen from './screens/TabNavigator/SearchNEW.js';
-import MessageScreen from './screens/TabNavigator/Message.js';
-import ProfileScreen from './screens/TabNavigator/Profile.js';
-//=============================================================
+
 import AppTab from './screens/TabNavigator/index.js';
 
 //=============================================================
