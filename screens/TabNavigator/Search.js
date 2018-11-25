@@ -132,6 +132,7 @@ class SearchScreen extends React.Component {
   };
 
   componentDidMount() {
+    console.log("Component Did Mount");
     this.fetchMarkerData();
   }
 
@@ -144,6 +145,7 @@ class SearchScreen extends React.Component {
     // Creates a URL from users current position for local bars
     // and local clubs
     //=============================================================
+    console.log("fetching marker data");
     navigator.geolocation.getCurrentPosition(
       position => {
         const barUrl =
@@ -274,7 +276,10 @@ class SearchScreen extends React.Component {
   }
 
   _handleMapRegionChange = region => {
+    console.log("new region: " + JSON.stringify(region))
     this.setState({ region });
+    this.fetchMarkerData().then(() => {this.forceUpdate();})
+    
   };
 
   //Adds bar to database, while checking to make sure it does not create duplicates
@@ -508,62 +513,36 @@ class SearchScreen extends React.Component {
               <MapView
                 style={styles.map}
                 initialRegion={this.state.region}
-                onRegionChange={() => this._handleMapRegionChange.bind(this)}>
-                {this.state.barMarkers.map(marker => (
-                  <Marker
-                    key={marker.key}
-                    coordinate={{
-                      latitude: marker.coordinate.latitude,
-                      longitude: marker.coordinate.longitude
-                    }}
-                    title={marker.name}
-                    description={marker.description}
-                    onPress={() => {
-                      this.setState({
-                        selectedName: marker.name,
-                        selectedCoordinate: marker.coordinate,
-                        selectedRating: marker.rating,
-                        selectedOpen: marker.open,
-                        selectedPrice: marker.price,
-                        selectedDescription: marker.description
-                      });
-                      this.setModalVisible(true);
-                    }}>
-                    <View>
-                      <Icon
-                        name="md-pin"
-                        style={{ color: "#030e2c", fontSize: 40 }}/>
-                    </View>
-                  </Marker>
-                ))}
-                {this.state.clubMarkers.map(marker => (
-                  <Marker
-                    key={marker.key}
-                    coordinate={{
-                      latitude: marker.coordinate.latitude,
-                      longitude: marker.coordinate.longitude
-                    }}
-                    title={marker.name}
-                    description={marker.description}
-                    onPress={() => {
-                      this.setState({
-                        selectedName: marker.name,
-                        selectedCoordinate: marker.coordinate,
-                        selectedRating: marker.rating,
-                        selectedOpen: marker.open,
-                        selectedPrice: marker.price,
-                        selectedDescription: marker.description
-                      });
-                      this.setModalVisible(true);
-                    }}>
-                    <View>
-                      <Icon
-                        name="md-pin"
-                        style={{ color: "#1c2e63", fontSize: 40 }}/>
-                    </View>
-                  </Marker>
-                ))}
-              </MapView>
+                onRegionChange={() => this._handleMapRegionChange.bind(this)}
+              >
+            {this.state.barMarkers.map(marker => (
+              <Marker
+                  key={marker.key}
+                  coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
+                  title={marker.name}
+                  description={marker.description}
+                  onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}
+                  >
+                  <View>
+                      <Icon name='md-pin' style={{color: '#030e2c', fontSize: 40,}}/>
+                  </View>
+              </Marker>    
+            ))}
+            {this.state.clubMarkers.map(marker => (
+                    <Marker
+                        key={marker.key}
+                        coordinate={{latitude: marker.coordinate.latitude, longitude: marker.coordinate.longitude}}
+                        title={marker.name}
+                        description={marker.description}
+                        onPress={() => {this.setState({selectedName: marker.name, selectedCoordinate: marker.coordinate, selectedRating: marker.rating, selectedOpen: marker.open, selectedPrice: marker.price, selectedDescription: marker.description});this.setModalVisible(true);}}
+                    >
+                        <View>
+                            <Icon name='md-pin' style={{color: '#1c2e63', fontSize: 40,}}/>
+                        </View>
+                    </Marker>
+                    
+            ))}
+            </MapView>
             </View>
           </Content>
         </Container>

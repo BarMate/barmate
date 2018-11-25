@@ -33,6 +33,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-maps": "^0.21.0",
     "react-native-refresher": "^0.1.1",
+    "react-native-scripts": "^2.0.1",
     "react-native-sideswipe": "^1.4.2",
     "react-native-snap-carousel": "^3.7.5",
     "react-navigation": "^2.0.4"

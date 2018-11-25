@@ -84,7 +84,6 @@ export default class Search extends Component {
 
   componentWillMount() {
     this._getLocationAsync();
-    this._fetchMarkerData();
   }
 
   _getLocationAsync = async () => {
@@ -106,6 +105,7 @@ export default class Search extends Component {
             longitude: position.coords.longitude
           }
         }));
+        this._fetchMarkerData();
       });
     } else {
       this.setState({
@@ -229,6 +229,14 @@ export default class Search extends Component {
     );
   }
 
+
+  _handleMapRegionChange = region => {
+    console.log("new region: " + JSON.stringify(region))
+    this.setState({ region });
+    this.fetchMarkerData().then(() => {this.forceUpdate();})
+    
+  };
+
   render() {
     return (
       <StyleProvider style={getTheme(Common)}>
@@ -248,8 +256,6 @@ export default class Search extends Component {
               visible={this.state.modalVisible}
               backdropOpacity={0.5}>
               <SafeAreaView style={styles.modal}>
-
-
                 <TouchableOpacity
                   style={{width: Variables.deviceWidth, height: Variables.deviceHeight}}
                   onPress={() => {
@@ -282,8 +288,6 @@ export default class Search extends Component {
                       latitude: markers.coordinate.latitude,
                       longitude: markers.coordinate.longitude
                     }}
-                    
-                   
                     onPress={() => {
                       this.setState({
                         ...this.state.selectedMarker,
