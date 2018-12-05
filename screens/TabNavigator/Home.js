@@ -42,7 +42,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
 import Carousel from "../../components/Carousel.js";
 import { connect } from 'react-redux';
-import { addNumber } from '../../redux/actions.js';
+import { addNumber, subNumber } from '../../redux/actions.js';
 
 import {
   Container,
@@ -147,8 +147,9 @@ class HomeScreen extends React.Component {
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <Button onPress={()=>this.props.addNumber()}><Text>Press me!</Text></Button>
-              <Text>Hello! This is counter {this.props.counter}</Text>
+              <Button onPress={()=>this.props.addNumber()}><Text>+</Text></Button>
+              <Button onPress={()=>this.props.subNumber()}><Text>-</Text></Button>
+              <Text>Hello! This is counter {this.props.test}</Text>
               
               {/* <Carousel data={this.state.data} flag={this.state.flag}></Carousel> */}
             </LinearGradient>
@@ -159,19 +160,37 @@ class HomeScreen extends React.Component {
   }
 }
 
-// Extract data from store
-function mapStateToProps(state) {
-  return {
-    counter: state.counter,
-  }
-};
+/*
+      ALTERNATIVE WAY OF USING THESE FUNCTIONS
+      Only keeping this here because it is more explicit
 
-// Dispatch actions to store
-function mapDispatchToProps(dispatch) {
-  return {
-    addNumber: () => dispatch(addNumber()) 
-  }
+      Extract data from store
+      function mapStateToProps(state) {
+        return {
+          counter: state.counter,
+        }
+      };
+
+      Defining mapDispatchToProps as an function
+      function mapDispatchToProps(dispatch) {
+        return {
+          addNumber: () => dispatch(addNumber()) 
+        }
+      }
+*/
+
+
+// Extract data from store
+const mapStateToProps = state => ({
+  test: state.homeReducer.test,
+})
+
+// Defining mapDispatchToProps as an object
+const mapDispatchToProps = {
+  addNumber,
+  subNumber,
 }
+
 
 const styles = StyleSheet.create({
   gradient: {
@@ -181,12 +200,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     height: Variables.deviceHeight - 200,
     width: Variables.deviceWidth,
-    // borderWidth: 2,
-    // borderColor: '#CCC',
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);  // read about connect on react-redux docs if this is confusing

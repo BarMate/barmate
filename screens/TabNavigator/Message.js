@@ -11,6 +11,8 @@ import Common from '../../native-base-theme/variables/commonColor';
 import { LinearGradient } from 'expo';
 import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text } from 'native-base';
 import COLORS from '../../config/Colors.js';
+import { connect } from 'react-redux';
+
 
 var { height, width } = Dimensions.get('window');
 
@@ -47,7 +49,7 @@ class MessageScreen extends React.Component {
                 </Header>
                 <Content scrollEnabled={false}>
                     <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-
+                     <Text>Hello! This is counter {this.props.test}</Text>
                     </LinearGradient>
                 </Content>
             </Container>
@@ -56,6 +58,10 @@ class MessageScreen extends React.Component {
     }
 }
 
+const mapStateToProps = state => ({
+    test: state.homeReducer.test,
+})
+
 const styles = StyleSheet.create({ 
     gradient: {
         width: width,
@@ -63,4 +69,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MessageScreen;
+export default connect(mapStateToProps, null)(MessageScreen);
