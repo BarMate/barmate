@@ -42,14 +42,13 @@ class MessageScreen extends React.Component {
                 <Header>
                 <Left style={{flex: 1}}>
                 </Left>
-                <Body style={{flex: 1}}>
-                    <Title>Messages</Title>
+                <Body style={{flex: 3, justifyContent: 'center'}}>
+                    <Title style={{alignSelf: 'center'}}>Messages</Title>
                 </Body>
                 <Right style={{flex: 1}}></Right>
                 </Header>
                 <Content scrollEnabled={false}>
                     <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                     <Text>Hello! This is counter {this.props.test}</Text>
                     </LinearGradient>
                 </Content>
             </Container>

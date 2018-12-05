@@ -20,12 +20,13 @@ import COLORS from "../config/Colors.js";
 // Imports
 //=============================================================
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 import { LinearGradient } from "expo";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Body, Button } from "native-base";
 import firebase from "../config/Firebase.js";
+import { withNavigation } from 'react-navigation';
 //=============================================================
 
 /*
@@ -53,7 +54,6 @@ class Bar extends React.Component {
   componentDidMount() {
     //TODO: figure out how to get dynamic prop naming. i.e. make this.props.(iteration)
     this.dataForCarousel();
-    
   }
 
 
@@ -240,9 +240,11 @@ class Bar extends React.Component {
   render() {
     return (
       <View style={styles.content}>
+        
         <LinearGradient
           style={styles.gradient}
           colors={["rgba(0, 0, 0, 0.5)", COLORS.TRANSPARENT_COLOR]}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate('PLobby')}}>
           <Grid style={{ width: Variables.deviceWidth - 50, height: 450 }}>
             <Row
               style={{ backgroundColor: COLORS.TRANSPARENT_COLOR }}
@@ -267,6 +269,7 @@ class Bar extends React.Component {
               {this._renderMapButton()}
             </Row>
           </Grid>
+          </TouchableOpacity>
         </LinearGradient>
       </View>
     );
@@ -314,4 +317,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Bar;
+export default withNavigation(Bar);

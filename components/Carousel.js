@@ -72,6 +72,25 @@ class Carousel extends Component {
   }
 }
 
+/*
+      ALTERNATIVE WAY OF USING THESE FUNCTIONS
+      Only keeping this here because it is more explicit
+
+      Extract data from store
+      function mapStateToProps(state) {
+        return {
+          counter: state.counter,
+        }
+      };
+
+      Defining mapDispatchToProps as an function
+      function mapDispatchToProps(dispatch) {
+        return {
+          addNumber: () => dispatch(addNumber()) 
+        }
+      }
+*/
+
 // Extract data from store
 const mapStateToProps = state => ({
   carouselData: state.homeReducer.carouselData

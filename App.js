@@ -13,8 +13,7 @@
 // Boilerplate imports
 import React from 'react';
 import { YellowBox } from 'react-native';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
-
+import { createStackNavigator, createSwitchNavigator, createDrawerNavigator } from 'react-navigation';
 
 // Needed for toast menu
 import { Root } from 'native-base';
@@ -22,7 +21,7 @@ import { Root } from 'native-base';
 
 // TabNav Views
 import AppTab from './screens/TabNavigator/index.js';
-
+import PreLobby from './screens/PreLobby.js';
 
 // Sign in screen and loading account screen
 import SignInScreen from './screens/SignIn.js';
@@ -43,6 +42,29 @@ import { Provider } from 'react-redux';
 import configureStore from './redux/store.js';
 
 
+// StackNav creator for sign up screens
+const SignUpStack = createStackNavigator({  // Sign up
+  SignIn: SignInScreen,
+  p1: Signup_page1,
+  p2: Signup_page2,
+  p3: Signup_page3,
+  p4: Signup_page4,
+  p5: Signup_page5,
+  p6: Signup_page6,
+});
+
+// SwitchNav for the entire app
+const Switch = createSwitchNavigator({    
+  AuthLoading: AuthLoadingScreen, 
+  App: AppTab,
+  SignUp: SignUpStack,
+  PLobby: PreLobby,
+}, 
+{
+  initialRouteName: 'AuthLoading' 
+});
+
+
 // Stops the timer warning on Android. This is a known 
 // problem with Expo but they haven't reached any resolution at
 // this time.
@@ -55,33 +77,8 @@ console.warn = message => {
 };
 
 
-// StackNav creator for sign up screens
-const SignUpStack = createStackNavigator({  // Sign up
-  SignIn: SignInScreen,
-  p1: Signup_page1,
-  p2: Signup_page2,
-  p3: Signup_page3,
-  p4: Signup_page4,
-  p5: Signup_page5,
-  p6: Signup_page6,
-});
-
-
-// SwitchNav for the entire app
-const Switch = createSwitchNavigator({    
-  AuthLoading: AuthLoadingScreen, 
-  App: AppTab,
-  SignUp: SignUpStack,
-}, 
-{
-  initialRouteName: 'AuthLoading' 
-});
-
-
 // create store for redux
 const store = configureStore();
-
-
 export default () => (
   <Provider store={store}>
     <Root>

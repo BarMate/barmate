@@ -4,15 +4,15 @@
 import HomeScreen from './Home';
 import SearchScreen from './SearchNEW.js';
 import MessageScreen from './Message.js';
-import ProfileScreen from './Profile.js';
+import FriendsScreen from './Friends.js';
 
 import { createBottomTabNavigator } from 'react-navigation';
 
 const AppTab = createBottomTabNavigator({   // App
     Home: {screen: HomeScreen }, 
     Search: {screen: SearchScreen }, 
-    Message: {screen: MessageScreen }, 
-    Profile: {screen: ProfileScreen },  
+    Friends: {screen: FriendsScreen},
+    Message: {screen: MessageScreen },  
 });
 
 

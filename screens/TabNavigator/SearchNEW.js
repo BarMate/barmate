@@ -242,11 +242,11 @@ export default class Search extends Component {
       <StyleProvider style={getTheme(Common)}>
         <Container>
           <Header>
-            <Left />
-            <Body>
-              <Title>Search</Title>
+            <Left style={{flex: 1}} />
+            <Body style={{flex: 3, justifyContent: 'center',}}>
+              <Title style={{alignSelf: 'center'}}>Search</Title>
             </Body>
-            <Right />
+            <Right style={{flex: 1}}/>
           </Header>
 
           <Content>
