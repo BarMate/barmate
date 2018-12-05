@@ -26,7 +26,6 @@ import { LinearGradient } from "expo";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Body, Button } from "native-base";
 import firebase from "../config/Firebase.js";
-
 //=============================================================
 
 /*
@@ -273,7 +272,6 @@ class Bar extends React.Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   image: {
     marginTop: 25,

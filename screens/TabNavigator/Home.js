@@ -96,39 +96,6 @@ class HomeScreen extends React.Component {
     };
   }
 
-  inputRef = React.createRef();
-
-  dataForCarousel = () => {
-    let uid = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${uid}/bars/`);
-    bars.once("value", snapshot => {
-      this.setState({data: []});
-      snapshot.forEach((child) => {
-        this.state.data.push(child.val());
-        this.setState({increment: this.state.increment + 1})
-      })
-    })
-  }
-
-  // componentWillMount() {
-  //   this.dataForCarousel();
-  // }
-
-
-  // componentWillUpdate() {
-  //   this.dataForCarousel();
-  // }
-
-  // shouldComponentUpdate() {
-  //   if(this.state.flag === false) {
-  //     return false 
-  //   }
-  //   else {
-  //     this.setState({flag: false})
-  //     return true;
-  //   }
-  //   return true;
-  // }
 
   render() {
 
@@ -147,11 +114,7 @@ class HomeScreen extends React.Component {
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <Button onPress={()=>this.props.addNumber()}><Text>+</Text></Button>
-              <Button onPress={()=>this.props.subNumber()}><Text>-</Text></Button>
-              <Text>Hello! This is counter {this.props.test}</Text>
-              
-              {/* <Carousel data={this.state.data} flag={this.state.flag}></Carousel> */}
+              <Carousel/>
             </LinearGradient>
           </Content>
         </Container>
@@ -186,6 +149,7 @@ const mapStateToProps = state => ({
 })
 
 // Defining mapDispatchToProps as an object
+// Dispatch data to store
 const mapDispatchToProps = {
   addNumber,
   subNumber,

@@ -22,8 +22,9 @@
 import { combineReducers } from 'redux';
 
 const initialState_home = {
-    test: 0,
+    carouselData: [],
 }
+
 const initialState_search = {
     test: 0,
 }
@@ -36,15 +37,10 @@ const initialState_messages = {
 
 const homeReducer = (state = initialState_home, action) => {
     switch(action.type) {
-        case 'ADD_NUMBER':
+        case 'REFRESH_CAROUSEL':
             return {
                 ...state,
-                test: state.test + 1,
-            }
-        case 'SUB_NUMBER':
-            return {
-                ...state,
-                test: state.test - 1
+                carouselData: action.payload,
             }
         default:
             return state;

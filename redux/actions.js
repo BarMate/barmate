@@ -9,15 +9,13 @@
     All rights reserved
 */
 
-export function addNumber() {
-    console.log('function: addNumber() called')
+
+// listOfBars is an object containing all the bars of the user
+export function refreshCarousel(listOfBars) {
+    console.log(`ListOfBars: ${listOfBars}`);
     return {
-        type: 'ADD_NUMBER',
+        type: 'REFRESH_CAROUSEL',
+        payload: listOfBars,
     }
 }
 
-export function subNumber() {
-    return {
-        type: 'SUB_NUMBER',
-    }
-}

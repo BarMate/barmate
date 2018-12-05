@@ -5,6 +5,9 @@ import Bar from '../components/Bar.js'
 import Search from '../components/Search.js'
 import firebase from '../config/Firebase.js'
 
+import { connect } from 'react-redux'
+import { refreshCarousel } from '../redux/actions.js';
+
 class Carousel extends Component {
   constructor(props) {
     super(props);
@@ -16,58 +19,40 @@ class Carousel extends Component {
   }
 
 
+  // TODO: component does not update unless
+  // user pulls down refresh. It should update
+  // when the component is mounted
   componentDidMount() {
-    this._onRefresh()
+    this.onRefresh;
   }
 
-  componentWillReceiveProps(props, state) {
-    console.log(`Value of props.data: ${props.data}`)
-    console.log(`Value of state.data: ${state.data}`)
-    if(props.data) {
-      console.log(`if props.data`)
-      return(
-        this.setState({data: props.data})
-      )
-    }
-    return null;
-  }
-
-  _onRefresh = () => {
-    this.setState({refreshing: true});
+  onRefresh = () => {
+    console.log('Refreshing carousel...');
     let uid = firebase.auth().currentUser.uid;
     let bars = firebase.database().ref(`users/${uid}/bars/`);
-    
-    console.log(`onRefresh p.DATA: ${this.props.data}`)
-    console.log(`onRefresh s.DATA (Before): ${this.state.data}`)
-
-    bars.once("value", snapshot => {
+    this.setState({refreshing: true});
+      bars.once("value", snapshot => {
       this.setState({data: []});
-      this.props.flag = true;
+      this.setState({length: snapshot.numChildren()})
       snapshot.forEach((child) => {
         this.state.data.push(child.val());
-        console.log(`ChildVAL: ${JSON.stringify(child.val())}`)
-        console.log(`onRefresh s.DATA (After): ${JSON.stringify(this.state.data)}`)
       })
-    }).then(() => {
-      this.setState({refreshing: false})
-    })
+    }).then(    
+      this.props.refreshCarousel(this.state.data)
+    )
+    console.log(`Carousel data[0]: ${JSON.stringify(this.props.carouselData[1])}`)
+    this.setState({refreshing: false});
   }
 
   mapData() {
-    let uid = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${uid}/bars/`);
-
-    let results = this.state.data.map(data => {
+    return this.props.carouselData.map(data => {
       return(
         <View style={styles.data}><Bar source={data} key={this.props.key}/></View>
       )
     })
-
-    return results;
   }
 
   render() {
-    if (this.state.data) {
       return (
         <View
           style={styles.scrollContainer}>
@@ -76,16 +61,25 @@ class Carousel extends Component {
             refreshControl={
               <RefreshControl 
                 refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh}/>
-            }>
-          {this.mapData()}
+                onRefresh={this.onRefresh}
+              />
+            }
+          >
+            {this.mapData()}
           </ScrollView>
         </View>
-      );
-    }
-    console.log('Please provide images');
-    return null;    
+      );   
   }
+}
+
+// Extract data from store
+const mapStateToProps = state => ({
+  carouselData: state.homeReducer.carouselData
+})
+
+// Dispatch data to store
+const mapDispatchToProps = {
+  refreshCarousel,
 }
 
 const styles = StyleSheet.create({
@@ -100,4 +94,4 @@ const styles = StyleSheet.create({
     width: Variables.deviceWidth,
   }
 });
-export default Carousel;
+export default connect(mapStateToProps, mapDispatchToProps)(Carousel);
