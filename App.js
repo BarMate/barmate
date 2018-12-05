@@ -37,6 +37,8 @@ import Signup_page5 from './screens/SignUpScreens/SignUp5.js';
 import Signup_page6 from './screens/SignUpScreens/SignUp6.js';
 //=============================================================
 
+import { Provider } from 'react-redux';
+import configureStore from './redux/store.js';
 
 //=============================================================
 // Stops the timer warning on Android. This is a known 
@@ -77,9 +79,12 @@ const Switch = createSwitchNavigator({    // Switch between the two
 });
 //=============================================================
 
+const store = configureStore();
 
 export default () => (
-  <Root>
-    <Switch/>
-  </Root>
+  <Provider store={store}>
+    <Root>
+      <Switch/>
+    </Root>
+  </Provider>
 )

@@ -36,9 +36,13 @@ import React from "react";
 import { StyleSheet, View, TouchableHighlight } from "react-native";
 import firebase from "../../config/Firebase.js";
 
+import { Button } from 'native-base';
+
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
 import Carousel from "../../components/Carousel.js";
+import { connect } from 'react-redux';
+import { addNumber } from '../../redux/actions.js';
 
 import {
   Container,
@@ -53,6 +57,7 @@ import {
   Text
 } from "native-base";
 import { withNavigation } from "react-navigation";
+import { stringify } from "querystring";
 //=============================================================
 
 class HomeScreen extends React.Component {
@@ -105,25 +110,25 @@ class HomeScreen extends React.Component {
     })
   }
 
-  componentWillMount() {
-    this.dataForCarousel();
-  }
+  // componentWillMount() {
+  //   this.dataForCarousel();
+  // }
 
 
-  componentWillUpdate() {
-    this.dataForCarousel();
-  }
+  // componentWillUpdate() {
+  //   this.dataForCarousel();
+  // }
 
-  shouldComponentUpdate() {
-    if(this.state.flag === false) {
-      return false 
-    }
-    else {
-      this.setState({flag: false})
-      return true;
-    }
-    return true;
-  }
+  // shouldComponentUpdate() {
+  //   if(this.state.flag === false) {
+  //     return false 
+  //   }
+  //   else {
+  //     this.setState({flag: false})
+  //     return true;
+  //   }
+  //   return true;
+  // }
 
   render() {
 
@@ -142,12 +147,29 @@ class HomeScreen extends React.Component {
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <Carousel data={this.state.data} flag={this.state.flag}></Carousel>
+              <Button onPress={()=>this.props.addNumber()}><Text>Press me!</Text></Button>
+              <Text>Hello! This is counter {this.props.counter}</Text>
+              
+              {/* <Carousel data={this.state.data} flag={this.state.flag}></Carousel> */}
             </LinearGradient>
           </Content>
         </Container>
       </StyleProvider>
     );
+  }
+}
+
+// Extract data from store
+function mapStateToProps(state) {
+  return {
+    counter: state.counter,
+  }
+};
+
+// Dispatch actions to store
+function mapDispatchToProps(dispatch) {
+  return {
+    addNumber: () => dispatch(addNumber()) 
   }
 }
 
@@ -167,4 +189,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
