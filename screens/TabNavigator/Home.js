@@ -22,6 +22,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
 import Carousel from "../../components/Carousel.js";
 import { DrawerActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { refreshCarousel } from '../../redux/actions.js';
+import firebase from '../../config/Firebase.js'
 
 import {
   Container,
@@ -33,12 +36,15 @@ import {
   Body,
   StyleProvider,
 } from "native-base";
-//=============================================================
+
 
 class HomeScreen extends React.Component {
-  //=============================================================
-  // Definitions for the profile tab on the tab bar
-  //=============================================================
+
+  constructor(props) {
+    super(props);
+  }
+
+
   static navigationOptions = {
     tabBarIcon: ({ focused, tintColor }) =>
       focused ? (
@@ -58,7 +64,22 @@ class HomeScreen extends React.Component {
     animationEnabled: false,
     swipeEnabled: false
   };
-  //=============================================================
+
+  componentWillMount() {
+    this.getUserBarsFromDataBase();
+  }
+
+  getUserBarsFromDataBase() {
+    let uid = firebase.auth().currentUser.uid;
+    let bars = firebase.database().ref(`users/${uid}/bars/`);
+    let tempArray = [];
+
+    bars.once("value", snapshot => {
+      snapshot.forEach((child) => {
+        tempArray.push(child.val())
+      })
+    }).then(this.props.refreshCarousel(tempArray))
+  }
 
   render() {
 
@@ -90,6 +111,11 @@ class HomeScreen extends React.Component {
   }
 }
 
+// Dispatch data to store
+const mapDispatchToProps = {
+  refreshCarousel,
+}
+
 const styles = StyleSheet.create({
   gradient: {
     width: Variables.deviceWidth,
@@ -97,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;  // read about connect on react-redux docs if this is confusing
+export default connect(null, mapDispatchToProps)(HomeScreen); 

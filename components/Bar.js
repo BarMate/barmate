@@ -44,7 +44,7 @@ class Bar extends React.Component {
     super(props);
     this.state = {
       length: 0,
-      key: this.props.isMapComponent ? null : this.props.key,
+      key: this.props.isMapComponent ? null : this.props.source.key,
       name: this.props.isMapComponent ? null : this.props.source.name,
       rating: this.props.isMapComponent ? null : this.props.source.rating,
       open: this.props.isMapComponent ? null : this.props.source.open,
@@ -250,7 +250,7 @@ class Bar extends React.Component {
               style={{ backgroundColor: COLORS.TRANSPARENT_COLOR }}
               size={16}>
               <Body>
-                <Text style={{ color: "white", fontSize: 20, marginLeft: 50 }}>
+                <Text style={{ color: "white", fontSize: 20, marginLeft: 50, fontFamily: 'HkGrotesk_Bold' }}>
                   {this.props.isMapComponent ? this.props.name : this.state.name}
                 </Text>
               </Body>

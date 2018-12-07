@@ -32,7 +32,8 @@ class AuthLoadingScreen extends React.Component {
     try {
       Expo.Font.loadAsync({
         Roboto: require("../node_modules/native-base/Fonts/Roboto.ttf"),
-        Roboto_medium: require("../node_modules/native-base/Fonts/Roboto_medium.ttf")
+        Roboto_medium: require("../node_modules/native-base/Fonts/Roboto_medium.ttf"),
+        HkGrotesk_Bold: require("../assets/fonts/HkGrotesk-Bold.ttf"),
       }).then(async response => {
         const userToken = await AsyncStorage.getItem("userToken");
 

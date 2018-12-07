@@ -12,8 +12,8 @@ class Carousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
       data: [],
+      refreshing: false,
       length: 0,
     };
   }
@@ -22,38 +22,37 @@ class Carousel extends Component {
   // TODO: component does not update unless
   // user pulls down refresh. It should update
   // when the component is mounted
-  componentDidMount() {
-    this.onRefresh;
-  }
 
-  onRefresh = () => {
-    console.log('Refreshing carousel...');
+  getUserBarsFromDataBase() {
     let uid = firebase.auth().currentUser.uid;
     let bars = firebase.database().ref(`users/${uid}/bars/`);
-    this.setState({refreshing: true});
-      bars.once("value", snapshot => {
-      this.setState({data: []});
-      this.setState({length: snapshot.numChildren()})
+    
+    bars.once("value", snapshot => {
       snapshot.forEach((child) => {
         this.state.data.push(child.val());
       })
-    }).then(    
-      this.props.refreshCarousel(this.state.data)
-    )
-    console.log(`Carousel data[0]: ${JSON.stringify(this.props.carouselData[1])}`)
-    this.setState({refreshing: false});
+    }).then(this.props.refreshCarousel(this.state.data))
   }
 
-  mapData() {
-    return this.props.carouselData.map(data => {
+  onRefresh = () => {
+    this.setState({refreshing: true})
+    this.getUserBarsFromDataBase();
+    this.mapDataToView();
+    this.setState({refreshing: false})
+  }
+
+  mapDataToView() {
+    let results = this.state.data.map(data => {
       return(
-        <View style={styles.data}><Bar source={data} key={this.props.key}/></View>
+        <View style={styles.data} key={Math.random()}><Bar source={data}/></View>
       )
     })
+    return results;
   }
 
   render() {
       return (
+       
         <View
           style={styles.scrollContainer}>
           <ScrollView
@@ -65,7 +64,7 @@ class Carousel extends Component {
               />
             }
           >
-            {this.mapData()}
+            {this.mapDataToView()}
           </ScrollView>
         </View>
       );   
@@ -106,7 +105,8 @@ const styles = StyleSheet.create({
     height: Variables.deviceHeight,
   },
   data: {
-    marginTop: 100,
+    marginTop: 150,
+    marginBottom: 50,
     justifyContent: 'center',
     alignItems: 'center',
     height: Variables.deviceWidth * 0.8,

@@ -12,10 +12,17 @@
 
 // listOfBars is an object containing all the bars of the user
 export function refreshCarousel(listOfBars) {
-    console.log(`ListOfBars: ${listOfBars}`);
+    console.log(`function refreshCarousel payload: ${listOfBars}`)
     return {
         type: 'REFRESH_CAROUSEL',
         payload: listOfBars,
+    }
+}
+
+export function selectedBar(barData) {
+    return {
+        type: 'SELECT_BAR',
+        payload: barData,
     }
 }
 
