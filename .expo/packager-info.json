@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 5492,
-  "expoServerNgrokUrl": "https://tt-mjp.josephcon1998.barmate.exp.direct",
-  "packagerNgrokUrl": "https://packager.tt-mjp.josephcon1998.barmate.exp.direct",
-  "ngrokPid": 5506,
+  "packagerPort": 19003,
+  "packagerPid": 2534,
+  "expoServerNgrokUrl": "https://jz-vt6.josephcon1998.barmate.exp.direct",
+  "packagerNgrokUrl": "https://packager.jz-vt6.josephcon1998.barmate.exp.direct",
+  "ngrokPid": 2368,
   "devToolsPort": 19002
 }
