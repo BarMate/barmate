@@ -35,6 +35,7 @@ const initialState_profile = {
     age: 0,
     karma: 0,
     bio: '',
+    modal: false,
 }
 const initialState_messages = {
     test: 0,
@@ -95,6 +96,11 @@ const profileReducer = (state = initialState_profile, action) => {
             return {
                 ...state,
                 bio: action.payload
+            }
+        case 'UPDATE_MODAL':
+            return {
+                ...state,
+                modal: action.payload
             }
         default:
             return state;

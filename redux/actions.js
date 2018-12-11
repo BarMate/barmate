@@ -59,6 +59,12 @@ export function updateKarma(amount) {
     }
 }
 
+export function updateModal(visible) {
+    return {
+        type: 'UPDATE_MODAL',
+        payload: visible,
+    }
+}
 
 
 

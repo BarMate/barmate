@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
 
     render() {
         return (
-            <Profile/>
+            <Profile currentUserProfile={true}/>
         );
     }
 }

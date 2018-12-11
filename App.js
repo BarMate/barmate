@@ -63,7 +63,7 @@ const Switch = createSwitchNavigator({
   Profile: Profile,
 }, 
 {
-  initialRouteName: 'SignUp' 
+  initialRouteName: 'AuthLoading' 
 });
 
 
