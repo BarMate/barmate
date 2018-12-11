@@ -30,7 +30,11 @@ const initialState_search = {
     test: 0,
 }
 const initialState_profile = {
-    test: 0,
+    name: '',
+    handle: '',
+    age: 0,
+    karma: 0,
+    bio: '',
 }
 const initialState_messages = {
     test: 0,
@@ -67,10 +71,30 @@ const searchReducer = (state = initialState_search, action) => {
 
 const profileReducer = (state = initialState_profile, action) => {
     switch(action.type) {
-        case 'ADD_NUMBER':
+        case 'UPDATE_NAME':
             return {
                 ...state,
-                counter: state.counter * 4,
+                name: action.payload
+            }
+        case 'UPDATE_HANDLE':
+            return {
+                ...state,
+                handle: action.payload
+            }
+        case 'UPDATE_AGE':
+            return {
+                ...state,
+                age: action.payload
+            }        
+        case 'UPDATE_KARMA':
+            return {
+                ...state,
+                karma: action.payload
+            }
+        case 'UPDATE_BIO':
+            return {
+                ...state,
+                bio: action.payload
             }
         default:
             return state;

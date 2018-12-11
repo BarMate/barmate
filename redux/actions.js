@@ -12,17 +12,53 @@
 
 // listOfBars is an object containing all the bars of the user
 export function refreshCarousel(listOfBars) {
-    console.log(`function refreshCarousel payload: ${listOfBars}`)
     return {
         type: 'REFRESH_CAROUSEL',
         payload: listOfBars,
     }
 }
 
-export function selectedBar(barData) {
+
+// Update profile name
+export function updateName(name) {
     return {
-        type: 'SELECT_BAR',
-        payload: barData,
+        type: 'UPDATE_NAME',
+        payload: name,
     }
 }
+
+// Update profile handle
+export function updateHandle(handle) {
+    return {
+        type: 'UPDATE_HANDLE',
+        payload: handle,
+    }
+}
+
+// Update profile bio
+export function updateBio(bio) {
+    return {
+        type: 'UPDATE_BIO',
+        payload: bio,
+    }
+}
+
+// Update proifle age
+export function updateAge(age) {
+    return {
+        type: 'UPDATE_AGE',
+        payload: age,
+    }
+}
+
+// Update profile karma
+export function updateKarma(amount) {
+    return {
+        type: 'UPDATE_KARMA',
+        payload: amount,
+    }
+}
+
+
+
 

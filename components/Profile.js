@@ -34,29 +34,97 @@ import {LinearGradient} from 'expo'
 import Variables from '../config/Variables';
 import COLORS from '../config/Colors.js';
 
+import { connect } from 'react-redux';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma } from '../redux/actions.js';
+
 class Profile extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            stores: [],
             modalSettingsVisible: false,
             modalEditVisibles: false,
         };
-        this.readUserData();
     }
 
-    componentDidMount() {
-        // this.readUserData();
+    componentWillMount() {
+        this._initialReadFromDatabase();
     }
 
-    readUserData() {
-        var profileRef = firebase.database().ref('/users/j000000001');
-        profileRef.once('value').then(snapshot => {
-            // snapshot.val() is the dictionary with all your keys/values from the '/store' path
-            this.setState({ stores: snapshot.val() })
-          });
-    };
+    _initialReadFromDatabase() {
+        /* Input: user data from db   Output: redux state of user data */
+        
+        let uid = firebase.auth().currentUser.uid;
+        let profile = firebase.database().ref(`/users/${uid}`);
+
+        profile.once('value').then(snapshot => {
+            snapshot.forEach((child) => {
+                console.log(`Child: ${child.key}`)
+                switch(child.key) {
+                    case 'name':
+                        this.props.updateName(child.val())
+                        break;
+                    case 'handle':
+                        this.props.updateHandle(child.val())
+                        break;
+                    case 'karma':
+                        this.props.updateKarma(child.val())
+                        break;
+                    case 'bio':
+                        this.props.updateBio(child.val())
+                        break;
+                    case 'age':
+                        this.props.updateAge(child.val())
+                        break;
+                    default:
+                        console.log('Could not find matching data for profile... continuing')
+                        break;
+                }  
+            })
+        })
+    }
+
+    
+    _updateDatabaseProfileInfo(data, type) {
+        /* 
+            Input: Redux state of profile data  Output: send profile data to db
+            Type: 'name', 'handle', 'karma', 'bio', 'age'
+        */
+
+        let uid = firebase.auth().currentUser.uid;
+        let profile = firebase.database().ref(`/users/${uid}`);
+
+        switch(type) {
+            case 'name':
+                profile.update({
+                    name: data
+                })
+                break;
+            case 'handle':
+                profile.update({
+                    handle: data
+                })
+                break;
+            case 'karma':
+                profile.update({
+                    karma: data
+                })
+                break;
+            case 'bio':
+                profile.update({
+                    bio: data
+                })
+                break;
+            case 'age':
+                profile.update({
+                    age: data
+                })
+                break;
+            default: 
+                console.log('Upload request to database unknown... continuing')
+                break;
+        } 
+    }
 
     setSettingsModalVisible(visible) {
         this.setState({modalSettingsVisible: visible});
@@ -156,7 +224,7 @@ class Profile extends React.Component {
                             <Content style={{backgroundColor: '#42137B'}}>
                             <List>
                                 <ListItem>
-                                <Text>Profile Picture</Text>
+                                    <Text>Profile Picture</Text>
                                 </ListItem>
                                 <ListItem>
                                 <Text>Handle</Text>
@@ -195,15 +263,15 @@ class Profile extends React.Component {
                                     <Image
                                         style={styles.profile_picture}
                                         source={require('../assets/global/profile_picture_template.png')}/>
-                                    <Text style={styles.name}>Joseph</Text>
-                                    <Text style={styles.handle}>@joegainz</Text> 
+                                    <Text style={styles.name}>{this.props.name}</Text>
+                                    <Text style={styles.handle}>@{this.props.handle}</Text> 
                                 </Body>
                             </Row>
 
                             <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', alignItems: 'center',}} size={10}>
                                 <Col style={{backgroundColor: 'rgba(0,0,0,0.0)'}} size={49}>
                                     <Body>
-                                        <Text style={styles.subtitle}>20</Text> 
+                                        <Text style={styles.subtitle}>{this.props.age}</Text> 
                                         <Text style={{fontSize: 15}}>years old</Text>
                                     </Body>
                                 </Col>
@@ -211,7 +279,7 @@ class Profile extends React.Component {
                                 </Col>
                                 <Col style={{backgroundColor: 'rgba(0,0,0,0.0)', alignItems: 'center'}} size={50}>
                                     <Body>
-                                        <Text style={styles.text}>234</Text>
+                                        <Text style={styles.text}>{this.props.karma}</Text>
                                         <Text style={{fontSize: 15}}>points</Text>
                                     </Body>
                                 </Col>
@@ -219,7 +287,7 @@ class Profile extends React.Component {
 
                             <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', justifyContent: 'center'}} size={45}>
                                 <Row style={{backgroundColor: 'rgba(0,0,0,0.0)', justifyContent: 'center'}} size={60}>
-                                    <Text style={styles.bio}>"This is my greatest bio"</Text> 
+                                    <Text style={styles.bio}>{this.props.bio}</Text> 
                                 </Row>
                                 
                                 <Button rounded style={styles.button} onPress={() => {this.setEditModalVisible(true)}}> 
@@ -239,6 +307,24 @@ class Profile extends React.Component {
     
 }
 
+// Extract data from store
+const mapStateToProps = state => ({
+    name: state.profileReducer.name,
+    bio: state.profileReducer.bio,
+    age: state.profileReducer.age,
+    handle: state.profileReducer.handle,
+    karma: state.profileReducer.karma,
+})
+  
+// Dispatch data to store
+const mapDispatchToProps = {
+    updateName,
+    updateBio,
+    updateAge,
+    updateHandle,
+    updateKarma,
+}
+  
 const styles = StyleSheet.create({
     profile_picture: {
         marginTop: 50,
@@ -275,4 +361,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Profile;
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

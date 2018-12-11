@@ -88,7 +88,7 @@ class HomeScreen extends React.Component {
         <Container>
           <Header>
             <Left style={{flex: 1}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.props.navigation.navigate('Profile')}}>
                 <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
               </TouchableOpacity>
             </Left>

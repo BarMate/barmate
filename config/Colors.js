@@ -14,8 +14,8 @@ import {
   } from 'react-native';
   
 const COLORS = {
-    GRADIENT_COLOR_1: 'rgba(222, 22, 0, 1)', // #42137B
-    GRADIENT_COLOR_2: 'rgba(121, 44, 158, 1)', // #302C9E
+    GRADIENT_COLOR_1: 'rgba(66, 19, 123, 1)', // #42137B
+    GRADIENT_COLOR_2: 'rgba(48, 44, 158, 1)', // #302C9E
     TRANSPARENT_COLOR: 'rgba(0,0,0,0.0)',
     HEADER_COLOR: 'rgba(16, 13, 100, 1)',
     FOOTER_COLOR: 'rgba(16, 13, 100, 1)',

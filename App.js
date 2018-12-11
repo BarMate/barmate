@@ -21,6 +21,7 @@ import { Root } from 'native-base';
 
 // TabNav Views
 import AppTab from './screens/TabNavigator/index.js';
+import Profile from './screens/TabNavigator/Profile.js';
 import PreLobby from './screens/PreLobby.js';
 
 // Sign in screen and loading account screen
@@ -59,6 +60,7 @@ const Switch = createSwitchNavigator({
   App: AppTab,
   SignUp: SignUpStack,
   PLobby: PreLobby,
+  Profile: Profile,
 }, 
 {
   initialRouteName: 'SignUp' 
