@@ -234,7 +234,6 @@ export default class Search extends Component {
     console.log("new region: " + JSON.stringify(region))
     this.setState({ region });
     this.fetchMarkerData().then(() => {this.forceUpdate();})
-    
   };
 
   render() {

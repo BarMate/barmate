@@ -61,7 +61,7 @@ const Switch = createSwitchNavigator({
   PLobby: PreLobby,
 }, 
 {
-  initialRouteName: 'AuthLoading' 
+  initialRouteName: 'SignUp' 
 });
 
 

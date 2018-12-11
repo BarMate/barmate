@@ -4,7 +4,7 @@ import Variables from '../config/Variables.js'
 import Bar from '../components/Bar.js'
 import Search from '../components/Search.js'
 import firebase from '../config/Firebase.js'
-
+import COLORS from '../config/Colors.js'
 import { connect } from 'react-redux'
 import { refreshCarousel } from '../redux/actions.js';
 
