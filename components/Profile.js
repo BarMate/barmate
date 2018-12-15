@@ -60,7 +60,6 @@ class Profile extends React.Component {
 
     _initialReadFromDatabase() {
         /* Input: user data from db   Output: redux state of user data */
-        
         let uid = firebase.auth().currentUser.uid;
         let profile = firebase.database().ref(`/users/${uid}`);
 
@@ -197,9 +196,9 @@ class Profile extends React.Component {
                             <Title style={{ alignSelf: 'center' }}>Profile</Title>
                         </Body>
                         <Right style={{ flex: 1 }}>
-                            <TouchableOpacity onPress={() => {this.props.currentUserProfile ? this.props.navigation.navigate('Home') : this.props.updateModal(false)}}>
+                        {this.props.currentUserProfile ? null : <TouchableOpacity onPress={() => {this.props.updateModal(false)}}>
                                 <Ionicons name={'ios-close'} size={30} color={'#FFFFFF'} style={{paddingRight: 10}} />
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
                         </Right>
                     </Header>
                     <Content scrollEnabled={false}>

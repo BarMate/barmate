@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';   // Icon for tab
-import Profile from '../../components/Profile.js';   // Profile Component
+import Profile from '../components/Profile.js';   // Profile Component
 
 
 

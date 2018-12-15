@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView, Text, StyleSheet, ScrollView, ImageBackground, Image, TouchableOpacity } from 'react-native';
-import Variables from "../config/Variables.js";
-import COLORS from '../config/Colors.js';
+import Variables from "../../../config/Variables.js";
+import COLORS from '../../../config/Colors.js';
 import { withNavigation } from 'react-navigation'
 
-class PreLobby extends Component { 
+class BarDetails extends Component { 
 
   render() {
     return (
@@ -13,10 +13,10 @@ class PreLobby extends Component {
         <ScrollView style={styles.scrollview}>
             <ImageBackground
                 style={styles.image}
-                source={require('../assets/global/gradient.png')}
+                source={require('../../../assets/global/gradient.png')}
             >
                 <TouchableOpacity style={styles.close} onPress={() => {this.props.navigation.navigate('Home')}}>
-                    <Image style={{width: 40, height: 40}} source={require('../assets/global/open.png')}/>
+                    <Image style={{width: 40, height: 40}} source={require('../../../assets/global/open.png')}/>
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Manny's Bar</Text>
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
         height: 50,
     }
 });
-export default withNavigation(PreLobby);
+export default withNavigation(BarDetails);

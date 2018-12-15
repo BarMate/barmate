@@ -62,26 +62,6 @@ export default class Search extends Component {
     };
   }
 
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) =>
-      focused ? (
-        <Ionicons name={"ios-search"} size={25} color={"#FFFFFF"} />
-      ) : (
-        <Ionicons name={"ios-search"} size={25} color={"#536497"} />
-      ),
-    tabBarPosition: "bottom",
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "white",
-      inactiveTintColor: "#536497",
-      style: {
-        backgroundColor: "#100D64"
-      }
-    },
-    animationEnabled: false,
-    swipeEnabled: false
-  };
-
   componentWillMount() {
     this._getLocationAsync();
   }

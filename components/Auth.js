@@ -43,7 +43,7 @@ class AuthLoadingScreen extends React.Component {
         const userToken = await AsyncStorage.getItem("userToken");
 
         firebase.auth().onAuthStateChanged(userToken => {
-          this.props.navigation.navigate(userToken ? "App" : "SignUp");
+          this.props.navigation.navigate(userToken ? "Main" : "SignIn");
         });
       });
     } catch (error) {

@@ -9,10 +9,10 @@
 // All rights reserved.
 //=============================================================
 
-import getTheme from "../../native-base-theme/components/index.js";
-import Common from "../../native-base-theme/variables/commonColor.js";
-import Variables from "../../config/Variables.js";
-import COLORS from "../../config/Colors.js";
+import getTheme from "../../../native-base-theme/components/index.js";
+import Common from "../../../native-base-theme/variables/commonColor.js";
+import Variables from "../../../config/Variables.js";
+import COLORS from "../../../config/Colors.js";
 
 
 
@@ -20,11 +20,11 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
-import Carousel from "../../components/Carousel.js";
+import Carousel from "../../../components/Carousel.js";
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { refreshCarousel } from '../../redux/actions.js';
-import firebase from '../../config/Firebase.js'
+import { refreshCarousel } from '../../../redux/actions.js';
+import firebase from '../../../config/Firebase.js'
 
 import {
   Container,
@@ -43,27 +43,6 @@ class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
   }
-
-
-  static navigationOptions = {
-    tabBarIcon: ({ focused, tintColor }) =>
-      focused ? (
-        <Ionicons name={"ios-beer"} size={25} color={"#FFFFFF"} />
-      ) : (
-        <Ionicons name={"ios-beer"} size={25} color={"#536497"} />
-      ),
-    tabBarPosition: "bottom",
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: "white",
-      inactiveTintColor: "#536497",
-      style: {
-        backgroundColor: "#100D64"
-      }
-    },
-    animationEnabled: false,
-    swipeEnabled: false
-  };
 
   componentWillMount() {
     this.getUserBarsFromDataBase();
@@ -88,7 +67,7 @@ class HomeScreen extends React.Component {
         <Container>
           <Header>
             <Left style={{flex: 1}}>
-              <TouchableOpacity onPress={() => {this.props.navigation.navigate('Profile')}}>
+              <TouchableOpacity onPress={() => {this.props.navigation.dispatch(DrawerActions.openDrawer())}}>
                 <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
               </TouchableOpacity>
             </Left>

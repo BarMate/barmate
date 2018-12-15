@@ -17,23 +17,6 @@ import { connect } from 'react-redux';
 var { height, width } = Dimensions.get('window');
 
 class MessageScreen extends React.Component {
-    static navigationOptions = {
-        tabBarIcon: ({ focused, tintColor }) => (
-            focused ? <Ionicons name={'ios-text'} size={25} color={'#FFFFFF'} />
-                : <Ionicons name={'ios-text'} size={25} color={'#536497'} />
-        ),
-        tabBarPosition: 'bottom',
-        tabBarOptions: {
-            showLabel: false,
-            activeTintColor: '#FFFFFF',
-            inactiveTintColor: '#536497',
-            style: {
-                backgroundColor: '#100D64',
-            }
-        },
-        animationEnabled: false,
-        swipeEnabled: false,
-    };
 
     render() {
         return (

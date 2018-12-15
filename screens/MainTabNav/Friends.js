@@ -30,25 +30,6 @@ class FriendsScreen extends Component {
       };
   }
 
-    static navigationOptions = {
-
-        tabBarIcon: ({ focused, tintColor }) => (
-            focused ? <Ionicons name={'ios-people'} size={25} color={'#FFFFFF'} />
-                : <Ionicons name={'ios-people'} size={25} color={'#536497'} />
-        ),
-        tabBarPosition: 'bottom',
-        tabBarOptions: {
-            showLabel: false,
-            activeTintColor: 'white',
-            inactiveTintColor: '#536497',
-            style: {
-                backgroundColor: '#100D64',
-            }
-        },
-        animationEnabled: false,
-        swipeEnabled: false,
-    }
-
   render() {
     return (
         <StyleProvider style={getTheme(Common)}>

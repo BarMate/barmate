@@ -244,7 +244,7 @@ class Bar extends React.Component {
         <LinearGradient
           style={styles.gradient}
           colors={["rgba(0, 0, 0, 0.5)", COLORS.TRANSPARENT_COLOR]}>
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate('PLobby')}}>
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate('BarDetails')}}>
           <Grid style={{ width: Variables.deviceWidth - 50, height: 450 }}>
             <Row
               style={{ backgroundColor: COLORS.TRANSPARENT_COLOR }}
