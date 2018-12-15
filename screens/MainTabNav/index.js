@@ -35,7 +35,6 @@ const Main = createBottomTabNavigator(
     Search: SearchScreen,
     Friends: FriendsScreen,
     Message: MessageScreen,
-    Yeet: MessageScreen,
 },
 {
     navigationOptions: ({navigation}) => ({
