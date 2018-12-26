@@ -17,5 +17,5 @@ const Constants = {
     
 };
   
-export default COLORS;
+export default Constants;
   

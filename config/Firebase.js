@@ -10,7 +10,7 @@
 // All rights reserved.
 //=============================================================
 
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 let config = {
     apiKey: 'AIzaSyDjPFOudF-tbgPBbe_yWnW-M4Z6YxOvAEg',
