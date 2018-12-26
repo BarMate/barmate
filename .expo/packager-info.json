@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 10508,
-  "expoServerNgrokUrl": "https://f5-aem.anonymous.barmate.exp.direct",
-  "packagerNgrokUrl": "https://packager.f5-aem.anonymous.barmate.exp.direct",
-  "ngrokPid": 10574,
+  "packagerPid": 8088,
+  "expoServerNgrokUrl": "https://m5-cm3.anonymous.public.exp.direct",
+  "packagerNgrokUrl": "https://packager.m5-cm3.anonymous.public.exp.direct",
+  "ngrokPid": 4376,
   "devToolsPort": 19002
 }

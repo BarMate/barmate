@@ -276,7 +276,8 @@ export default class Search extends Component {
                           rating: markers.rating,
                           price: markers.price,
                           description: markers.description,
-                          key: markers.key
+                          key: markers.key,
+                          photos: markers.photos,
                         },
                         modalVisible: true
                       });
@@ -307,10 +308,12 @@ export default class Search extends Component {
                           rating: markers.rating,
                           price: markers.price,
                           description: markers.description,
-                          key: markers.key
+                          key: markers.key,
+                          photos: markers.photos,
                         },
                         modalVisible: true
                       });
+                      console.log(`PhotoURL: ${markers.photos}`)
                     }}>
                     <View>
                       <Icon

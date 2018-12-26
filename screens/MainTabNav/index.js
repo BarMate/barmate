@@ -37,7 +37,7 @@ const Main = createBottomTabNavigator(
     Message: MessageScreen,
 },
 {
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused }) => {
             const { routeName } = navigation.state;
             if(routeName === 'Home') {

@@ -10,16 +10,17 @@
 */
 
 
- 
+// I think expo has fixed this issue not sure though. I'm getting an issue on my phone
+// When this code is in use
 //Stops the timer warning on Android. 
 //This is a known problem with Expo but they haven't reached any resolution at this time.
-YellowBox.ignoreWarnings(['Setting a timer']);
-const _console = _.clone(console);
-console.warn = message => {
-  if (message.indexOf('Setting a timer') <= -1) {
-    _console.warn(message);
-  }
-};
+// YellowBox.ignoreWarnings(['Setting a timer']);
+// const _console = _.clone(console);
+// console.warn = message => {
+//   if (message.indexOf('Setting a timer') <= -1) {
+//     _console.warn(message);
+//   }
+// };
 
 // Boilerplate imports
 import React from 'react';
