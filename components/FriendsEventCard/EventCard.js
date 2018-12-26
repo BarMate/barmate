@@ -29,7 +29,6 @@ class EventCard extends Component {
         timeDiff = Math.abs(timeNow - time);
         console.log(time);
         console.log(timeNow);
-        console.log(timeDiff);
         return('1d ago');
     }
 
