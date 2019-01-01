@@ -40,8 +40,6 @@ class AuthLoadingScreen extends React.Component {
         HkGrotesk_Light: require("../assets/fonts/HkGrotesk/HkGrotesk-Light.ttf"),
         HkGrotesk_LightItalic: require("../assets/fonts/HkGrotesk/HkGrotesk-LightItalic.ttf"),
       }).then(async response => {
-        const userToken = await AsyncStorage.getItem("userToken");
-
         firebase.auth().onAuthStateChanged(userToken => {
           this.props.navigation.navigate(userToken ? "Main" : "SignIn");
         });

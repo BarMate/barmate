@@ -19,6 +19,8 @@ const COLORS = {
     TRANSPARENT_COLOR: 'rgba(0,0,0,0.0)',
     HEADER_COLOR: 'rgba(16, 13, 100, 1)',
     FOOTER_COLOR: 'rgba(16, 13, 100, 1)',
+    GRADIENT_COLOR_SIGNUP_1: 'rgba(66, 19, 123, 0.9)', // #42137B
+    GRADIENT_COLOR_SIGNUP_2: 'rgba(48, 44, 158, 0.9)', // #302C9E
   };
   
 export default COLORS;

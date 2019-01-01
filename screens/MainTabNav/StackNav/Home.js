@@ -13,18 +13,15 @@ import getTheme from "../../../native-base-theme/components/index.js";
 import Common from "../../../native-base-theme/variables/commonColor.js";
 import Variables from "../../../config/Variables.js";
 import COLORS from "../../../config/Colors.js";
-
-
-
 import React from "react";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, View, FlatList, Text, RefreshControl, StatusBar, AsyncStorage } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
-import Carousel from "../../../components/Carousel.js";
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { refreshCarousel } from '../../../redux/actions.js';
-import firebase from '../../../config/Firebase.js'
+import { selectBar, pushListData, eraseListData, refreshList } from '../../../redux/actions.js';
+import HomeBar from '../../../components/BarComponent/HomeBar.js'
+import firebase from '../../../config/Firebase.js';
 
 import {
   Container,
@@ -37,51 +34,80 @@ import {
   StyleProvider,
 } from "native-base";
 
-
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      refreshing: false,
+    }
   }
 
   componentWillMount() {
-    this.getUserBarsFromDataBase();
+    this._pullDataFromFirebaseToReduxStore()
   }
 
-  getUserBarsFromDataBase() {
+  _pullDataFromFirebaseToReduxStore() {
+    // 1) pull key references from user firebase
+    // 2) For each key, look inside the firebase bar database
+    //    When the key being searched for is found, take that data
+    //    and push it to the store.
+
     let uid = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${uid}/bars/`);
-    let tempArray = [];
+    let userBars = firebase.database().ref(`users/${uid}/bars`);
+    let publicBars = firebase.database().ref(`bars`);
 
-    bars.once("value", snapshot => {
-      snapshot.forEach((child) => {
-        tempArray.push(child.val())
+    userBars.once('value', snapshot => {
+      snapshot.forEach(userChild => {
+        publicBars.once('value', snapshot => {
+          snapshot.forEach(barChild => {
+            if(userChild.val() === barChild.val().key) {
+              this.props.pushListData(barChild.val());
+            }
+          })
+        })
       })
-    }).then(this.props.refreshCarousel(tempArray))
+    })
   }
+
+  _refreshing() {
+    // Refreshes the list of bars on users screen
+    this.props.refreshList(true);
+    this.props.eraseListData();
+    this._pullDataFromFirebaseToReduxStore();
+    this.props.refreshList(false);
+  }
+
+  // sitting this here til i make a place for it.
+  _signOutAsync = async () => {
+    await AsyncStorage.clear();
+    this.props.navigation.navigate('Auth');
+  };
 
   render() {
 
     return (
       <StyleProvider style={getTheme(Common)}>
         <Container>
-          <Header>
-            <Left style={{flex: 1}}>
-              <TouchableOpacity onPress={() => {this.props.navigation.dispatch(DrawerActions.openDrawer())}}>
-                <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
-              </TouchableOpacity>
-            </Left>
-            <Body style={{flex: 3, justifyContent: 'center'}}>
-              <Title style={{alignSelf: 'center'}}>Home</Title>
-            </Body>
-            <Right style={{flex: 1}}/>
-          </Header>
-
+          <StatusBar barStyle="light-content"/>
           <Content scrollEnabled={false}>
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <Carousel/>
+              <View style={styles.flatlist}>
+                <FlatList
+                    refreshControl={
+                      <RefreshControl
+                          refreshing={this.props.refreshing}
+                          onRefresh={() => {this._refreshing()}}
+                      />
+                    }
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.contentContainerStyle}
+                    data={this.props.carouselData}
+                    renderItem={({item}) => <HomeBar name={item.name} key={item.key} id={item.key} rating={item.rating} open={item.open} price={item.price}/>}
+                  />
+              </View>
             </LinearGradient>
           </Content>
         </Container>
@@ -90,9 +116,18 @@ class HomeScreen extends React.Component {
   }
 }
 
+// Pull data from store
+const mapStateToProps = state => ({
+  refreshing: state.homeReducer.refreshing,
+  carouselData: state.homeReducer.carouselData,
+})
+
 // Dispatch data to store
 const mapDispatchToProps = {
-  refreshCarousel,
+  pushListData,
+  selectBar,
+  eraseListData,
+  refreshList,
 }
 
 const styles = StyleSheet.create({
@@ -100,6 +135,14 @@ const styles = StyleSheet.create({
     width: Variables.deviceWidth,
     height: Variables.deviceHeight
   },
+  flatlist: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  contentContainerStyle: {
+    paddingBottom: 220, 
+  }
 });
 
-export default connect(null, mapDispatchToProps)(HomeScreen); 
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen); 

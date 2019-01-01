@@ -24,7 +24,6 @@
 
 // Boilerplate imports
 import React from 'react';
-import { YellowBox } from 'react-native';
 import { createSwitchNavigator } from 'react-navigation';
 
 // Needed for toast menu
@@ -40,13 +39,14 @@ import SignIn from './screens/SignIn.js';
 import SignUp from './screens/SignUpStackNav/index.js';
 import Main from './screens/MainTabNav/index.js';
 import Bar from './screens/BarStackNav/index.js';
-
+import Start from './screens/Start.js';
 const App = createSwitchNavigator({    
   Auth: Auth,
   SignIn: SignIn,
   SignUp: SignUp,
   Main: Main,
   Bar: Bar,
+  Start: Start,
 }, 
 {
   initialRouteName: 'Auth' 

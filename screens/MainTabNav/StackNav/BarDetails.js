@@ -3,6 +3,7 @@ import { View, SafeAreaView, Text, StyleSheet, ScrollView, ImageBackground, Imag
 import Variables from "../../../config/Variables.js";
 import COLORS from '../../../config/Colors.js';
 import { withNavigation } from 'react-navigation'
+import { connect } from 'react-redux';
 
 class BarDetails extends Component { 
 
@@ -19,7 +20,7 @@ class BarDetails extends Component {
                     <Image style={{width: 40, height: 40}} source={require('../../../assets/global/open.png')}/>
                 </TouchableOpacity>
 
-                <Text style={styles.title}>Manny's Bar</Text>
+                <Text style={styles.title}>{this.props.selectedBarData.name}</Text>
             </ImageBackground>
             <Text style={styles.hours}>5:00PM - 3:00AM</Text>
             <Text style={styles.subtitle}>No events today</Text>
@@ -34,6 +35,10 @@ class BarDetails extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+    selectedBarData: state.homeReducer.selectedBarData
+})
 
 const styles = StyleSheet.create({
     container: {
@@ -88,4 +93,4 @@ const styles = StyleSheet.create({
         height: 50,
     }
 });
-export default withNavigation(BarDetails);
+export default connect(mapStateToProps, null)(withNavigation(BarDetails));

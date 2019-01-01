@@ -1,6 +1,7 @@
 /*
     Index file for Main tab navigator
 */
+
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './StackNav/Home';
@@ -9,29 +10,39 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import FriendsScreen from './Friends.js';
 import ProfileScreen from '../Profile.js';
-
-import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator } from 'react-navigation';
+import { TouchableOpacity, Text } from 'react-native'
+import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
 
 const StackContainer = createStackNavigator({
     Home: HomeScreen,
     BarDetails, BarDetails,
-},{ initialRouteName: 'Home', headerMode: 'none'} );
-
-const DrawerContainer = createDrawerNavigator({
-    Home: StackContainer,
-    Profile: ProfileScreen,
 },
-{
-    drawerType: 'slide',
-    drawerBackgroundColor: '#42137B',
-    contentOptions: {
-        activeBackgroundColor: '#42137B'
-    }
-})
+{ 
+    initialRouteName: 'Home', 
+    headerMode: 'float',
+    navigationOptions: ({ navigation }) => ({
+        headerTitle: navigation.state.routeName === 'Home' ? (<Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Home</Text>) : '',
+        headerRight: navigation.state.routeName === 'BarDetails' ? (
+            <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
+                <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
+            </TouchableOpacity>) : '',
+        headerLeft: navigation.state.routeName === 'Home' ? (<TouchableOpacity onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}>
+                                                                <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
+                                                            </TouchableOpacity>) : '',
+        headerStyle: {
+          backgroundColor: 'rgba(16, 13, 100, 1)',
+        },
+        headerTitleStyle: {
+          fontFamily: 'HkGrotesk_Bold',
+          color: '#FFFFFF',
+        },
+        headerTintColor: '#fff',
+    })
+});
 
 const Main = createBottomTabNavigator(
 {
-    Home: DrawerContainer,
+    Home: StackContainer,
     Search: SearchScreen,
     Friends: FriendsScreen,
     Message: MessageScreen,
@@ -67,4 +78,15 @@ const Main = createBottomTabNavigator(
     swipeEnabled: true
 });
 
-export default Main;
+const DrawerContainer = createDrawerNavigator({
+    Home: Main,
+    Profile: ProfileScreen,
+},
+{
+    drawerType: 'slide',
+    drawerBackgroundColor: '#42137B',
+    contentOptions: {
+        activeBackgroundColor: '#42137B'
+    }
+})
+export default withNavigation(DrawerContainer);
