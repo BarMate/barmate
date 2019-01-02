@@ -15,21 +15,32 @@ class Delete extends React.Component{
     }
 
     handleDelete() {
+        //this.setState({dialogVisible: false});
         var user = firebase.auth().currentUser;
-        //console.log("User Token: ", user.uid);
-        firebase.database().ref('users/').child(user.uid).remove();
-        //database.remove();
-        this.setState({dialogVisible: false});
+
+        user.delete().then(function() {
+            //console.log("User Token: ", user.uid);
+            firebase.database().ref('users/').child(user.uid).remove();
+            //console.log("User " + user.uid + " deleted!");
+
+            //If successful, sign out and return to login screen
+            firebase.auth().signOut();
+        }).catch(function(error){
+            console.log('ERROR: Deleting Account... ', error);
+        });
+        //firebase.database().ref('users/').child(user.uid).remove();
+        //this.setState({dialogVisible: false});
         //console.log("User " + user.uid + " deleted!");
-        firebase.auth().signOut();
     }
 
     handleCancel() {
         this.setState({dialogVisible: false});
         //console.log("They chose to cancel!");
+        //var user = firebase.auth().currentUser;
+        //firebase.database().ref('users/').child(user.uid).push({Name: 'Kevin'});
     }
 
-    render(){
+    render() {
         if(this.state.dialogVisible === true){
             return(
                 <View>
