@@ -9,6 +9,7 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import FriendsScreen from './Friends.js';
 import ProfileScreen from '../Profile.js';
+import DeleteAlert from '../Delete.js';
 
 import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator } from 'react-navigation';
 
@@ -20,6 +21,7 @@ const StackContainer = createStackNavigator({
 const DrawerContainer = createDrawerNavigator({
     Home: StackContainer,
     Profile: ProfileScreen,
+    Delete: DeleteAlert,
 },
 {
     drawerType: 'slide',
