@@ -41,7 +41,7 @@ class AuthLoadingScreen extends React.Component {
         HkGrotesk_LightItalic: require("../assets/fonts/HkGrotesk/HkGrotesk-LightItalic.ttf"),
       }).then(async response => {
         firebase.auth().onAuthStateChanged(userToken => {
-          this.props.navigation.navigate(userToken ? "Main" : "SignIn");
+          this.props.navigation.navigate(userToken ? "Start" : "Start");
         });
       });
     } catch (error) {

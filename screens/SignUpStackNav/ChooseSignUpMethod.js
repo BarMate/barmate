@@ -10,10 +10,6 @@ import Expo from "expo";
 import { withNavigation } from 'react-navigation';
 class ChooseSignUpMethod extends Component {
 
-  static navigationOptions = {
-    
-};
-
   _signUpWithFacebook = async () => {
     // thx kevin
     const fbId = "791668991006897";

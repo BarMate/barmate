@@ -6,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  StatusBar
+  StatusBar,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
@@ -17,6 +19,41 @@ import firebase from "../../config/Firebase.js";
 import Expo from "expo";
 
 class ChooseNameAndHandle extends Component {
+
+  async _createBarmateAccount() {
+    this._renderLoading(true);
+    await firebase.auth().createUserWithEmailAndPassword(this.props.email, this.props.password)
+          .then(user => {
+            console.log('User has been created successfully! Uploading Data...');
+            this._uploadUserDataToAccount(user.user.uid);
+            this._renderLoading(false);
+          })
+          .catch((error) => {if(error) {console.log('There was an error creating user... please try again')}})
+  }
+
+  _uploadUserDataToAccount(uid) {
+    let user = firebase.database().ref(`users/${uid}`);
+    user.set({
+      name: this.props.name,
+      age: this.props.age ? this.props.age : null,
+      bio: this.props.bio ? this.props.bio : null,
+      karma: 0,
+      handle: this.props.handle,
+      gender: this.props.gender ? this.props.gender : null,
+      location: this.props.location ? this.props.location : null,
+    }).then(() => {console.log('Data has been uploaded to the cloud')})
+      .catch(() => {console.log('An error has occured uploading data to the cloud')})
+  }
+
+  _renderLoading(value){
+    if(value === true) {
+      return <ActivityIndicator/>
+    }
+    else {
+      return alert('Barmate account successfully created! :)')
+    }
+  }
+
   render() {
     return (
       <View>
@@ -30,7 +67,7 @@ class ChooseNameAndHandle extends Component {
             style={styles.logo}
           />
           <Text style={styles.title}>
-            Awesome, $NAME.{"\n"}Here is your profile
+            Awesome, {this.props.name}{"\n"}Here is your profile
           </Text>
           <Text style={styles.subtitle}>
             Here is a summary of all your info.
@@ -39,40 +76,56 @@ class ChooseNameAndHandle extends Component {
             Please make sure everything is correct
           </Text>
           <Text style={styles.subtitle}>before you finish signing up.</Text>
-          <Text style={styles.subtitle}>Tap on anything to change it</Text>
+          <Text style={styles.subtitle}>Scroll to see all your data</Text>
           <Text style={styles.note}>
             Note: You cannot change your name{"\n"}or handle later
           </Text>
-
-          <TouchableOpacity>
+        <ScrollView>
+          <View>
             <Text style={styles.header}>Email</Text>
-            <Text style={styles.content}>$EMAIL</Text>
-          </TouchableOpacity>
+            <Text style={styles.content}>{this.props.email}</Text>
+          </View>
 
-          <TouchableOpacity>
+          <View>
             <Text style={styles.header}>Name</Text>
-            <Text style={styles.content}>$NAME</Text>
-          </TouchableOpacity>
+            <Text style={styles.content}>{this.props.name}</Text>
+          </View>
 
-          <TouchableOpacity>
+          <View>
             <Text style={styles.header}>Handle</Text>
-            <Text style={styles.content}>$HANDLE</Text>
-          </TouchableOpacity>
+            <Text style={styles.content}>{this.props.handle}</Text>
+          </View>
 
-          <TouchableOpacity>
+          <View>
             <Text style={styles.header}>Bio</Text>
-            <Text style={styles.content}>$BIO</Text>
-          </TouchableOpacity>
+            <Text style={styles.content}>{this.props.bio ? this.props.bio : 'None'}</Text>
+          </View>
 
-          <TouchableOpacity>
-            <Text style={styles.header}>Age and Gender</Text>
-            <Text style={styles.content}>$AGE, $GENDER</Text>
-          </TouchableOpacity>
+          <View>
+            <Text style={styles.header}>Birthday</Text>
+            <Text style={styles.content}>{this.props.age[1] + 1}/{this.props.age[0]}/{this.props.age[2]}</Text>
+          </View>
+
+          <View>
+            <Text style={styles.header}>Gender</Text>
+            <Text style={styles.content}>{this.props.gender ? this.props.gender : 'Not given'}</Text>
+          </View>
+
+          <View>
+            <Text style={styles.header}>Location</Text>
+            <Text style={styles.content}>{this.props.location ? this.props.location : 'Not given'}</Text>
+          </View>
+
+          <View>
+            <Text style={styles.header}>Interested In</Text>
+            <Text style={styles.content}>{this.props.interest ? this.props.interest : 'Not given'}</Text>
+          </View>
+        </ScrollView>
 
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={() => {
-              this.props.navigation.push("Confirm");
+              this._createBarmateAccount();
             }}
           >
             <Text style={styles.buttonText}>Create Account</Text>
@@ -91,7 +144,17 @@ class ChooseNameAndHandle extends Component {
   }
 }
 
-const mapStateToProps = state => {};
+const mapStateToProps = state => ({
+  email: state.signUpReducer.email,
+  password: state.signUpReducer.password,
+  name: state.signUpReducer.name,
+  handle: state.signUpReducer.handle,
+  bio: state.signUpReducer.bio,
+  age: state.signUpReducer.age,
+  gender: state.signUpReducer.gender,
+  location: state.signUpReducer.location,
+  interest: state.signUpReducer.interest,
+});
 
 const mapDispatchToProps = {};
 
@@ -157,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3999c9",
     width: 220,
     height: 60,
-    marginTop: 40,
+    marginTop: 10,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center"
@@ -172,7 +235,8 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontFamily: "HkGrotesk_Medium",
     fontSize: 15,
-    color: "#ffffff"
+    color: "#ffffff",
+    marginBottom: 60,
   },
   glyph: {
     width: 100,
@@ -233,6 +297,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   null
 )(ChooseNameAndHandle);

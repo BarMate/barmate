@@ -44,6 +44,20 @@ const initialState_messages = {
 
 const initialState_signUp = {
     modalVisible: false,
+
+    email: '',
+    password: '',
+
+    name: '',
+    handle: '',
+
+    bio: '',
+    profilePicture: null,
+
+    age: [],
+    gender: '',
+    location: '',
+    interest: '',
 }
 
 const homeReducer = (state = initialState_home, action) => {
@@ -140,6 +154,56 @@ const signUpReducer = (state = initialState_signUp, action) => {
             return {
                 ...state,
                 modalVisible: action.payload,
+            }
+        case 'SEND_EMAIL': 
+            return {
+                ...state,
+                email: action.payload,
+            }
+        case 'SEND_PASSWORD': 
+            return {
+                ...state,
+                password: action.payload,
+            }
+        case 'SEND_NAME': 
+            return {
+                ...state,
+                name: action.payload,
+            }
+        case 'SEND_HANDLE': 
+            return {
+                ...state,
+                handle: action.payload,
+            }
+        case 'SEND_PROFILE_PICTURE': 
+            return {
+                ...state,
+                profilePicture: action.payload,
+            }
+        case 'SEND_BIO': 
+            return {
+                ...state,
+                bio: action.payload,
+            }
+        case 'SEND_AGE': 
+            return {
+                ...state,
+                age: action.payload,
+            }
+        case 'SEND_LOCATION': 
+            return {
+                ...state,
+                location: action.payload,
+            }
+        case 'SEND_GENDER': 
+            return {
+                ...state,
+                gender: action.payload
+            }
+        case 'SEND_INTEREST':
+            return {
+                ...state,
+                interest: action.payload
             }
         default: 
             return state;
