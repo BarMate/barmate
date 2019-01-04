@@ -20,7 +20,8 @@ import {
     Modal,
     SafeAreaView,
     Alert,
-    ScrollView
+    ScrollView,
+    StatusBar
 } from 'react-native';
 
 import getTheme from '../native-base-theme/components';
@@ -37,26 +38,83 @@ import COLORS from '../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from 'react-redux';
-import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal } from '../redux/actions.js';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../redux/actions.js';
 
 class Profile extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            modalSettingsVisible: false,
-            modalEditVisibles: false,
+            profilePictureURL: '',
         };
     }
 
     componentWillMount() {
         if(this.props.currentUserProfile) {
             this._initialReadFromDatabase();
+            this.getProfilePicture();
         }
         else {
             this._accessSelectedUserProfile();
         }
     }
+
+    returnUserBannerColor() {
+        let color = this.props.color;
+        switch(color) {
+            case 'Red':
+                return 'red'
+            case 'Blue':
+                return 'blue'
+            case 'Green': 
+                return '#2c934c'
+            case 'Purple':
+                return 'purple'
+            case 'Pink':
+                return 'pink'
+            case 'White':
+                return 'white'
+            case 'Black':
+                return 'black'
+            default:
+                return '#3333cc'
+        }
+    }
+
+    returnUserIconPicture() {
+        let color = this.props.color;
+        switch(color) {
+            case 'Red':
+                return 'red'
+            case 'Blue':
+                return 'blue'
+            case 'Green': 
+                return '#2c934c'
+            case 'Purple':
+                return 'purple'
+            case 'Pink':
+                return 'pink'
+            case 'White':
+                return 'white'
+            case 'Black':
+                return 'black'
+            default:
+                return '#3333cc'
+        }
+    }
+
+    getProfilePicture() {
+        let uid = firebase.auth().currentUser.uid
+        let imageRef = firebase.storage().ref(`users/${uid}/profile-picture`)
+        imageRef.getDownloadURL().then(url => {
+            this.props.updatePicture(url)
+        }).catch(error => {
+        switch (error.code) {
+          case 'storage/object-not-found':
+            // File doesn't exist
+            console.log('File doesnt exist')
+        }          
+    })}
 
     _initialReadFromDatabase() {
         /* Input: user data from db   Output: redux state of user data */
@@ -79,7 +137,22 @@ class Profile extends React.Component {
                         this.props.updateBio(child.val())
                         break;
                     case 'age':
-                        this.props.updateAge(child.val())
+                        let bday = child.child('2');
+                        let currentDate = new Date();
+                        let result = currentDate.getFullYear().valueOf() - bday.val();
+                        this.props.updateAge(result)
+                        break;
+                    case 'gender':
+                        this.props.updateGender(child.val())
+                        break;
+                    case 'location':
+                        this.props.updateLocation(child.val())
+                        break;
+                    case 'interest':
+                        this.props.updateInterest(child.val())
+                        break;
+                    case 'color':
+                        this.props.updateColor(child.val())
                         break;
                     default:
                         console.log('Could not find matching data for profile... continuing')
@@ -165,14 +238,6 @@ class Profile extends React.Component {
         } 
     }
 
-    setSettingsModalVisible(visible) {
-        this.setState({modalSettingsVisible: visible});
-    }
-
-    setEditModalVisible(visible) {
-        this.setState({modalEditVisibles: visible});
-    }
-
     _signOutAsync = async () => {
         firebase.auth().signOut().then( () => {
              AsyncStorage.clear().then(async () => {
@@ -187,42 +252,84 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <StyleProvider style={getTheme(Common)}>
-                <Container>
-                    <Header>
-                        <Left style={{ flex: 1 }}>
-                        </Left>
-                        <Body style={{ flex: 3, justifyContent: 'center' }}>
-                            <Title style={{ alignSelf: 'center' }}>Profile</Title>
-                        </Body>
-                        <Right style={{ flex: 1 }}>
-                        {this.props.currentUserProfile ? null : <TouchableOpacity onPress={() => {this.props.updateModal(false)}}>
-                                <Ionicons name={'ios-close'} size={30} color={'#FFFFFF'} style={{paddingRight: 10}} />
-                            </TouchableOpacity>}
-                        </Right>
-                    </Header>
-                    <Content scrollEnabled={false}>
-                        <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                            <ScrollView>
-                                <View style={styles.container}>
-                                    <Image style={styles.profilePicture} source={require('../assets/global/profile_picture_template.png')} />
-                                    <Text style={styles.profileName}>{this.props.name}</Text>
-                                    <Text style={styles.profileHandle}>@{this.props.handle}</Text>
-                                    <View style={{width: Variables.deviceWidth, height: 25, flexDirection: 'row', marginTop: 30}}>
-                                        <Text style={styles.profileAge}>{this.props.age}</Text>
-                                        <Text style={styles.profileKarma}>{this.props.karma}</Text>
+            <View>
+                <StatusBar barStyle="light-content" />
+                <LinearGradient
+                style={styles.gradient}
+                colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
+                >
+                    <SafeAreaView>
+                        <View style={styles.header}>
+                            <Text style={styles.headerTitle}>Profile</Text>
+                            <View style={styles.settings}>
+                                <TouchableOpacity >
+                                    <Ionicons name={'md-settings'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <ScrollView style={{height: Variables.deviceHeight}}>
+                            <View style={styles.pictureAndBioContainer}>
+                                <View style={[styles.banner, {backgroundColor: this.returnUserBannerColor()}]}/>
+                                {
+                                    this.props.picture === '' ? 
+                                    <Image 
+                                        style={styles.profilePicture}
+                                        source={require('../assets/login/defaultProfilePicture.png')}
+                                    /> :
+                                    <Image 
+                                        style={styles.profilePicture}
+                                        source={{uri: this.props.picture}}
+                                    />  
+                                }
+                                <Text style={styles.bio}>"{this.props.bio}"</Text>
+                            </View>
+                            <View>
+                                <Text style={styles.name}>{this.props.name}, {this.props.age}</Text>
+                                <Text style={styles.handle}>@{this.props.handle}</Text>
+                                <Text style={styles.karma}>BarScore: {this.props.profilePictureURL}</Text>
+                            </View>
+                            <View>
+                                {
+                                    this.props.location ? 
+                                    <View style={styles.location}>
+                                        <Image 
+                                            style={styles.icon}
+                                            source={require('../assets/signup/location_text_box.png')}
+                                        />
+                                        <Text style={styles.locationText}>{this.props.location}</Text>
                                     </View>
-                                    <View style={{width: Variables.deviceWidth, height: 25, flexDirection: 'row', marginTop: 5}}>
-                                        <Text style={styles.profileAge_subtitle}>years old</Text>
-                                        <Text style={styles.profileKarma_subtitle}>points</Text>
+                                    : null
+                                }
+                                {
+                                    this.props.gender ? 
+                                    <View style={styles.gender}>
+                                        <Image 
+                                            style={styles.icon}
+                                            source={require('../assets/signup/gender_text_box.png')}
+                                        />
+                                        <Text style={styles.genderText}>{this.props.gender}</Text>
                                     </View>
-                                    <Text style={styles.profileBio}>"{this.props.bio}"</Text>
-                                </View>
-                            </ScrollView>
-                        </LinearGradient>
-                    </Content>
-                </Container>
-            </StyleProvider>
+                                    : null
+                                }
+                                {
+                                    this.props.interest ? 
+                                    <View style={styles.interest}>
+                                        <Image 
+                                            style={styles.icon}
+                                            source={require('../assets/signup/interested_text_box.png')}
+                                        />
+                                        <Text style={styles.interestText}>{this.props.interest}</Text>
+                                    </View>
+                                    : null
+                                }
+                            </View>
+                            <View>
+                                <Text style={styles.favoriteBar}>Favorite Bar</Text>
+                            </View>
+                        </ScrollView>
+                    </SafeAreaView>
+                </LinearGradient>
+            </View>
         );
     }   
 }
@@ -235,6 +342,11 @@ const mapStateToProps = state => ({
     handle: state.profileReducer.handle,
     karma: state.profileReducer.karma,
     modal: state.profileReducer.modal,
+    gender: state.profileReducer.gender,
+    interest: state.profileReducer.interest,
+    location: state.profileReducer.location,
+    color: state.profileReducer.color,
+    picture: state.profileReducer.picture,
 })
   
 // Dispatch data to store
@@ -245,62 +357,131 @@ const mapDispatchToProps = {
     updateHandle,
     updateKarma,
     updateModal,
+    updateGender,
+    updateLocation,
+    updateInterest,
+    updateColor,
+    updatePicture,
 }
   
 const styles = StyleSheet.create({
     container: {
-        width: Variables.deviceWidth,
-        height: Variables.deviceHeight * 1.5,
         alignItems: 'center',
         justifyContent: 'flex-start',
+    },
+    header: {
+        width: Variables.deviceWidth,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        height: 50,
     },
     gradient: {
         width: Variables.deviceWidth,
         height: Variables.deviceHeight,
     },
     profilePicture: {
-        marginTop: 50,
-        width: 250,
-        height: 250,
+        borderRadius: 90,
+        width: 180,
+        height: 180,
     },
-    profileName: {
-        fontSize: 35,
+    pictureAndBioContainer: {
+        marginTop: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    settings: {
+        marginRight: 20,
+        justifyContent: 'flex-end'
+    },
+    headerTitle: {
         fontFamily: 'HkGrotesk_Bold',
-        marginTop: 10,
+        fontSize: 30,
+        color: '#ffffff',
+        marginLeft: 20,
+        marginRight: 'auto',
     },
-    profileHandle: {
-        fontSize: 20,
+    banner: {
+        height: 120,
+        width: Variables.deviceWidth,
+        backgroundColor: 'rgba(0,0,0,0)',
+        position: 'absolute'
+    },
+    bio: {
         fontFamily: 'HkGrotesk_Medium',
-        marginTop: 5,
-    },
-    profileAge: {
+        fontSize: 15,
+        marginLeft: 10,
+        marginRight: 10,
+        color: '#ffffff',
+        flexWrap: 'wrap',
         flex: 1,
-        fontSize: 25,
+        alignSelf: 'center',
+    },
+    name: {
+        fontFamily: 'HkGrotesk_Bold',
+        fontSize: 30,
+        marginLeft: 20,
+        color: 'white'
+    },
+    handle: {
         fontFamily: 'HkGrotesk_Medium',
-        marginLeft: 90,
-    },
-    profileKarma: {
-        flex: 1,
-        fontSize: 25,
-        fontFamily: 'HkGrotesk_Medium',  
-        marginLeft: 80,
-    },
-    profileAge_subtitle: {
-        flex: 1,
         fontSize: 20,
+        marginLeft: 20,
+        color: 'white'
+    },
+    karma: {
         fontFamily: 'HkGrotesk_Medium',
-        marginLeft: 65,
-    },
-    profileKarma_subtitle: {
-        flex: 1,
         fontSize: 20,
-        fontFamily: 'HkGrotesk_Medium',  
-        marginLeft: 65,
+        marginLeft: 20,
+        marginBottom: 40,
+        color: 'white'
     },
-    profileBio: {
+    icon: {
+        width: 50,
+        height: 50,
+    },
+    location: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginLeft: 20,
+    },
+    gender: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginLeft: 20,
+    },
+    interest: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginLeft: 20,
+    },
+    locationText: {
+        fontFamily: 'HkGrotesk_Medium',
         fontSize: 20,
-        fontFamily: 'HkGrotesk_Italic',
-        marginTop: 50,
+        marginLeft: 10,
+        color: 'white'
+    },
+    genderText: {
+        fontFamily: 'HkGrotesk_Medium',
+        fontSize: 20,
+        marginLeft: 10,
+        color: 'white'
+    },
+    interestText: {
+        fontFamily: 'HkGrotesk_Medium',
+        fontSize: 20,
+        marginLeft: 10,
+        color: 'white'
+    },
+    favoriteBar: {
+        fontFamily: 'HkGrotesk_Bold',
+        fontSize: 30,
+        marginLeft: 20,
+        marginTop: 40,
+        color: 'white'
     }
 });
 

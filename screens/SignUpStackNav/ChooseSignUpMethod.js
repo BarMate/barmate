@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity, StatusBar } from "react-native";
 import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
 import { LinearGradient } from "expo";
@@ -53,6 +53,7 @@ class ChooseSignUpMethod extends Component {
   render() {
     return (
       <View>
+        <StatusBar barStyle="light-content" />
         <LinearGradient
           style={styles.gradient}
           colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}

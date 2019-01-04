@@ -41,6 +41,8 @@ class ChooseNameAndHandle extends Component {
       handle: this.props.handle,
       gender: this.props.gender ? this.props.gender : null,
       location: this.props.location ? this.props.location : null,
+      color: this.props.favoriteColor ? this.props.favoriteColor : null,
+      interest: this.props.interest ? this.props.interest : null,
     }).then(() => {
       console.log('Data has been uploaded to the cloud')
       this.props.profilePicture === 'None' ? null : this._uploadProfilePictureToStorageBucket(this.props.profilePicture, uid, 'profile-picture').then(() =>{
@@ -170,6 +172,7 @@ const mapStateToProps = state => ({
   location: state.signUpReducer.location,
   interest: state.signUpReducer.interest,
   profilePicture: state.signUpReducer.profilePicture,
+  favoriteColor: state.signUpReducer.favoriteColor,
 });
 
 const mapDispatchToProps = {};

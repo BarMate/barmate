@@ -37,6 +37,11 @@ const initialState_profile = {
     karma: 0,
     bio: '',
     modal: false,
+    gender: '',
+    interest: '',
+    location: '',
+    color: '',
+    picture: '',
 }
 const initialState_messages = {
     test: 0,
@@ -58,6 +63,7 @@ const initialState_signUp = {
     gender: '',
     location: '',
     interest: '',
+    favoriteColor: '',
 }
 
 const homeReducer = (state = initialState_home, action) => {
@@ -130,6 +136,32 @@ const profileReducer = (state = initialState_profile, action) => {
             return {
                 ...state,
                 modal: action.payload
+            }
+        case 'UPDATE_GENDER': 
+            return {
+                ...state,
+                gender: action.payload
+            }
+        case 'UPDATE_INTEREST': 
+            return {
+                ...state,
+                interest: action.payload
+            }
+        case 'UPDATE_LOCATION':
+            return {
+                ...state,
+                location: action.payload
+            }
+        case 'UPDATE_COLOR': 
+            return {
+                ...state,
+                color: action.payload
+            }
+        case 'UPDATE_PICTURE': 
+            console.log(`picture: ${action.payload}`)
+            return {
+                ...state,
+                picture: action.payload,
             }
         default:
             return state;
@@ -204,6 +236,11 @@ const signUpReducer = (state = initialState_signUp, action) => {
             return {
                 ...state,
                 interest: action.payload
+            }
+        case 'SEND_COLOR': 
+            return {
+                ...state,
+                favoriteColor: action.payload
             }
         default: 
             return state;

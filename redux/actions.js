@@ -87,6 +87,42 @@ export function updateKarma(amount) {
         payload: amount,
     }
 }
+// Update profile gender
+export function updateGender(gender) {
+    return {
+        type: 'UPDATE_GENDER',
+        payload: gender,
+    }
+}
+// Update profile location
+export function updateLocation(location) {
+    return {
+        type: 'UPDATE_LOCATION',
+        payload: location,
+    }
+}
+// Update profile interest
+export function updateInterest(interest) {
+    return {
+        type: 'UPDATE_INTEREST',
+        payload: interest,
+    }
+}
+// Update profile color
+export function updateColor(color) {
+    return {
+        type: 'UPDATE_COLOR',
+        payload: color,
+    }
+}
+
+export function updatePicture(url) {
+    console.log(`ActionURL: ${url}`)
+    return {
+        type: 'UPDATE_PICTURE',
+        payload: url,
+    }
+}
 
 // Used for PROFILE modal update
 export function updateModal(visible) {
@@ -167,17 +203,25 @@ export function sendGender(data) {
         payload: data,
     }
 }
-// SIGN UP - Send gender to store before creating account
+// SIGN UP - Send location to store before creating account
 export function sendLocation(data) {
     return {
         type: 'SEND_LOCATION',
         payload: data,
     }
 }
-// SIGN UP - Send gender to store before creating account
+// SIGN UP - Send interest to store before creating account
 export function sendInterest(data) {
     return {
         type: 'SEND_INTEREST',
+        payload: data,
+    }
+}
+
+// SIGN UP - Send favorite color to store before creating account
+export function sendFavoriteColor(data) {
+    return {
+        type: 'SEND_COLOR',
         payload: data,
     }
 }

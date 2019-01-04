@@ -19,7 +19,7 @@ import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
 import { LinearGradient } from "expo";
 import { connect } from "react-redux";
-import { sendAge, sendGender, sendLocation, sendInterest } from "../../redux/actions.js";
+import { sendAge, sendGender, sendLocation, sendInterest, sendFavoriteColor } from "../../redux/actions.js";
 import firebase from "../../config/Firebase.js";
 import Expo from "expo";
 class ChooseNameAndHandle extends Component {
@@ -33,12 +33,17 @@ class ChooseNameAndHandle extends Component {
         isGenderPickerVisible: false,
         isLocationPickerVisible: false,
         isInterestedVisible: false,
+        isFavoriteColorVisible: false,
         gender: 'Gender',
         location: 'Location',
         interestedIn: 'Interested In',
         totalAge: [],
+        favoriteColor: 'Color',
       }
   }
+  _showFavoriteColorPicker = () => this.setState({ isFavoriteColorVisible: true });
+  _hideFavoriteColorPicker = () => this.setState({ isFavoriteColorVisible: false });
+
   _showInterestedPicker = () => this.setState({ isInterestedVisible: true });
   _hideInterestedPicker = () => this.setState({ isInterestedVisible: false });
 
@@ -66,9 +71,9 @@ class ChooseNameAndHandle extends Component {
 
   _maximumDate() {
     // Get the current year/month/day
-    // minimumDate = current year/month/day - 21 years
+    // minimumDate = current year/month/day - 18 years
     let minimumDate = new Date();
-    minimumDate.setFullYear(minimumDate.getFullYear() - 21)
+    minimumDate.setFullYear(minimumDate.getFullYear() - 18)
     minimumDate.setMonth(minimumDate.getMonth())
     minimumDate.setDate(minimumDate.getDate())
     return minimumDate;
@@ -135,6 +140,7 @@ class ChooseNameAndHandle extends Component {
     this.props.sendGender(this.state.gender)
     this.props.sendInterest(this.state.interestedIn)
     this.props.sendLocation(this.state.location)
+    this.props.sendFavoriteColor(this.state.favoriteColor)
     this.props.navigation.push('Confirm')
   }
 
@@ -197,6 +203,35 @@ class ChooseNameAndHandle extends Component {
               <Picker.Item label="Bigender" value="Bigender" />
               <Picker.Item label="Other" value="Other" />
               <Picker.Item label="Prefer not to say" value="Prefer not to say" />
+            </Picker>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.isFavoriteColorVisible}
+          onRequestClose={() => {
+            console.log('Modal closed');
+          }}
+        >
+        <View style={{backgroundColor: COLORS.GRADIENT_COLOR_2, width: Variables.deviceWidth, height: Variables.deviceHeight}}>
+          <TouchableOpacity style={{justifyContent: 'center', alignItems: 'flex-end', marginRight: 30, marginTop: 80,}} onPress={this._hideFavoriteColorPicker}>
+              <Text style={{fontSize: 20, fontFamily: 'HkGrotesk_Bold', color: 'white'}}>Done</Text>
+          </TouchableOpacity>
+            <Picker
+              itemStyle={{fontFamily: 'HkGrotesk_Medium', color: 'white'}}
+              selectedValue={this.state.favoriteColor}
+              style={{width: Variables.deviceWidth, height: 300, position: 'absolute', bottom: 0, backgroundColor: COLORS.GRADIENT_COLOR_2}}
+              onValueChange={(itemValue, itemIndex) => this.setState({favoriteColor: itemValue})}>
+              <Picker.Item label="Red" value="Red" />
+              <Picker.Item label="Blue" value="Blue" />
+              <Picker.Item label="Green" value="Green" />
+              <Picker.Item label="Pink" value="Pink" />
+              <Picker.Item label="Purple" value="Purple" />
+              <Picker.Item label="Yellow" value="Yellow" />
+              <Picker.Item label="Black" value="Black" />
+              <Picker.Item label="White" value="White" />
             </Picker>
           </View>
         </Modal>
@@ -325,6 +360,14 @@ class ChooseNameAndHandle extends Component {
             <Text style={styles.email}>{this.state.interestedIn}</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.emailInputWrapper} onPress={this._showFavoriteColorPicker}>
+              <Image
+                style={styles.textboxImage}
+                source={require("../../assets/signup/favoriteColor_text_box.png")}
+              />
+            <Text style={styles.email}>{this.state.favoriteColor}</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={() => {
@@ -355,6 +398,7 @@ const mapDispatchToProps = {
   sendGender,
   sendLocation,
   sendInterest,
+  sendFavoriteColor,
 };
 
 const styles = StyleSheet.create({
