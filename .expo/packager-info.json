@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 13524,
+  "packagerPid": 1536,
   "expoServerNgrokUrl": "https://m5-cm3.anonymous.public.exp.direct",
   "packagerNgrokUrl": "https://packager.m5-cm3.anonymous.public.exp.direct",
-  "ngrokPid": 5400,
+  "ngrokPid": 10352,
   "devToolsPort": 19002
 }

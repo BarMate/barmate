@@ -17,7 +17,7 @@ let config = {
     authDomain: 'barmate-e95b6.firebaseapp.com',
     databaseURL: 'https://barmate-e95b6.firebaseio.com',
     projectId: 'barmate-e95b6',
-    storageBucket: 'barmate-e95b6.appspot.com',
+    storageBucket: 'gs://barmate-e95b6.appspot.com/',
     messagingSenderId: '314206837329'
 };
 firebase.initializeApp(config);

@@ -9,6 +9,7 @@ import {
   StatusBar,
   ScrollView,
   ActivityIndicator,
+  Alert
 } from "react-native";
 import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
@@ -17,7 +18,6 @@ import { connect } from "react-redux";
 import { setModalVisible } from "../../redux/actions.js";
 import firebase from "../../config/Firebase.js";
 import Expo from "expo";
-
 class ChooseNameAndHandle extends Component {
 
   async _createBarmateAccount() {
@@ -41,9 +41,24 @@ class ChooseNameAndHandle extends Component {
       handle: this.props.handle,
       gender: this.props.gender ? this.props.gender : null,
       location: this.props.location ? this.props.location : null,
-    }).then(() => {console.log('Data has been uploaded to the cloud')})
-      .catch(() => {console.log('An error has occured uploading data to the cloud')})
+    }).then(() => {
+      console.log('Data has been uploaded to the cloud')
+      this.props.profilePicture === 'None' ? null : this._uploadProfilePictureToStorageBucket(this.props.profilePicture, uid, 'profile-picture').then(() =>{
+        console.log('Profile Picture added')
+      }).catch((error) => {
+        console.log(error)
+      })
+    }).catch(() => {console.log('An error has occured uploading data to the cloud')})
   }
+  
+  _uploadProfilePictureToStorageBucket = async(uri, uid, imageName,) => {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+
+      let ref = firebase.storage().ref().child(`users/${uid}/${imageName}`);
+      return ref.put(blob);
+  }
+
 
   _renderLoading(value){
     if(value === true) {
@@ -154,6 +169,7 @@ const mapStateToProps = state => ({
   gender: state.signUpReducer.gender,
   location: state.signUpReducer.location,
   interest: state.signUpReducer.interest,
+  profilePicture: state.signUpReducer.profilePicture,
 });
 
 const mapDispatchToProps = {};

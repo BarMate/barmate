@@ -52,7 +52,7 @@ const initialState_signUp = {
     handle: '',
 
     bio: '',
-    profilePicture: null,
+    profilePicture: '',
 
     age: [],
     gender: '',

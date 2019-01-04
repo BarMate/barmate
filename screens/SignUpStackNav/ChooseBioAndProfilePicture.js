@@ -24,7 +24,7 @@ class ChooseNameAndHandle extends Component {
   constructor(props) {
     super(props)
       this.state ={
-        image: null,
+        image: '',
         bio: '',
         charactersRemaining: 50,
       }
@@ -48,28 +48,33 @@ class ChooseNameAndHandle extends Component {
     }
     else {
       let result = await ImagePicker.launchImageLibraryAsync({
-        quality: 1.0,
+        quality: 0.4,
         mediaTypes: 'Images',
         allowsEditing: true,
-        base64: true,
         aspect: [1, 1],
       });
 
       if (!result.cancelled) {
-        this.setState({ image: result });
+        this.setState({ image: result.uri });
       }
     }
   }
 
   _sendUserToNextRegistrationScreen() {
-    this.props.sendProfilePicture(this.state.image)
+    console.log(`BASE64: ${this.state.image.uri}`)
+    if(this.state.image === '') {
+      this.props.sendProfilePicture('None')
+    }
+    else {
+      this.props.sendProfilePicture(this.state.image)
+    }
     this.props.sendBio(this.state.bio)
     this.props.navigation.push('ChooseFinal')
   }
 
   _confirmCorrectInformation() {
     // called when user presses next
-    if(this.state.bio.length === 0 && this.state.image !== null) {
+    if(this.state.bio.length === 0 && this.state.image !== '') {
       Alert.alert(
         'Bio is empty!',
         'It looks like you haven\'t written a bio, if you don\'t want a bio, just press continue',
@@ -80,7 +85,7 @@ class ChooseNameAndHandle extends Component {
         { cancelable: true }
       )
     }
-    else if(this.state.bio.length !== 0 && this.state.image === null) {
+    else if(this.state.bio.length !== 0 && this.state.image === '') {
       Alert.alert(
         'No profile picture!',
         'It looks like you didn\'t choose a profile picture, if you don\'t one, just press continue',
@@ -91,7 +96,7 @@ class ChooseNameAndHandle extends Component {
         { cancelable: true }
       )
     }
-    else if(this.state.bio.length === 0 && this.state.image === null) {
+    else if(this.state.bio.length === 0 && this.state.image === '') {
       Alert.alert(
         'No profile picture or bio!',
         'It looks like you didn\'t choose a profile picture or write a bio, if you don\'t either of these, just press continue',
@@ -129,7 +134,7 @@ class ChooseNameAndHandle extends Component {
           </Text>
           <TouchableOpacity style={styles.profilePictureContainer} onPress={() => {this._chooseImageFromLibrary()}}>
             {
-              this.state.image ? (<Image style={[styles.profilePicture, { width: 200, height: 200, borderRadius: 100 }]} source={{uri: this.state.image.uri}}/>) : 
+              this.state.image ? (<Image style={[styles.profilePicture, { width: 200, height: 200, borderRadius: 100 }]} source={{uri: this.state.image}}/>) : 
                                  (<Image style={[styles.profilePicture, { width: 200, height: 200, borderRadius: 100 }]} source={require("../../assets/login/defaultProfilePicture.png")}/>)
             }
             <Text style={styles.chooseImageText}>Choose Image...</Text>
