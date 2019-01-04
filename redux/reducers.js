@@ -41,6 +41,10 @@ const initialState_messages = {
     test: 0,
 }
 
+const initialState_plans = {
+    cardObject: null,
+}
+
 const homeReducer = (state = initialState_home, action) => {
     switch(action.type) {
         case 'REFRESH_CAROUSEL':
@@ -119,10 +123,23 @@ const messagesReducer = (state = initialState_messages, action) => {
     }
 }
 
+const plansReducer = (state = initialState_profile, action) => {
+    switch(action.type) {
+        case 'SEND_CARD_OBJECT':
+            return {
+                ...state,
+                cardObject: action.payload,
+            }
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
     homeReducer,
     searchReducer,
     profileReducer,
     messagesReducer,
+    plansReducer,
 });
 

@@ -18,14 +18,21 @@ import {
 } from 'react-native';
 
 import Profile from '../components/Profile.js';   // Profile Component
+import firebase from '../config/Firebase.js';
 
+class LoggedInUserProfile extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            uid: firebase.auth().currentUser.uid
+        }
+    }
 
-class ProfileScreen extends React.Component {
     render() {
         return (
-            <Profile/>
+            <Profile uid={this.state.uid}/>
         );
     }
 }
 
-export default ProfileScreen;
+export default LoggedInUserProfile;

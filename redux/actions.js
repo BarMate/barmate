@@ -10,6 +10,7 @@
 */
 
 
+
 // listOfBars is an object containing all the bars of the user
 export function refreshCarousel(listOfBars) {
     return {
@@ -18,6 +19,13 @@ export function refreshCarousel(listOfBars) {
     }
 }
 
+// listOfBars is an object containing all the bars of the user
+export function sendCardObject(cardDataObject) {
+    return {
+        type: 'SEND_CARD_OBJECT',
+        payload: cardDataObject,
+    }
+}
 
 // Update profile name
 export function updateName(name) {

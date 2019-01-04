@@ -50,7 +50,7 @@ class Profile extends React.Component {
     }
 
     componentWillMount() {
-        if(this.props.currentUserProfile) {
+        if(this.props.uid) {
             this._initialReadFromDatabase();
         }
         else {
@@ -62,7 +62,7 @@ class Profile extends React.Component {
         /* Input: user data from db   Output: redux state of user data */
         let uid = firebase.auth().currentUser.uid;
         let profile = firebase.database().ref(`/users/${uid}`);
-
+        console.log('My profile')
         profile.once('value').then(snapshot => {
             snapshot.forEach((child) => {
                 switch(child.key) {
@@ -94,10 +94,10 @@ class Profile extends React.Component {
             Input: user data from db   Output: redux state of user data
             Similar to _initialReadFromDatabase but for viewing other user's profiles
         */
-        
-        let userUID = this.props.uid;
+        const { navigation } = this.props;
+        let userUID = navigation.getParam('uid');
         let selectedUser = firebase.database().ref(`/users/${userUID}`);
-
+        console.log('Other profile')
         selectedUser.once('value').then(snapshot => {
             snapshot.forEach((child) => {
                 switch(child.key) {
@@ -189,7 +189,7 @@ class Profile extends React.Component {
         return (
             <StyleProvider style={getTheme(Common)}>
                 <Container>
-                    <Header>
+                    {/* <Header>
                         <Left style={{ flex: 1 }}>
                         </Left>
                         <Body style={{ flex: 3, justifyContent: 'center' }}>
@@ -200,7 +200,7 @@ class Profile extends React.Component {
                                 <Ionicons name={'ios-close'} size={30} color={'#FFFFFF'} style={{paddingRight: 10}} />
                             </TouchableOpacity>}
                         </Right>
-                    </Header>
+                    </Header> */}
                     <Content scrollEnabled={false}>
                         <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
                             <ScrollView>
