@@ -4,20 +4,21 @@
 
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import HomeScreen from './homeStackNav/Home';
-import BarDetails from './homeStackNav/BarDetails';
+import HomeScreen from './HomeStackNav/Home';
+import BarDetails from './HomeStackNav/BarDetails';
 import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
-import FriendsScreen from './friendsStackNav/Friends.js';
-import CardDetails from './friendsStackNav/CardDetails.js'
+import PlansScreen from './PlansStackNav/Plans';
+import CardDetails from './PlansStackNav/CardDetails'
 
 import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
 
-import COLORS from '../../config/Colors.js';
-import { TouchableOpacity, Text } from 'react-native'
-import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
+import Friends from '../Friends'
 
+import COLORS from '../../config/Colors.js';
+import { TouchableOpacity, Text, Image } from 'react-native'
+import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
 
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
@@ -33,7 +34,10 @@ const homeStackContainer = createStackNavigator({
                 <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
             </TouchableOpacity>) : '',
         headerLeft: navigation.state.routeName === 'Home' ? (<TouchableOpacity onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}>
-                                                                <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
+                                                                <Image 
+                                                                    style={{marginLeft: 10, width: 30, height: 30}}
+                                                                    source={require('../../assets/login/defaultProfilePicture.png')}
+                                                                />  
                                                             </TouchableOpacity>) : '',
         headerStyle: {
           backgroundColor: 'rgba(16, 13, 100, 1)',
@@ -47,13 +51,13 @@ const homeStackContainer = createStackNavigator({
 });
 
 
-const friendsStackContainer = createStackNavigator({
-    Friends: FriendsScreen,
+const plansStackContainer = createStackNavigator({
+    Plans: PlansScreen,
     SelectedProfile: SelectedUserProfileScreen,
     CardDetails: CardDetails
 },
 { 
-    initialRouteName: 'Friends', 
+    initialRouteName: 'Plans', 
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
         headerTitle: `Plans`,
@@ -65,7 +69,7 @@ const friendsStackContainer = createStackNavigator({
           color: '#FFFFFF',
         },
         headerTintColor: '#fff',
-        headerRight: (navigation.state.routeName == 'Friends' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
+        headerRight: (navigation.state.routeName == 'Plans' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
         
     })
 });
@@ -74,7 +78,7 @@ const Main = createBottomTabNavigator(
 {
     Home: homeStackContainer,
     Search: SearchScreen,
-    Friends: friendsStackContainer,
+    Plans: plansStackContainer,
     Message: MessageScreen,
 },
 {
@@ -87,7 +91,7 @@ const Main = createBottomTabNavigator(
             else if(routeName === 'Search') {
                 return (focused ? <Ionicons name={"ios-search"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-search"} size={25} color={"#536497"} />)
             }
-            else if(routeName === 'Friends') {
+            else if(routeName === 'Plans') {
                 return (focused ? <Ionicons name={"ios-people"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-people"} size={25} color={"#536497"} />)
             }
             else if(routeName === 'Message') {
@@ -112,6 +116,7 @@ const Main = createBottomTabNavigator(
 const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
+    Friends: Friends,
 },
 {
     drawerType: 'slide',
@@ -120,5 +125,6 @@ const DrawerContainer = createDrawerNavigator({
         activeBackgroundColor: '#42137B'
     }
 })
+
 
 export default withNavigation(DrawerContainer);

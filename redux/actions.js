@@ -234,3 +234,45 @@ export function sendFavoriteColor(data) {
     }
 }
 
+
+export function pushFriendsList(friends) {
+    return {
+        type: 'PUSH_FRIENDS_LIST',
+        payload: friends
+    }
+}
+
+export function selectProfile(profile) {
+    return {
+        type: 'SELECT_PROFILE',
+        payload: profile
+    }
+}
+
+// resets array; no payload required
+export function eraseFriendsList() {
+    return {
+        type: 'ERASE_LIST',
+    }
+}
+
+export function refreshFriendsList(bool) {
+    return {
+        type: 'REFRESH_LIST',
+        payload: bool
+    }
+}
+
+export function selectMessageProfile(messageProfile) {
+    return {
+        type: 'SELECT_MESSAGE_PROFILE',
+        payload: messageProfile
+    }
+}
+
+export function updateFriendCount(count) {
+    return {
+        type: 'UPDATE_FRIEND_COUNT',
+        payload: count
+    }
+}

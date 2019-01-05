@@ -19,7 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { selectBar, pushListData, eraseListData, refreshList } from '../../../redux/actions.js';
+import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions.js';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
 
@@ -44,7 +44,7 @@ class HomeScreen extends React.Component {
   }
 
   componentWillMount() {
-    this._pullDataFromFirebaseToReduxStore()
+    this._refreshing()
   }
 
   _pullDataFromFirebaseToReduxStore() {
@@ -136,6 +136,7 @@ const mapDispatchToProps = {
   selectBar,
   eraseListData,
   refreshList,
+  updatePicture,
 }
 
 const styles = StyleSheet.create({

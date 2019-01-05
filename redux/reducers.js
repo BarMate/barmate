@@ -30,6 +30,7 @@ const initialState_home = {
 const initialState_search = {
     test: 0,
 }
+
 const initialState_profile = {
     name: '',
     handle: '',
@@ -43,6 +44,7 @@ const initialState_profile = {
     color: '',
     picture: '',
 }
+
 const initialState_messages = {
     test: 0,
 }
@@ -68,6 +70,14 @@ const initialState_signUp = {
     location: '',
     interest: '',
     favoriteColor: '',
+}
+
+const initialState_friends = {
+    friends: [],
+    selectedProfileData: {},
+    selectedMessageProfileData: {},
+    refreshing: false,
+    friendCount: 0,
 }
 
 const homeReducer = (state = initialState_home, action) => {
@@ -184,12 +194,49 @@ const messagesReducer = (state = initialState_messages, action) => {
     }
 }
 
-const plansReducer = (state = initialState_profile, action) => {
+const plansReducer = (state = initialState_plans, action) => {
     switch(action.type) {
         case 'SEND_CARD_OBJECT':
             return {
                 ...state,
                 cardObject: action.payload,
+            }
+        default:
+            return state;
+    }
+}
+
+const friendsReducer = (state = initialState_friends, action) => {
+    switch(action.type) {
+        case 'SELECT_PROFILE':
+            return {
+                ...state,
+                selectedProfileData: action.payload,
+            }
+        case 'PUSH_FRIENDS_LIST':
+            return {
+                ...state,
+                friends: [...state.friends, action.payload]
+            }
+        case 'ERASE_LIST':
+            return {
+                ...state,
+                friends: []
+            }
+        case 'REFRESH_LIST':
+            return {
+                ...state,
+                refreshing: action.payload,
+            }
+        case 'SELECT_MESSAGE_PROFILE': 
+            return {
+                ...state,
+                selectedMessageProfileData: action.payload
+            }
+        case 'UPDATE_FRIEND_COUNT': 
+            return {
+                ...state,
+                friendCount: action.paylooad,
             }
         default:
             return state;
@@ -270,5 +317,6 @@ export default combineReducers({
     messagesReducer,
     plansReducer,
     signUpReducer,
+    friendsReducer,
 });
 

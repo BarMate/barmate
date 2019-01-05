@@ -63,43 +63,285 @@ class CurrentUserProfile extends React.Component {
         let color = this.props.color;
         switch(color) {
             case 'Red':
-                return 'red'
+                return '#dd2846'
             case 'Blue':
-                return 'blue'
+                return '#3333cc'
             case 'Green': 
                 return '#2c934c'
             case 'Purple':
-                return 'purple'
+                return '#642eaa'
             case 'Pink':
-                return 'pink'
+                return '#cc66cc'
             case 'White':
-                return 'white'
+                return '#f4f4f4'
             case 'Black':
-                return 'black'
+                return '#373737'
+            case 'Orange':
+                return '#ff9900'
+            case 'Yellow': 
+                return '#ddd82a'
             default:
                 return '#3333cc'
         }
     }
 
-    returnUserIconPicture() {
+    returnUserIconPicture(type) {
         let color = this.props.color;
-        switch(color) {
-            case 'Red':
-                return 'red'
-            case 'Blue':
-                return 'blue'
-            case 'Green': 
-                return '#2c934c'
-            case 'Purple':
-                return 'purple'
-            case 'Pink':
-                return 'pink'
-            case 'White':
-                return 'white'
-            case 'Black':
-                return 'black'
-            default:
-                return '#3333cc'
+        switch(type) {
+            case 'Location': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/location.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/location.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/location.png')}
+                            />
+                        )
+                    }
+                }
+            }
+            case 'Gender': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/gender.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/gender.png')}
+                            />
+                        )
+                    }
+                }                
+            }
+            case 'Interest': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/interest.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/interest.png')}
+                            />
+                        )
+                    }
+                }                
+            }
+            default: 
+                break;
         }
     }
 
@@ -292,10 +534,7 @@ class CurrentUserProfile extends React.Component {
                                 {
                                     this.props.location ? 
                                     <View style={styles.location}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/location_text_box.png')}
-                                        />
+                                        {this.returnUserIconPicture('Location')}
                                         <Text style={styles.locationText}>{this.props.location}</Text>
                                     </View>
                                     : null
@@ -303,10 +542,7 @@ class CurrentUserProfile extends React.Component {
                                 {
                                     this.props.gender ? 
                                     <View style={styles.gender}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/gender_text_box.png')}
-                                        />
+                                        {this.returnUserIconPicture('Gender')}
                                         <Text style={styles.genderText}>{this.props.gender}</Text>
                                     </View>
                                     : null
@@ -314,10 +550,7 @@ class CurrentUserProfile extends React.Component {
                                 {
                                     this.props.interest ? 
                                     <View style={styles.interest}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/interested_text_box.png')}
-                                        />
+                                        {this.returnUserIconPicture('Interest')}
                                         <Text style={styles.interestText}>{this.props.interest}</Text>
                                     </View>
                                     : null
@@ -381,6 +614,7 @@ const styles = StyleSheet.create({
         height: Variables.deviceHeight,
     },
     profilePicture: {
+        marginLeft: 5,
         borderRadius: 90,
         width: 180,
         height: 180,
