@@ -11,11 +11,17 @@
 // Imports
 import React from "react";
 import { AsyncStorage, StyleSheet, Dimensions } from "react-native";
-
+import CurrentUserProfile from '../components/Profiles/CurrentUserProfile'
+import firebase from '../config/Firebase'
 class ProfileScreen extends React.Component {
+
+    getUID() {
+        return firebase.auth().currentUser.uid;
+    }
+
     render() {
         return (
-            <Profile/>
+            <CurrentUserProfile uid={this.getUID()}/>
         );
     }
 }

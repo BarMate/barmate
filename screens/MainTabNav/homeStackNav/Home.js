@@ -80,9 +80,17 @@ class HomeScreen extends React.Component {
 
   // sitting this here til i make a place for it.
   _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate('Auth');
-  };
+    console.log('Signing out')
+    firebase.auth().signOut().then( () => {
+         AsyncStorage.clear().then(async () => {
+            this.props.navigation.navigate('SignUp');
+        }).catch(function(error){
+            console.log(error);
+        })
+      }).catch(function(error) {
+        console.log(error);
+      });
+};
 
   render() {
 

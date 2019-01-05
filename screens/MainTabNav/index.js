@@ -3,7 +3,6 @@
 */
 
 import React from 'react';
-import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './homeStackNav/Home';
 import BarDetails from './homeStackNav/BarDetails';
@@ -11,42 +10,18 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import FriendsScreen from './friendsStackNav/Friends.js';
 import CardDetails from './friendsStackNav/CardDetails.js'
-import ProfileScreen from '../Profile.js';
+
+import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
+import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
+
 import COLORS from '../../config/Colors.js';
 import { TouchableOpacity, Text } from 'react-native'
 import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
 
+
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
     BarDetails, BarDetails,
-},{ initialRouteName: 'Home', headerMode: 'none'} );
-
-const friendsStackContainer = createStackNavigator({
-    Friends: FriendsScreen,
-    Profile: ProfileScreen,
-    CardDetails: CardDetails
-},
-{ 
-    initialRouteName: 'Friends', 
-    headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
-        headerTitle: `Plans`,
-        headerStyle: {
-          backgroundColor: COLORS.HEADER_COLOR,
-        },
-        headerTitleStyle: {
-          fontFamily: 'HkGrotesk_Bold',
-          color: '#FFFFFF',
-        },
-        headerTintColor: '#fff',
-        headerRight: (navigation.state.routeName == 'Friends' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
-        
-    })
-});
-
-const DrawerContainer = createDrawerNavigator({
-    Home: homeStackContainer,
-    Profile: ProfileScreen,
 },
 { 
     initialRouteName: 'Home', 
@@ -71,9 +46,33 @@ const DrawerContainer = createDrawerNavigator({
     })
 });
 
+
+const friendsStackContainer = createStackNavigator({
+    Friends: FriendsScreen,
+    SelectedProfile: SelectedUserProfileScreen,
+    CardDetails: CardDetails
+},
+{ 
+    initialRouteName: 'Friends', 
+    headerMode: 'float',
+    navigationOptions: ({ navigation }) => ({
+        headerTitle: `Plans`,
+        headerStyle: {
+          backgroundColor: COLORS.HEADER_COLOR,
+        },
+        headerTitleStyle: {
+          fontFamily: 'HkGrotesk_Bold',
+          color: '#FFFFFF',
+        },
+        headerTintColor: '#fff',
+        headerRight: (navigation.state.routeName == 'Friends' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
+        
+    })
+});
+
 const Main = createBottomTabNavigator(
 {
-    Home: StackContainer,
+    Home: homeStackContainer,
     Search: SearchScreen,
     Friends: friendsStackContainer,
     Message: MessageScreen,
@@ -109,9 +108,10 @@ const Main = createBottomTabNavigator(
     swipeEnabled: true
 });
 
+
 const DrawerContainer = createDrawerNavigator({
     Home: Main,
-    Profile: ProfileScreen,
+    Profile: CurrentUserProfileScreen,
 },
 {
     drawerType: 'slide',
@@ -120,4 +120,5 @@ const DrawerContainer = createDrawerNavigator({
         activeBackgroundColor: '#42137B'
     }
 })
+
 export default withNavigation(DrawerContainer);

@@ -7,7 +7,7 @@ import Common from "../../../native-base-theme/variables/commonColor.js";
 import { LinearGradient } from "expo";
 import Variables from "../../../config/Variables.js";
 import COLORS from "../../../config/Colors.js";
-import Profile from '../../../components/Profile.js';
+
 import { updateModal } from '../../../redux/actions.js'
 import { connect } from 'react-redux';
 import EventCard from '../../../components/EventCard.js'

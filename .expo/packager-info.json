@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 11952,
-  "expoServerNgrokUrl": "https://m5-cm3.anonymous.public.exp.direct",
-  "packagerNgrokUrl": "https://packager.m5-cm3.anonymous.public.exp.direct",
-  "ngrokPid": 13844,
+  "packagerPid": 13828,
+  "expoServerNgrokUrl": "https://nt-wyg.anonymous.barmatetherepo.exp.direct",
+  "packagerNgrokUrl": "https://packager.nt-wyg.anonymous.barmatetherepo.exp.direct",
+  "ngrokPid": 14100,
   "devToolsPort": 19002
 }

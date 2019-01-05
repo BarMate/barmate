@@ -97,7 +97,7 @@ class EventCard extends Component {
                 <View style={styles.cardBackground}>
                     <View style={styles.cardContents}>
                         <View style={{flexDirection: "row"}}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile', {uid: this.props.creatorUID})}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedProfile', {uid: this.props.creatorUID})}>
                                 <View style={styles.profilePictureView}/>
                             </TouchableOpacity> 
                             <View style={{flexDirection: "column"}}> 

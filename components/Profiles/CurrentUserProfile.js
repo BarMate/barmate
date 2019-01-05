@@ -24,23 +24,23 @@ import {
     StatusBar
 } from 'react-native';
 
-import getTheme from '../native-base-theme/components';
-import Common from '../native-base-theme/variables/commonColor';
+import getTheme from '../../native-base-theme/components';
+import Common from '../../native-base-theme/variables/commonColor';
 import { withNavigation } from 'react-navigation';
-import firebase from '../config/Firebase';
+import firebase from '../../config/Firebase';
 
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text, Button, List, ListItem, } from 'native-base';
 import {LinearGradient} from 'expo'
 
-import Variables from '../config/Variables';
-import COLORS from '../config/Colors.js';
+import Variables from '../../config/Variables';
+import COLORS from '../../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from 'react-redux';
-import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../redux/actions.js';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions.js';
 
-class Profile extends React.Component {
+class CurrentUserProfile extends React.Component {
 
     constructor(props) {
         super(props);
@@ -274,7 +274,7 @@ class Profile extends React.Component {
                                     this.props.picture === '' ? 
                                     <Image 
                                         style={styles.profilePicture}
-                                        source={require('../assets/login/defaultProfilePicture.png')}
+                                        source={require('../../assets/login/defaultProfilePicture.png')}
                                     /> :
                                     <Image 
                                         style={styles.profilePicture}
@@ -286,7 +286,7 @@ class Profile extends React.Component {
                             <View>
                                 <Text style={styles.name}>{this.props.name}, {this.props.age}</Text>
                                 <Text style={styles.handle}>@{this.props.handle}</Text>
-                                <Text style={styles.karma}>BarScore: {this.props.profilePictureURL}</Text>
+                                <Text style={styles.karma}>BarScore: {this.props.karma}</Text>
                             </View>
                             <View>
                                 {
@@ -294,7 +294,7 @@ class Profile extends React.Component {
                                     <View style={styles.location}>
                                         <Image 
                                             style={styles.icon}
-                                            source={require('../assets/signup/location_text_box.png')}
+                                            source={require('../../assets/signup/location_text_box.png')}
                                         />
                                         <Text style={styles.locationText}>{this.props.location}</Text>
                                     </View>
@@ -305,7 +305,7 @@ class Profile extends React.Component {
                                     <View style={styles.gender}>
                                         <Image 
                                             style={styles.icon}
-                                            source={require('../assets/signup/gender_text_box.png')}
+                                            source={require('../../assets/signup/gender_text_box.png')}
                                         />
                                         <Text style={styles.genderText}>{this.props.gender}</Text>
                                     </View>
@@ -316,7 +316,7 @@ class Profile extends React.Component {
                                     <View style={styles.interest}>
                                         <Image 
                                             style={styles.icon}
-                                            source={require('../assets/signup/interested_text_box.png')}
+                                            source={require('../../assets/signup/interested_text_box.png')}
                                         />
                                         <Text style={styles.interestText}>{this.props.interest}</Text>
                                     </View>
@@ -485,4 +485,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Profile));
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(CurrentUserProfile));
