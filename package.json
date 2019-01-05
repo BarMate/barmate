@@ -3,7 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.11.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.12.1",
     "jest-expo": "~27.0.0",
+    "prettier-eslint": "^8.8.2",
     "react-test-renderer": "16.3.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -32,6 +40,7 @@
     "react-native-google-autocomplete": "^0.1.5",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-maps": "^0.21.0",
+    "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-parallax-swiper": "^1.1.7",
     "react-native-refresher": "^0.1.1",
     "react-native-scripts": "^2.0.1",

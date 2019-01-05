@@ -23,7 +23,8 @@ import { combineReducers } from 'redux';
 
 const initialState_home = {
     carouselData: [],
-    selectedBarData: [],
+    selectedBarData: {},
+    refreshing: false,
 }
 
 const initialState_search = {
@@ -36,6 +37,11 @@ const initialState_profile = {
     karma: 0,
     bio: '',
     modal: false,
+    gender: '',
+    interest: '',
+    location: '',
+    color: '',
+    picture: '',
 }
 const initialState_messages = {
     test: 0,
@@ -45,17 +51,46 @@ const initialState_plans = {
     cardObject: null,
 }
 
+const initialState_signUp = {
+    modalVisible: false,
+
+    email: '',
+    password: '',
+
+    name: '',
+    handle: '',
+
+    bio: '',
+    profilePicture: '',
+
+    age: [],
+    gender: '',
+    location: '',
+    interest: '',
+    favoriteColor: '',
+}
+
 const homeReducer = (state = initialState_home, action) => {
     switch(action.type) {
-        case 'REFRESH_CAROUSEL':
-            return {
-                carouselData: action.payload,
-                ...state,
-            }
         case 'SELECT_BAR':
             return {
                 ...state,
                 selectedBarData: action.payload,
+            }
+        case 'PUSH_LIST_DATA':
+            return {
+                ...state,
+                carouselData: [...state.carouselData, action.payload]
+            }
+        case 'ERASE_LIST_DATA':
+            return {
+                ...state,
+                carouselData: []
+            }
+        case 'REFRESH_LIST':
+            return {
+                ...state,
+                refreshing: action.payload,
             }
         default:
             return state;
@@ -106,6 +141,32 @@ const profileReducer = (state = initialState_profile, action) => {
                 ...state,
                 modal: action.payload
             }
+        case 'UPDATE_GENDER': 
+            return {
+                ...state,
+                gender: action.payload
+            }
+        case 'UPDATE_INTEREST': 
+            return {
+                ...state,
+                interest: action.payload
+            }
+        case 'UPDATE_LOCATION':
+            return {
+                ...state,
+                location: action.payload
+            }
+        case 'UPDATE_COLOR': 
+            return {
+                ...state,
+                color: action.payload
+            }
+        case 'UPDATE_PICTURE': 
+            console.log(`picture: ${action.payload}`)
+            return {
+                ...state,
+                picture: action.payload,
+            }
         default:
             return state;
     }
@@ -135,11 +196,79 @@ const plansReducer = (state = initialState_profile, action) => {
     }
 }
 
+const signUpReducer = (state = initialState_signUp, action) => {
+    switch(action.type) {
+        case 'SET_MODAL_VISIBLE': 
+            return {
+                ...state,
+                modalVisible: action.payload,
+            }
+        case 'SEND_EMAIL': 
+            return {
+                ...state,
+                email: action.payload,
+            }
+        case 'SEND_PASSWORD': 
+            return {
+                ...state,
+                password: action.payload,
+            }
+        case 'SEND_NAME': 
+            return {
+                ...state,
+                name: action.payload,
+            }
+        case 'SEND_HANDLE': 
+            return {
+                ...state,
+                handle: action.payload,
+            }
+        case 'SEND_PROFILE_PICTURE': 
+            return {
+                ...state,
+                profilePicture: action.payload,
+            }
+        case 'SEND_BIO': 
+            return {
+                ...state,
+                bio: action.payload,
+            }
+        case 'SEND_AGE': 
+            return {
+                ...state,
+                age: action.payload,
+            }
+        case 'SEND_LOCATION': 
+            return {
+                ...state,
+                location: action.payload,
+            }
+        case 'SEND_GENDER': 
+            return {
+                ...state,
+                gender: action.payload
+            }
+        case 'SEND_INTEREST':
+            return {
+                ...state,
+                interest: action.payload
+            }
+        case 'SEND_COLOR': 
+            return {
+                ...state,
+                favoriteColor: action.payload
+            }
+        default: 
+            return state;
+    }
+}
+
 export default combineReducers({
     homeReducer,
     searchReducer,
     profileReducer,
     messagesReducer,
     plansReducer,
+    signUpReducer,
 });
 

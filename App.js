@@ -9,11 +9,10 @@
     All rights reserved
 */
 
-
 // I think expo has fixed this issue not sure though. I'm getting an issue on my phone
 // When this code is in use
-//Stops the timer warning on Android. 
-//This is a known problem with Expo but they haven't reached any resolution at this time.
+// Stops the timer warning on Android.
+// This is a known problem with Expo but they haven't reached any resolution at this time.
 // YellowBox.ignoreWarnings(['Setting a timer']);
 // const _console = _.clone(console);
 // console.warn = message => {
@@ -24,7 +23,6 @@
 
 // Boilerplate imports
 import React from 'react';
-import { YellowBox } from 'react-native';
 import { createSwitchNavigator } from 'react-navigation';
 
 // Needed for toast menu
@@ -40,17 +38,21 @@ import SignIn from './screens/SignIn.js';
 import SignUp from './screens/SignUpStackNav/index.js';
 import Main from './screens/MainTabNav/index.js';
 import Bar from './screens/BarStackNav/index.js';
+import Start from './screens/Start.js';
 
-const App = createSwitchNavigator({    
-  Auth: Auth,
-  SignIn: SignIn,
-  SignUp: SignUp,
-  Main: Main,
-  Bar: Bar,
-}, 
-{
-  initialRouteName: 'Auth' 
-});
+const App = createSwitchNavigator(
+  {
+    Auth,
+    SignIn,
+    SignUp,
+    Main,
+    Bar,
+    Start,
+  },
+  {
+    initialRouteName: 'Auth',
+  },
+);
 
 // create store for redux
 const store = configureStore();
@@ -58,7 +60,7 @@ const store = configureStore();
 export default () => (
   <Provider store={store}>
     <Root>
-      <App/>
+      <App />
     </Root>
   </Provider>
-)
+);

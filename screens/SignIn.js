@@ -8,6 +8,7 @@ import {
     StyleSheet,
     AsyncStorage,
     Text,
+    TextInput,
 } from 'react-native';
 
 import AuthLoadingScreen from '../components/Auth.js';
@@ -63,112 +64,168 @@ class SignInScreen extends React.Component {
 
     render(){
         return(
-            <StyleProvider style={getTheme(Common)}>
-                <Container>
-                <StatusBar barStyle="light-content" />
-                <Content scrollEnabled={false}>
-                    <LinearGradient style={styles.gradient} colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                    <Grid>
-                        {/* Houses the logo */}
-                        <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                        <Grid>
-                            
-                            <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}></Row>
-                            <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                            <Body>
-                                <Image
-                                style={styles.image}
-                                source={require('../assets/login/title_logo.png')}/>
-                            </Body>
-                            </Row>
-                        </Grid>
-                        </Row>
-
-                        
-                        <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                        <Form style={{width: Variables.deviceWidth, marginTop: 60}}>
-                            <Item floatingLabel underline last>
-                            <Label style={{paddingTop: 6}}>Username</Label>
-                            <Input value={this.state.email}
-                                    onChangeText={email => this.setState({email})}/>
-                            </Item>
-                            <Item floatingLabel last>
-                            <Label>Password</Label>
-                            <Input secureTextEntry
-                                    value={this.state.password}
-                                    onChangeText={password => this.setState({password})}/>
-                            </Item>
-                        </Form>
-                        </Row>
-
-                        <Row style={{backgroundColor: 'rgba(52, 52, 52, 0.0)'}} size={1}>
-                            <Button rounded style={{width: 150, backgroundColor: '#100D64', alignItems: 'center', justifyContent: 'center', marginLeft: (Variables.deviceWidth / 2) - (150 / 2) }} onPress={this._signInAsync.bind(this)}>
-                                <Text style={styles.text}>Sign In</Text>
-                            </Button>
-                        <View style={styles.footer}>
-                            <Text style={styles.footerText}>Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => {this.props.navigation.navigate('p1')}}>
-                                <Text style={styles.signUpButton}>Sign Up.</Text>
-                            </TouchableOpacity>
-                        </View>
-                        </Row>
-                            </Grid>
-                        </LinearGradient>
-                    </Content>
-                </Container>
-            </StyleProvider>
+            <View>
+            <StatusBar barStyle="light-content"/>
+            <LinearGradient
+              style={styles.gradient}
+              colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
+            >
+              <Image
+                source={require("../assets/global/logo_final.png")}
+                style={styles.logo}
+              />
+              <Text style={styles.title}>BarMate</Text>
+              <View style={styles.emailInputWrapper}>
+                <Image
+                  style={styles.textboxImage}
+                  source={require("../assets/signup/email_text_box.png")}
+                />
+                <TextInput
+                  style={styles.email}
+                  autoFocus={false}
+                  placeholder={"Email"}
+                  placeholderTextColor={"#000000"}
+                  value={this.state.email}
+                  onChangeText={email => this.setState({email: email})}/>
+                />
+              </View>
+              <View style={styles.passwordInputWrapper}>
+                <Image
+                  style={styles.textboxImage}
+                  source={require("../assets/signup/password_text_box.png")}
+                />
+                <TextInput
+                  style={styles.password}
+                  autoFocus={false}
+                  placeholder={"Password"}
+                  placeholderTextColor={"#000000"}
+                  value={this.state.password}
+                  onChangeText={password => this.setState({password: password})}/>
+                />
+              </View>
+              <Text style={styles.passwordRequirementText}>Forgot your password?</Text>
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => {this._signInAsync()}}>
+                  <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.backButtonContainer} onPress={() => {this.props.navigation.navigate('SignUp')}}>
+                  <Text style={styles.backButtonText}>Don't have an account? Sign up.</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
         )
     }
 }
+
 const styles = StyleSheet.create({
-    container: {
-      backgroundColor: '#fff',
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
     gradient: {
       width: Variables.deviceWidth,
-      height: Variables.deviceHeight,
+      height: Variables.deviceHeight
     },
-    text: {
-      fontSize: 20,
-      color: '#FFFFFF'
+    logo: {
+      alignSelf: "center",
+      width: 150,
+      height: 160,
+      marginTop: 150,
+      marginBottom: 5,
+      marginRight: 10,
     },
-    image: {
+    title: { 
+      alignSelf: 'center',
+      fontFamily: "HkGrotesk_Bold",
+      fontSize: 30,
+      color: "#ffffff",
+      marginBottom: 25
+    },
+    buttonContainer: {
+      alignSelf: 'center',
+      backgroundColor: '#3999c9',
+      width: 220,
+      height: 60,
+      marginTop: 80,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    backButtonContainer: {
+      alignSelf: 'center',
+      width: 220,
       marginTop: 10,
-      width: 120,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    backButtonText: {
+      fontFamily: "HkGrotesk_Light",
+      fontSize: 15,
+      color: "#ffffff"
+    },    
+    glyph: {
+      width: 100,
       height: 100,
+      marginLeft: 30
     },
-    footer: {
-      marginTop: 10,
+    buttonText: {
+      fontFamily: "HkGrotesk_Bold",
+      fontSize: 25,
+      color: "#ffffff"
+    },
+    cancel: {
+      fontFamily: "HkGrotesk_Light",
+      fontSize: 20,
+      alignSelf: "center",
+      marginTop: 75,
+      color: "white"
+    },
+    email: {
+      paddingLeft: 10,
       flex: 1,
-      flexDirection: 'row',
-      position: 'absolute',
-      bottom: 0,
-      width: Variables.deviceWidth,
-      height: 65,
-      backgroundColor: 'rgba(52, 52, 52, 0.0)',
+      backgroundColor: "#ffffff",
+      height: 50,
+      fontFamily: 'HkGrotesk_Italic',
+      fontSize: 20,
     },
-    footerText: {
-      paddingTop: 10,
-      paddingLeft: 110,
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: '#536497',
-      fontSize: 10,
-      // borderColor: '#FFFFFF',   Used for testing
-      // borderWidth: 1,
+    password: {
+      paddingLeft: 10,
+      flex: 1,
+      backgroundColor: "#ffffff",
+      height: 50,
+      fontFamily: 'HkGrotesk_Italic',
+      fontSize: 20,
     },
-    signUpButton: {
-      paddingTop: 10,
-      color: '#FFFFFF',
-      justifyContent: 'center',
-      alignItems: 'center',
-      fontSize: 10,
-      // borderColor: '#FFFFFF',    Used for testing
-      // borderWidth: 1,
+    passwordRequirementText: {
+        fontFamily: 'HkGrotesk_Light',
+        fontSize: 13,
+        color: '#ffffff',
+        marginLeft: 30,
+    },
+    textboxImage: {
+      padding: 10,
+      width: 50,
+      height: 50
+    },
+    emailInputWrapper: {
+      width: Variables.deviceWidth - 50,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      alignSelf: 'center',
+      backgroundColor: "#ffffff",
+      flexDirection: "row",
+      borderRadius: 15,
+      marginTop: 40,
+      marginBottom: 10,
+    },
+    passwordInputWrapper: {
+      width: Variables.deviceWidth - 50,
+      padding: 5,
+      justifyContent: "center",
+      alignItems: "center",
+      alignSelf: 'center',
+      backgroundColor: "#ffffff",
+      flexDirection: "row",
+      borderRadius: 15,
+      marginBottom: 5,
     },
   });
+  
 
   export default SignInScreen;

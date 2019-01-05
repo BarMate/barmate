@@ -2,20 +2,22 @@
     Index file for Sign up stack navigator
 */
 
-import ChooseBioScreen from './ChooseBio'
-import ChooseNameScreen from './ChooseName'
-import ChooseProfilePictureScreen from './ChooseProfilePicture'
-import ChooseSignUpMethodScreen from './ChooseSignUpMethod'
-import ChooseEtcScreen from './ChooseEtc'
+import ChooseSignUpMethod from './ChooseSignUpMethod'
+import ChooseEmailAndPassword from './ChooseEmailAndPassword'
+import ChooseNameAndHandle from './ChooseNameAndHandle'
+import ChooseBioAndProfilePicture from './ChooseBioAndProfilePicture'
+import ChooseFinalDetails from './ChooseFinalDetails'
+import ConfirmAccount from './ConfirmAccount'
 
 import { createStackNavigator } from 'react-navigation';
 
 const SignUpStackContainer = createStackNavigator({
-    SignUp: ChooseSignUpMethodScreen,
-    Bio: ChooseBioScreen,
-    Name: ChooseNameScreen,
-    Picture: ChooseProfilePictureScreen,
-    Etc: ChooseEtcScreen,
-}, { initialRouteName: 'SignUp', headerMode: 'none' });
+    ChooseSignUp: ChooseSignUpMethod,
+    ChooseEP: ChooseEmailAndPassword,
+    ChooseNH: ChooseNameAndHandle,
+    ChooseBP: ChooseBioAndProfilePicture,
+    ChooseFinal: ChooseFinalDetails,
+    Confirm: ConfirmAccount,
+}, { initialRouteName: 'ChooseSignUp', headerMode: 'none' });
 
 export default SignUpStackContainer;

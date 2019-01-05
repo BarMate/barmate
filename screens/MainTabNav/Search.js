@@ -12,7 +12,7 @@ import MapView, { Marker, Circle, AnimatedRegion } from "react-native-maps";
 import Variables from "../../config/Variables.js";
 import { Constants, Location, Permissions } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-import Bar from "../../components/Bar.js";
+import SearchBar from "../../components/BarComponent/MapBar";
 import {
   Container,
   Header,
@@ -245,7 +245,7 @@ export default class Search extends Component {
                   name={this.state.selectedMarker.name}
                   rating={this.state.selectedMarker.rating}
                   open={this.state.selectedMarker.open}
-                  barID={this.state.selectedMarker}/>
+                  barID={this.state.selectedMarker.key}/>
               </SafeAreaView>
             </Modal>
             <View style={styles.container}>

@@ -40,10 +40,8 @@ class AuthLoadingScreen extends React.Component {
         HkGrotesk_Light: require("../assets/fonts/HkGrotesk/HkGrotesk-Light.ttf"),
         HkGrotesk_LightItalic: require("../assets/fonts/HkGrotesk/HkGrotesk-LightItalic.ttf"),
       }).then(async response => {
-        const userToken = await AsyncStorage.getItem("userToken");
-
         firebase.auth().onAuthStateChanged(userToken => {
-          this.props.navigation.navigate(userToken ? "Main" : "SignIn");
+          this.props.navigation.navigate(userToken ? "Main" : "Start");
         });
       });
     } catch (error) {
@@ -58,7 +56,7 @@ class AuthLoadingScreen extends React.Component {
           backgroundColor: "#fff",
           flex: 1,
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
         }}>
         <ActivityIndicator/>
         <StatusBar barStyle="light-content"/>

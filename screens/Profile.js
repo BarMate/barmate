@@ -8,17 +8,9 @@
     All rights reserved.
 */
 
-
 // Imports
-import React from 'react';
-import {
-    AsyncStorage,
-    StyleSheet,
-    Dimensions,
-} from 'react-native';
-
-import Profile from '../components/Profile.js';   // Profile Component
-
+import React from "react";
+import { AsyncStorage, StyleSheet, Dimensions } from "react-native";
 
 class ProfileScreen extends React.Component {
     render() {
