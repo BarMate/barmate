@@ -158,34 +158,6 @@ class Bar extends React.Component {
     }
   }
 
-  _addBarToUserHome(barID) {
-    
-    let uid = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${uid}/bars/`);
-    let barsDB = firebase.database().ref(`bars/`);
-    let newChildRef = bars.push();
-
-    bars.once("value", (snapshot) => {
-      snapshot.forEach((child) => {
-        // Does the user have bar key reference inside bars branch of db?
-        // Child.val() = Bar Key reference
-        // If the bar we are trying to add is the current looked at bar in db
-        console.log(`BarID: ${barID}`)
-        console.log(`child.val(): ${child.val()}`)
-
-        if(barID == child.val()) { 
-          console.log(`The Bar you are trying to add has already been added!`)
-        }
-        else {
-          console.log('Bar does not match key in database... going to next value...')
-        }
-      })
-    })
-      // Insert currently selected bars key into the users bar list
-      //firebase.database().ref(`users/${uid}/bars/${newChildRef.key}`).set(barID)
-    
-  }
-
   _renderMapButton() {
     let barID = this.props.barID;
     if (this.props.isMapComponent) {
@@ -202,6 +174,38 @@ class Bar extends React.Component {
     }
   }
 
+  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
+  // _addBarToUserHome = async barID => {
+  //   let key = barID.key;
+  //   let userID = firebase.auth().currentUser.uid;
+  //   let bars = firebase.database().ref(`users/${userID}/bars/`); 
+  //   let newChildRef = bars.push();
+  //   if (userID) {
+
+  //     firebase 
+  //     .database()
+  //     .ref('bars')
+  //     .orderByChild('key')
+  //     .equalTo(key)
+  //     .once("value", function(snapshot){
+  //       if(snapshot.val() === null){
+  //         console.log("Data is undefined, adding bar to database...");
+  //           firebase
+  //             .database()
+  //             .ref(`bars/${newChildRef.key}`)
+  //             .update(barID);
+  //         } else {
+  //           console.log("Data has been found in database, continuing...");
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log("error: ", error);
+  //       });
+  //   }
+  // }
+  
+    
+  
   _addBarToUserHome = async barID => {
     let key = barID.key;
     let userID = firebase.auth().currentUser.uid;

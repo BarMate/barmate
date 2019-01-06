@@ -147,7 +147,7 @@ class ChooseNameAndHandle extends Component {
   render() {
     return (
       <ScrollView scrollEnabled={false}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="light-content" /> 
         <Modal
           animationType="slide"
           transparent={false}
@@ -225,6 +225,7 @@ class ChooseNameAndHandle extends Component {
               style={{width: Variables.deviceWidth, height: 300, position: 'absolute', bottom: 0, backgroundColor: COLORS.GRADIENT_COLOR_2}}
               onValueChange={(itemValue, itemIndex) => this.setState({favoriteColor: itemValue})}>
               <Picker.Item label="Red" value="Red" />
+              <Picker.Item label="Orange" value="Orange" />
               <Picker.Item label="Blue" value="Blue" />
               <Picker.Item label="Green" value="Green" />
               <Picker.Item label="Pink" value="Pink" />

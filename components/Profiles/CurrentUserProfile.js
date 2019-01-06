@@ -64,6 +64,8 @@ class CurrentUserProfile extends React.Component {
         switch(color) {
             case 'Red':
                 return 'red'
+            case 'Orange':
+                return 'orange'
             case 'Blue':
                 return 'blue'
             case 'Green': 
@@ -86,6 +88,8 @@ class CurrentUserProfile extends React.Component {
         switch(color) {
             case 'Red':
                 return 'red'
+            case 'Orange':
+                return 'orange'
             case 'Blue':
                 return 'blue'
             case 'Green': 
@@ -241,7 +245,7 @@ class CurrentUserProfile extends React.Component {
     _signOutAsync = async () => {
         firebase.auth().signOut().then( () => {
              AsyncStorage.clear().then(async () => {
-                this.props.navigation.navigate('SignUp');
+                this.props.navigation.navigate('Start');
             }).catch(function(error){
                 console.log(error);
             })
@@ -262,7 +266,7 @@ class CurrentUserProfile extends React.Component {
                         <View style={styles.header}>
                             <Text style={styles.headerTitle}>Profile</Text>
                             <View style={styles.settings}>
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => this._signOutAsync()}>
                                     <Ionicons name={'md-settings'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
                                 </TouchableOpacity>
                             </View>
