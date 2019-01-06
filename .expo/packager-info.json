@@ -1,16 +1,9 @@
 {
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-<<<<<<< HEAD
-  "packagerPid": 12920,
-  "expoServerNgrokUrl": "https://t2-g8x.anonymous.yarnbarmate.exp.direct",
-  "packagerNgrokUrl": "https://packager.t2-g8x.anonymous.yarnbarmate.exp.direct",
-  "ngrokPid": 13756,
-=======
-  "packagerPid": 23005,
   "expoServerNgrokUrl": "https://9f-9jg.anonymous.barmate.exp.direct",
   "packagerNgrokUrl": "https://packager.9f-9jg.anonymous.barmate.exp.direct",
-  "ngrokPid": 23053,
->>>>>>> 73768931eefa113a1c78f09b78e582485dbb2455
-  "devToolsPort": 19002
+  "ngrokPid": 8632,
+  "devToolsPort": 19002,
+  "packagerPort": 19003,
+  "packagerPid": 8579
 }
