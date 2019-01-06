@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 15,
         justifyContent: 'flex-start',
-        marginTop: 50,
+        marginTop: 10,
     },
     name: {
         fontFamily: 'HkGrotesk_Bold',
