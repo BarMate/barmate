@@ -47,7 +47,7 @@ class Bar extends React.Component {
   _renderOpen() {
     let open = undefined;
     if(this.props.isMapComponent) {
-      open = this.props.open;
+      open = this.props.barID.open;
     }
     else {
       open = this.state.open;
@@ -68,10 +68,10 @@ class Bar extends React.Component {
   _renderPrice() {
     let price = undefined;
     if(this.props.isMapComponent) {
-      price = this.state.price;
+      price = this.props.barID.price;
     }
     else {
-      price = this.props.price;
+      price = this.state.price;
     }
     if(price)
     {
@@ -100,7 +100,7 @@ class Bar extends React.Component {
   _renderRating() {
     let rating = undefined;
     if(this.props.isMapComponent) {
-      rating = this.props.rating;
+      rating = this.props.barID.rating;
     }
     else {
       rating = this.state.rating;
@@ -158,33 +158,113 @@ class Bar extends React.Component {
     }
   }
 
-  _addBarToUserHome(barID) {
-    
-    let uid = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${uid}/bars/`);
-    let barsDB = firebase.database().ref(`bars/`);
-    let newChildRef = bars.push();
-
-    bars.once("value", (snapshot) => {
-      snapshot.forEach((child) => {
-        // Does the user have bar key reference inside bars branch of db?
-        // Child.val() = Bar Key reference
-        // If the bar we are trying to add is the current looked at bar in db
-        console.log(`BarID: ${barID}`)
-        console.log(`child.val(): ${child.val()}`)
-
-        if(barID == child.val()) { 
-          console.log(`The Bar you are trying to add has already been added!`)
-        }
-        else {
-          console.log('Bar does not match key in database... going to next value...')
-        }
-      })
-    })
-      // Insert currently selected bars key into the users bar list
-      //firebase.database().ref(`users/${uid}/bars/${newChildRef.key}`).set(barID)
-    
+  _renderMapButton() {
+    let barID = this.props.barID;
+    if (this.props.isMapComponent) {
+      return (
+        <Button
+          style={styles.button}
+          onPress={() => {
+            this._addBarToUserHome(barID);
+            alert('Bar added to HomeScreen!');
+          }}>
+          <Text style={{ fontSize: 25, color: "white" }}>Add to Home</Text>
+        </Button>
+      );
+    }
   }
+
+  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
+  // _addBarToUserHome = async barID => {
+  //   let key = barID.key;
+  //   let userID = firebase.auth().currentUser.uid;
+  //   let bars = firebase.database().ref(`users/${userID}/bars/`); 
+  //   let newChildRef = bars.push();
+  //   if (userID) {
+
+  //     firebase 
+  //     .database()
+  //     .ref('bars')
+  //     .orderByChild('key')
+  //     .equalTo(key)
+  //     .once("value", function(snapshot){
+  //       if(snapshot.val() === null){
+  //         console.log("Data is undefined, adding bar to database...");
+  //           firebase
+  //             .database()
+  //             .ref(`bars/${newChildRef.key}`)
+  //             .update(barID);
+  //         } else {
+  //           console.log("Data has been found in database, continuing...");
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log("error: ", error);
+  //       });
+  //   }
+  // }
+  
+    
+  
+  _addBarToUserHome = async barID => {
+    let key = barID.key;
+    let userID = firebase.auth().currentUser.uid;
+    let bars = firebase.database().ref(`users/${userID}/bars/`);    
+    let newChildRef = bars.push();
+    let length = 0;
+
+    if (userID) {
+
+      bars.once("value", (snapshot) => {
+        length = snapshot.numChildren()
+      })
+
+      //Adding bar from map to database
+      firebase
+        .database()
+        .ref(`bars/${newChildRef.key}`)
+        .once("value", function(snapshot) {
+        })
+        .then(data => {
+          if (data.val() === null) {
+            console.log("Data is undefined, adding bar to database...");
+            firebase
+              .database()
+              .ref(`bars/${newChildRef.key}`)
+              .update(barID);
+          } else {
+            console.log("Data has been found in database, continuing...");
+          }
+        })
+        .catch(error => {
+          console.log("error: ", error);
+        });
+
+      //Adding the bar to users home
+      firebase
+        .database()
+        .ref(`users/${userID}/bars/${newChildRef.key}`)
+        .once("value", function(snapshot) {
+          
+        })
+        .then(data => {
+          if (data.val() === null) {
+            console.log(
+              "User does not have bar in their home, continue adding bar..."
+            );
+            firebase
+              .database()
+              .ref(`users/${userID}/bars/${newChildRef.key}`)
+              .set(barID.key);
+          } else {
+            console.log("Data is already in users home! cannot add twice!");
+          }
+        })
+        .catch(error => {
+          console.log("error", error);
+        });
+    }
+  };
 
   render() {
     return (
@@ -193,12 +273,15 @@ class Bar extends React.Component {
           style={styles.gradient}
           colors={[COLORS.TRANSPARENT_COLOR, "rgba(0, 0, 0, 0.5)"]}>
           <View>
-            <Text style={styles.title}>{this.props.name ? this.props.name : 'Undefined'}</Text>
+            <Text style={styles.title}>{this.props.barID.name ? this.props.barID.name : 'Undefined'}</Text>
           </View>
           <View style={styles.footerText}>
             <Text style={styles.rating}>{this._renderRating()}</Text>
             <Text style={styles.price}> • {this._renderPrice()} • </Text>
             <Text style={styles.open}>{this._renderOpen()}</Text>
+          </View>
+          <View>
+            <Text style={styles.open}>{this._renderMapButton()}</Text>
           </View>
         </LinearGradient>
       </View>
@@ -207,18 +290,22 @@ class Bar extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: COLORS.TRANSPARENT_COLOR,
+    justifyContent: "center",
+    alignItems: "center",
+    width: Variables.deviceWidth - 50
+  },
   gradient: {
     width: Variables.deviceWidth - 50,
-    height: 450,
+    height: 500,
     borderRadius: 25,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
   },
   content: {
-    marginTop: 75,
-    marginBottom: 50,
     width: Variables.deviceWidth - 50,
-    height: 450,
+    height: 500,
     borderRadius: 25,
     backgroundColor: COLORS.GRADIENT_COLOR_1
   },
@@ -229,11 +316,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   rating: {
-    fontSize: 20,
     marginBottom: 20,
     marginLeft: 16,
-    color: 'white',
-    fontFamily: 'HkGrotesk_Light',
     width: 110,
     height: 20,
   },

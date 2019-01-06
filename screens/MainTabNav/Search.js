@@ -12,7 +12,7 @@ import MapView, { Marker, Circle, AnimatedRegion } from "react-native-maps";
 import Variables from "../../config/Variables.js";
 import { Constants, Location, Permissions } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-import SearchBar from "../../components/BarComponent/MapBar";
+import MapBar from "../../components/BarComponent/MapBar";
 import {
   Container,
   Header,
@@ -227,26 +227,22 @@ export default class Search extends Component {
             </Body>
             <Right style={{flex: 1}}/>
           </Header>
-
           <Content>
             <Modal
               animationType="fade"
               transparent={true}
               visible={this.state.modalVisible}
               backdropOpacity={0.5}>
-              <SafeAreaView style={styles.modal}>
-                <TouchableOpacity
+                <TouchableWithoutFeedback
                   style={{width: Variables.deviceWidth, height: Variables.deviceHeight}}
                   onPress={() => {
-                    this.setState({ modalVisible: false });
-                  }}/>
-                <Bar
-                  isMapComponent={true}
-                  name={this.state.selectedMarker.name}
-                  rating={this.state.selectedMarker.rating}
-                  open={this.state.selectedMarker.open}
-                  barID={this.state.selectedMarker.key}/>
-              </SafeAreaView>
+                    this.setState({ modalVisible: false });}}>
+                  <View style={styles.modal}>
+                    <MapBar
+                      isMapComponent={true}
+                      barID={this.state.selectedMarker}/>
+                  </View>
+                </TouchableWithoutFeedback>
             </Modal>
             <View style={styles.container}>
               <MapView
@@ -346,6 +342,6 @@ const styles = StyleSheet.create({
   modal: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   }
 });

@@ -96,6 +96,7 @@ class SignInScreen extends React.Component {
                 />
                 <TextInput
                   style={styles.password}
+                  secureTextEntry
                   autoFocus={false}
                   placeholder={"Password"}
                   placeholderTextColor={"#000000"}
