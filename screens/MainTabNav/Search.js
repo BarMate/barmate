@@ -5,9 +5,10 @@ import {
   Modal,
   TouchableOpacity,
   SafeAreaView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  FlatList
 } from "react-native";
-
+import { ListItem } from 'react-native-elements';
 import MapView, { Marker, Circle, AnimatedRegion } from "react-native-maps";
 import Variables from "../../config/Variables.js";
 import { Constants, Location, Permissions } from "expo";
@@ -24,11 +25,14 @@ import {
   Icon,
   StyleProvider,
   Text,
-  Button
+  Button,
+  Item,
+  Input
 } from "native-base";
 import getTheme from "../../native-base-theme/components/index.js";
 import Common from "../../native-base-theme/variables/commonColor.js";
 import firebase from "../../config/Firebase.js";
+import SearchBar from "react-native-search-bar";
 
 console.disableYellowBox = true;
 
@@ -58,7 +62,10 @@ export default class Search extends Component {
       locationResult: null,
       barMarkers: [],
       clubMarkers: [],
-      modalVisible: false
+      modalVisible: false,
+      search: "",
+      searchData: [],
+      searchActive: false
     };
   }
 
@@ -205,7 +212,7 @@ export default class Search extends Component {
           });
       },
       error => this.setState({ ...this.state, error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 } 
     );
   }
 
@@ -216,16 +223,80 @@ export default class Search extends Component {
     this.fetchMarkerData().then(() => {this.forceUpdate();})
   };
 
+  fetchSearchData(input) {
+    API_KEY = "AIzaSyCskpsQ0KdNBrxUaxDcp57PndW6xMRHOWY";
+    if(input === ""){
+      this.setState({searchActive: false});
+    }
+    else{
+      this.setState({searchActive: true});
+    }
+
+    //console.log("Input string: ", input)
+
+    //===============================================
+    // Create url that will retrieve data for
+    // bars that are searched
+    //===============================================
+
+    const searchUrl = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+    + input + "&type=bar" 
+    + "&key=" + API_KEY;
+
+    var searchResultsArr = [];
+
+    //console.log("SearchUrl: ", searchUrl);
+    
+    //Retrieve the data from the url search and put into array
+    fetch(searchUrl)
+    .then(data => data.json())
+    .then(res => {
+      this.setState({searchData: res.results});
+    });
+  }
+
   render() {
+    if(this.state.searchActive === true){
+      return (
+        <StyleProvider style={getTheme(Common)}>
+          <Container>
+            <Header searchBar rounded>
+              <Item>
+                <Icon name="ios-wine" style={{color: '#FFFFFF'}}/>
+                <Input placeholder="Search" onChangeText={(text) => this.setState({search: text})/*this.fetchSearchData(text)*/}/>
+                <TouchableOpacity onPress={() => this.fetchSearchData(this.state.search)} >
+                  <Icon name="ios-search" style={{color: '#FFFFFF'}}/>
+                </TouchableOpacity>
+              </Item>
+            </Header>
+            <View style={styles.container}>
+              <FlatList
+                data={this.state.searchData}
+                keyExtractor={item => item.name}
+                renderItem={({ item }) => (
+                  <ListItem
+                    title={item.name}
+                    subtitle={item.formatted_address}/>
+                )}>
+              </FlatList>
+            </View>
+          </Container>
+        </StyleProvider>
+      );
+    }
+    else
+{
     return (
       <StyleProvider style={getTheme(Common)}>
         <Container>
-          <Header>
-            <Left style={{flex: 1}} />
-            <Body style={{flex: 3, justifyContent: 'center',}}>
-              <Title style={{alignSelf: 'center'}}>Search</Title>
-            </Body>
-            <Right style={{flex: 1}}/>
+          <Header searchBar rounded>
+            <Item>
+              <Icon name="ios-wine" style={{color: '#FFFFFF'}}/>
+              <Input placeholder="Search" onChangeText={(text) => this.setState({search: text})/*this.fetchSearchData(text)*/}/>
+              <TouchableOpacity onPress={() => this.fetchSearchData(this.state.search)} >
+                <Icon name="ios-search" style={{color: '#FFFFFF'}}/>
+              </TouchableOpacity>
+            </Item>
           </Header>
           <Content>
             <Modal
@@ -324,6 +395,7 @@ export default class Search extends Component {
         </Container>
       </StyleProvider>
     );
+}
   }
 }
 

@@ -10,7 +10,7 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
-
+import DeleteAlert from '../Delete.js';
 import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
 
@@ -117,6 +117,7 @@ const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
     Friends: Friends,
+    Delete: DeleteAlert,
 },
 {
     drawerType: 'slide',
