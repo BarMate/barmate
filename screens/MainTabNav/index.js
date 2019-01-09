@@ -11,8 +11,8 @@ import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
 
-import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
-import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
+import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
+import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 
 import Friends from '../Friends'
 
@@ -21,6 +21,7 @@ import CustomDrawer from '../../components/CustomDrawer'
 
 import { TouchableOpacity, Text, Image } from 'react-native'
 import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
+import CustomIcon from '../../components/CustomIcon'
 
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
@@ -38,12 +39,7 @@ const homeStackContainer = createStackNavigator({
             <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
                 <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
             </TouchableOpacity>) : '',
-        headerLeft: navigation.state.routeName === 'Home' ? (<TouchableOpacity onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}>
-                                                                <Image 
-                                                                    style={{marginLeft: 10, width: 30, height: 30}}
-                                                                    source={require('../../assets/login/defaultProfilePicture.png')}
-                                                                />  
-                                                            </TouchableOpacity>) : '',
+        headerLeft: navigation.state.routeName === 'Home' ? (<CustomIcon />) : '',
         headerStyle: {
           backgroundColor: 'rgba(16, 13, 100, 1)',
         },

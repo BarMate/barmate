@@ -15,7 +15,7 @@ import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
 import { LinearGradient } from "expo";
 import { connect } from "react-redux";
-import { sendEmail, sendPassword } from "../../redux/actions.js";
+import { sendEmail, sendPassword } from "../../redux/actions/SignUpActions";
 import firebase from "../../config/Firebase.js";
 import Expo from "expo";
 import { Toast } from 'native-base';

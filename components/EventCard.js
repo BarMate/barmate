@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import COLORS from '../config/Colors.js'
 import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux';
-import { sendCardObject } from '../redux/actions'
+import { sendCardObject } from '../redux/actions/PlansActions'
 
 /*
     This component returns an Event card seen from the friend's screen (Friends.js)

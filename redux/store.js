@@ -8,7 +8,7 @@
     All rights reserved
 */
 
-import reducer from './reducers';
+import reducer from './reducersIndex';
 import { createStore } from 'redux';
 
 export default function configureStore() {

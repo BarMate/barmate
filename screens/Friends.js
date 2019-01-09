@@ -36,7 +36,7 @@ import {LinearGradient} from 'expo'
 import Variables from '../config/Variables';
 import COLORS from '../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
-import { pushFriendsList, selectProfile, eraseFriendsList, refreshFriendsList, selectMessageProfile, updateFriendCount } from '../redux/actions'
+import { pushFriendsList, selectProfile, eraseFriendsList, refreshFriendsList, selectMessageProfile, updateFriendCount } from '../redux/actions/FriendsActions'
 import FriendsCard from '../components/FriendsCard'
 
 import { connect } from 'react-redux';

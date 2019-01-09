@@ -13,7 +13,7 @@ import {
 import { ParallaxSwiper, ParallaxSwiperPage } from 'react-native-parallax-swiper';
 import { LinearGradient } from 'expo';
 import { connect } from 'react-redux';
-import { setModalVisible } from '../redux/actions';
+import { setModalVisible } from '../redux/actions/SignUpActions';
 
 import Variables from '../config/Variables';
 import COLORS from '../config/Colors';

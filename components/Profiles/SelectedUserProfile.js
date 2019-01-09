@@ -38,7 +38,7 @@ import COLORS from '../../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from 'react-redux';
-import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions.js';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions/CurrentUserProfileActions';
 
 class CurrentUserProfile extends React.Component {
 
