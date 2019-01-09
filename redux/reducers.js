@@ -72,6 +72,11 @@ const initialState_signUp = {
     favoriteColor: '',
 }
 
+const initialState_signIn = {
+    username: '',
+    password: '',
+}
+
 const initialState_friends = {
     friends: [],
     selectedProfileData: {},
@@ -103,6 +108,23 @@ const homeReducer = (state = initialState_home, action) => {
                 refreshing: action.payload,
             }
         default:
+            return state;
+    }
+}
+
+const signInReducer = (state = initialState_signIn, action) => {
+    switch(action.type) {
+        case 'SEND_EMAIL_STATE':
+            return {
+                ...state,
+                username: action.payload,
+            }
+        case 'SEND_PASSWORD_STATE':
+            return {
+                ...state,
+                password: action.payload,
+            }
+        default: 
             return state;
     }
 }
@@ -318,5 +340,6 @@ export default combineReducers({
     plansReducer,
     signUpReducer,
     friendsReducer,
+    signInReducer,
 });
 

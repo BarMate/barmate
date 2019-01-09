@@ -118,18 +118,18 @@ class Friends extends React.Component {
                             </View>
                         </View>
                         <View style={styles.flatlist}>
-                        <FlatList
-                            refreshControl={
-                            <RefreshControl
-                                refreshing={this.props.refreshing}
-                                onRefresh={() => {this._refreshing()}}
+                            <FlatList
+                                refreshControl={
+                                <RefreshControl
+                                    refreshing={this.props.refreshing}
+                                    onRefresh={() => {this._refreshing()}}
+                                />
+                                }
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={styles.contentContainerStyle}
+                                data={this.props.friends}
+                                renderItem={({item}) => <FriendsCard key={item.name} name={item.name} />}
                             />
-                            }
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={styles.contentContainerStyle}
-                            data={this.props.friends}
-                            renderItem={({item}) => <FriendsCard key={item.name} name={item.name} />}
-                        />
                         </View>
                     </SafeAreaView>
                 </LinearGradient>
@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
         paddingBottom: 500, 
     },
     flatlist: {
-        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
     },

@@ -23,7 +23,7 @@
 
 // Boilerplate imports
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
 // Needed for toast menu
 import { Root } from 'native-base';
@@ -54,13 +54,16 @@ const App = createSwitchNavigator(
   },
 );
 
+const AppContainer = createAppContainer(App);
+
 // create store for redux
 const store = configureStore();
 
 export default () => (
   <Provider store={store}>
     <Root>
-      <App />
+      <AppContainer 
+      />
     </Root>
   </Provider>
 );

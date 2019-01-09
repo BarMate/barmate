@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons'
 
 class FriendsCard extends Component {
   render() {
-      console.log(`PROP: ${this.props.name}`)
     return (
         <TouchableOpacity style={styles.container}>
             <Image 

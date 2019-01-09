@@ -363,7 +363,7 @@ class CurrentUserProfile extends React.Component {
         let uid = firebase.auth().currentUser.uid;
         let profile = firebase.database().ref(`/users/${uid}`);
         console.log('My profile')
-        profile.once('value').then(snapshot => {
+        profile.on('value', snapshot => {
             snapshot.forEach((child) => {
                 switch(child.key) {
                     case 'name':

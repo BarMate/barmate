@@ -38,7 +38,7 @@
     "react-native-scripts": "^2.0.1",
     "react-native-sideswipe": "^1.4.2",
     "react-native-snap-carousel": "^3.7.5",
-    "react-navigation": "^2.18.3",
+    "react-navigation": "3.0.9",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1"
   },

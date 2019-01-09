@@ -17,6 +17,8 @@ import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
 import Friends from '../Friends'
 
 import COLORS from '../../config/Colors.js';
+import CustomDrawer from '../../components/CustomDrawer'
+
 import { TouchableOpacity, Text, Image } from 'react-native'
 import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
 
@@ -25,9 +27,12 @@ const homeStackContainer = createStackNavigator({
     BarDetails, BarDetails,
 },
 { 
+    gestureResponseDistance: {
+        horizontal: 1000,
+    },
     initialRouteName: 'Home', 
     headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: navigation.state.routeName === 'Home' ? (<Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Home</Text>) : '',
         headerRight: navigation.state.routeName === 'BarDetails' ? (
             <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
@@ -59,7 +64,7 @@ const plansStackContainer = createStackNavigator({
 { 
     initialRouteName: 'Plans', 
     headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: `Plans`,
         headerStyle: {
           backgroundColor: COLORS.HEADER_COLOR,
@@ -70,7 +75,6 @@ const plansStackContainer = createStackNavigator({
         },
         headerTintColor: '#fff',
         headerRight: (navigation.state.routeName == 'Plans' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
-        
     })
 });
 
@@ -82,7 +86,7 @@ const Main = createBottomTabNavigator(
     Message: MessageScreen,
 },
 {
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused }) => {
             const { routeName } = navigation.state;
             if(routeName === 'Home') {
@@ -120,9 +124,10 @@ const DrawerContainer = createDrawerNavigator({
 },
 {
     drawerType: 'slide',
-    drawerBackgroundColor: '#42137B',
+    contentComponent: CustomDrawer,
+    drawerBackgroundColor: '#302c9e',
     contentOptions: {
-        activeBackgroundColor: '#42137B'
+        activeBackgroundColor: '#302c9e'
     }
 })
 
