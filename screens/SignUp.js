@@ -50,9 +50,9 @@ export default class Signup_page1 extends React.Component {
 
     renderButtonOrLoading() {
         if (this.state.loading) {
-            return <Text>Loading...</Text>
+            return(<Text>Loading...</Text>);
         }
-        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text> </Button>;
+        return (<Button onPress={this.signUp.bind(this)} block light><Text>Sign up</Text></Button>);
     }
 
     render() {
@@ -84,9 +84,7 @@ export default class Signup_page1 extends React.Component {
                         <Row style={{backgroundColor: '#3F51B5'}}>
                             <Body>
                                 {this.renderButtonOrLoading()}
-                                <Button onPress={() => {this.props.navigation.navigate('SignIn')}}>
-                                    <Text>Page 2</Text>
-                                </Button>
+                                <Button onPress={() => {this.props.navigation.navigate('SignIn')}}><Text>Page 2</Text></Button>
                             </Body>
                         </Row>
                     </Grid>
@@ -104,9 +102,7 @@ export class Signup_page2 extends React.Component {
         headerVisible: false,
     };
     render() {
-        return(
-            <Text>page2</Text>
-        );
+        return(<Text>page2</Text>);
     }
 };
 export class Signup_page3 extends React.Component {
@@ -116,9 +112,7 @@ export class Signup_page3 extends React.Component {
         headerVisible: false,
     };
     render() {
-        return(
-            <Text>page3</Text>
-        );
+        return(<Text>page3</Text>);
     }
 };
 export class Signup_page4 extends React.Component {
@@ -128,9 +122,7 @@ export class Signup_page4 extends React.Component {
         headerVisible: false,
     };
     render() {
-        return(
-            <Text>page4</Text>
-        );
+        return(<Text>page4</Text>);
     }
 };
 export class Signup_page5 extends React.Component {
@@ -140,9 +132,7 @@ export class Signup_page5 extends React.Component {
         headerVisible: false,
     };
     render() {
-        return(
-            <Text>page5</Text>
-        );
+        return(<Text>page5</Text>);
     }
 };
 export class Signup_page6 extends React.Component {
@@ -152,8 +142,6 @@ export class Signup_page6 extends React.Component {
         headerVisible: false,
     };
     render() {
-        return(
-            <Text>page6</Text>
-        );
+        return(<Text>page6</Text>);
     }
 };

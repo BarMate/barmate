@@ -516,12 +516,11 @@ class CurrentUserProfile extends React.Component {
                                     this.props.picture === '' ? 
                                     <Image 
                                         style={styles.profilePicture}
-                                        source={require('../../assets/login/defaultProfilePicture.png')}
-                                    /> :
+                                        source={require('../../assets/login/defaultProfilePicture.png')}/>
+                                      :
                                     <Image 
                                         style={styles.profilePicture}
-                                        source={{uri: this.props.picture}}
-                                    />  
+                                        source={{uri: this.props.picture}}/>
                                 }
                                 <Text style={styles.bio}>"{this.props.bio}"</Text>
                             </View>

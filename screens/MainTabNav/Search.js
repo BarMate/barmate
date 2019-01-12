@@ -263,7 +263,7 @@ export default class Search extends Component {
             <Header searchBar rounded>
               <Item>
                 <Icon name="ios-wine" style={{color: '#FFFFFF'}}/>
-                <Input placeholder="Search" onChangeText={(text) => this.setState({search: text})/*this.fetchSearchData(text)*/}/>
+                <Input placeholder="Search" onChangeText={(text) => this.setState({search: text})}/>
                 <TouchableOpacity onPress={() => this.fetchSearchData(this.state.search)} >
                   <Icon name="ios-search" style={{color: '#FFFFFF'}}/>
                 </TouchableOpacity>
@@ -292,7 +292,7 @@ export default class Search extends Component {
           <Header searchBar rounded>
             <Item>
               <Icon name="ios-wine" style={{color: '#FFFFFF'}}/>
-              <Input placeholder="Search" onChangeText={(text) => this.setState({search: text})/*this.fetchSearchData(text)*/}/>
+              <Input placeholder="Search" onChangeText={(text) => /*this.setState({search: text})*/this.fetchSearchData(text)}/>
               <TouchableOpacity onPress={() => this.fetchSearchData(this.state.search)} >
                 <Icon name="ios-search" style={{color: '#FFFFFF'}}/>
               </TouchableOpacity>
