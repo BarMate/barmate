@@ -178,10 +178,10 @@ class Bar extends React.Component {
   _addBarToUserHome = async barID => {
     let key = barID.key;
     let userID = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${userID}/bars/`); 
-    let newChildRef = bars.push();
-    if (userID) {
+    let barList = firebase.database().ref(`bars/`); 
+    let newBarChildRef = barList.push();
 
+    if (userID) {
       firebase 
       .database()
       .ref('bars')
@@ -192,7 +192,7 @@ class Bar extends React.Component {
           console.log("Data is undefined, adding bar to database...");
             firebase
               .database()
-              .ref(`bars/${newChildRef.key}`)
+              .ref(`bars/${newBarChildRef.key}`)
               .update(barID);
           } else {
             console.log("Data has been found in database, continuing...");
@@ -212,8 +212,8 @@ class Bar extends React.Component {
           console.log("User does not have bar in their home, continue adding bar...");
             firebase
               .database()
-              .ref(`users/${userID}/bars/${newChildRef.key}`)
-              .update(barID);
+              .ref(`users/${userID}/bars/`)
+              .push(barID.key);
           } else {
             console.log("Data is already in users home! cannot add twice!");
           }
@@ -225,66 +225,7 @@ class Bar extends React.Component {
   }
   
     
-  
-  // _addBarToUserHome = async barID => {
-  //   let key = barID.key;
-  //   let userID = firebase.auth().currentUser.uid;
-  //   let bars = firebase.database().ref(`users/${userID}/bars/`);    
-  //   let newChildRef = bars.push();
-  //   let length = 0;
 
-  //   if (userID) {
-
-  //     bars.once("value", (snapshot) => {
-  //       length = snapshot.numChildren()
-  //     })
-
-  //     //Adding bar from map to database
-  //     firebase
-  //       .database()
-  //       .ref(`bars/${newChildRef.key}`)
-  //       .once("value", function(snapshot) {
-  //       })
-  //       .then(data => {
-  //         if (data.val() === null) {
-  //           console.log("Data is undefined, adding bar to database...");
-  //           firebase
-  //             .database()
-  //             .ref(`bars/${newChildRef.key}`)
-  //             .update(barID);
-  //         } else {
-  //           console.log("Data has been found in database, continuing...");
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log("error: ", error);
-  //       });
-
-  //     //Adding the bar to users home
-  //     firebase
-  //       .database()
-  //       .ref(`users/${userID}/bars/${newChildRef.key}`)
-  //       .once("value", function(snapshot) {
-          
-  //       })
-  //       .then(data => {
-  //         if (data.val() === null) {
-  //           console.log(
-  //             "User does not have bar in their home, continue adding bar..."
-  //           );
-  //           firebase
-  //             .database()
-  //             .ref(`users/${userID}/bars/${newChildRef.key}`)
-  //             .set(barID.key);
-  //         } else {
-  //           console.log("Data is already in users home! cannot add twice!");
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log("error", error);
-  //       });
-  //   }
-  // };
 
   render() {
     return (

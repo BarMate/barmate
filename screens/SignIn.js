@@ -116,7 +116,6 @@ class SignInScreen extends React.Component {
         )
     }
 }
-
 const styles = StyleSheet.create({
     gradient: {
       width: Variables.deviceWidth,
@@ -228,5 +227,4 @@ const styles = StyleSheet.create({
     },
   });
   
-
   export default SignInScreen;

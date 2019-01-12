@@ -13,7 +13,9 @@ import CardDetails from './PlansStackNav/CardDetails'
 import DeleteAlert from '../Delete.js';
 import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
-
+import EventLocationAndPrivacy from '../MainTabNav/PlansStackNav/EventCreationStackNav/EventLocationAndPrivacy.js'
+import InviteFriends from '../MainTabNav/PlansStackNav/EventCreationStackNav/InviteFriends.js'
+import TitleDateAndDescription from '../MainTabNav/PlansStackNav/EventCreationStackNav/TitleDateAndDescription.js'
 import Friends from '../Friends'
 
 import COLORS from '../../config/Colors.js';
@@ -50,17 +52,28 @@ const homeStackContainer = createStackNavigator({
     })
 });
 
+const EventCreationContainer = createStackNavigator({
+    TitleDateAndDescription: TitleDateAndDescription,
+    EventLocationAndPrivacy: EventLocationAndPrivacy,
+    InviteFriends: InviteFriends
+},
+{
+    initialRouteName: 'TitleDateAndDescription',
+    headerMode: 'null',
+    tabBarPosition: 'null',
+}); 
 
 const plansStackContainer = createStackNavigator({
     Plans: PlansScreen,
     SelectedProfile: SelectedUserProfileScreen,
-    CardDetails: CardDetails
+    CardDetails: CardDetails,
+    EventCreation: EventCreationContainer
 },
 { 
     initialRouteName: 'Plans', 
     headerMode: 'float',
     navigationOptions: ({ navigation }) => ({
-        headerTitle: `Plans`,
+        headerTitle: (navigation.state.routeName=='EventCreation' ? 'Create an Event' : 'Plans'),
         headerStyle: {
           backgroundColor: COLORS.HEADER_COLOR,
         },
@@ -69,7 +82,7 @@ const plansStackContainer = createStackNavigator({
           color: '#FFFFFF',
         },
         headerTintColor: '#fff',
-        headerRight: (navigation.state.routeName == 'Plans' ? <TouchableOpacity><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
+        headerRight: (navigation.state.routeName == 'Plans' ? <TouchableOpacity onPress={() => {navigation.navigate('EventCreation')}}><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
         
     })
 });

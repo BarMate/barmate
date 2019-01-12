@@ -201,6 +201,11 @@ const plansReducer = (state = initialState_plans, action) => {
                 ...state,
                 cardObject: action.payload,
             }
+        case 'SEND_EVENT_INFO':
+            return{
+                ...state,
+                planObject: action.payload
+            }
         default:
             return state;
     }

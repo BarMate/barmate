@@ -18,11 +18,19 @@ export function selectBar(data) {
     }
 }
 
-// listOfBars is an object containing all the bars of the user
+// Updates selected event card info
 export function sendCardObject(cardDataObject) {
     return {
         type: 'SEND_CARD_OBJECT',
         payload: cardDataObject,
+    }
+}
+
+// Updates info in a plan
+export function sendEventInfo(event) {
+    return {
+        type: 'SEND_EVENT_INFO',
+        payload: event,
     }
 }
 
