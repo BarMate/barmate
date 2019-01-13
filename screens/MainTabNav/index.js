@@ -14,8 +14,6 @@ import CardDetails from './PlansStackNav/CardDetails'
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 import DeleteAlert from '../Delete.js';
-import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
-import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
 import EventLocationAndPrivacy from '../MainTabNav/PlansStackNav/EventCreationStackNav/EventLocationAndPrivacy.js'
 import InviteFriends from '../MainTabNav/PlansStackNav/EventCreationStackNav/InviteFriends.js'
 import TitleDateAndDescription from '../MainTabNav/PlansStackNav/EventCreationStackNav/TitleDateAndDescription.js'
