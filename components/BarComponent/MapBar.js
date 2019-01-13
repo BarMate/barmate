@@ -174,7 +174,7 @@ class Bar extends React.Component {
     }
   }
 
- // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
+  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
   _addBarToUserHome = async barID => {
     let key = barID.key;
     let userID = firebase.auth().currentUser.uid;
@@ -187,8 +187,7 @@ class Bar extends React.Component {
       .ref('bars')
       .orderByChild('key')
       .equalTo(key)
-      .once("value", snapshot => {
-        console.log(`snapshot: ${JSON.stringify(snapshot.val())}`)
+      .once("value", snapshot =>{
         if(snapshot.val() === null){
           console.log("Data is undefined, adding bar to database...");
             firebase

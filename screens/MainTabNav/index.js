@@ -13,6 +13,7 @@ import CardDetails from './PlansStackNav/CardDetails'
 
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
+import DeleteAlert from '../Delete.js';
 
 import Friends from '../Friends'
 
@@ -117,6 +118,7 @@ const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
     Friends: Friends,
+    Delete: DeleteAlert,
 },
 {
     drawerType: 'slide',
