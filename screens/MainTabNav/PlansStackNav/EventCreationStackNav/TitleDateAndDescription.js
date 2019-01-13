@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, Keyboard} from 'react-native'
+import { Text, View, StyleSheet, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, ScrollView, StatusBar} from 'react-native'
 import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView, } from 'react-navigation';
@@ -9,7 +9,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { LinearGradient } from "expo";
 import { sendEventInfo } from '../../../../redux/actions/PlansActions'
 import firebase from '../../../../config/Firebase';
-
+import { ViewUtils } from 'react-navigation';
 class TitleDateAndDescription extends Component {
     constructor(props) {
         super(props) 
@@ -28,10 +28,10 @@ class TitleDateAndDescription extends Component {
         }
     }
 
-    _showDatePicker = () => {this.setState({ isDatePickerVisible: true }); Keyboard.dismiss();}
+    _showDatePicker = () => this.setState({ isDatePickerVisible: true });
     _hideDatePicker = () => this.setState({ isDatePickerVisible: false });
 
-    _showTimePicker = () => {this.setState({ isTimePickerVisible: true }); Keyboard.dismiss();}
+    _showTimePicker = () => this.setState({ isTimePickerVisible: true });
     _hideTimePicker = () => this.setState({ isTimePickerVisible: false });
 
     _handleDatePicked = (date) => {
@@ -162,7 +162,7 @@ class TitleDateAndDescription extends Component {
             this._displayToastToUser('noTime')
         }
         else if(Date.parse(this.getStartTime(this.state.selectedDateObject, this.state.time)) < Date.parse(new Date())){
-            console.log('Event Date has already happened');
+            console.log('Plan\'s Date has already happened');
             this._displayToastToUser('badTime');
         }
         else{
@@ -184,99 +184,106 @@ class TitleDateAndDescription extends Component {
 
     render() {
         return (
-            <SafeAreaView style={styles.safeAreaView}>
+            <ScrollView scrollEnabled={false}>
+                <StatusBar barStyle="light-content"/>
                 <LinearGradient
                     style={styles.gradient}
                     colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                    <KeyboardAvoidingView style={styles.eventInfoContainer} behavior="padding">
-                        <View style={styles.titleInputWrapper}>
-                            <Image
-                                style={styles.textboxImage}
-                                source={require("../../../../assets/signup/name_text_box.png")}
-                            />
-                            <TextInput
-                                ref={input => { this.handleInput = input}}
-                                style={styles.title}
-                                autoFocus={false}
-                                placeholder={"Event Title"}
-                                placeholderTextColor={"#000000"}
-                                value={this.state.name}
-                                returnKeyType={'next'}
-                                maxLength={140}
-                                keyboardAppearance={'dark'}
-                                onChangeText={data => { this.setState({title: data}); }}
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => { this.handleInput.focus(); }}
-                            />
-                        </View>
-                        <View style={styles.descriptionInputWrapper}>
-                            <Image
-                                style={styles.textboxImage}
-                                source={require("../../../../assets/signup/name_text_box.png")}
-                            />
-                            <TextInput
-                                ref={input => { this.handleInput = input}}
-                                style={styles.description}
-                                autoFocus={false}
-                                placeholder={"Description"}
-                                placeholderTextColor={"#000000"}
-                                value={this.state.description}
-                                multiline={true}
-                                maxLength={400}
-                                numberOfLines={8}
-                                keyboardAppearance={'dark'}
-                                onChangeText={data => { this.setState({description: data}); }}
-                                blurOnSubmit={false}
-                            />
-                        </View>
-                        <TouchableOpacity onPress={this._showDatePicker}>
+                    <SafeAreaView style={styles.rootContainer}>
+                        <View style={styles.titleAndDescription}>
                             <View style={styles.titleInputWrapper}>
                                 <Image
                                     style={styles.textboxImage}
-                                    source={require("../../../../assets/signup/age_text_box.png")}
+                                    source={require("../../../../assets/signup/name_text_box.png")}
                                 />
-                                <Text style={styles.date}>{this.state.month}/{this.state.date}/{this.state.year}</Text>
+                                <TextInput
+                                    ref={input => { this.handleInput = input}}
+                                    style={styles.title}
+                                    autoFocus={false}
+                                    placeholder={"What's the Plan?"}
+                                    placeholderTextColor={"#000000"}
+                                    value={this.state.name}
+                                    returnKeyType={'next'}
+                                    maxLength={140}
+                                    keyboardAppearance={'dark'}
+                                    onChangeText={data => { this.setState({title: data}); }}
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { this.handleInput.focus(); }}
+                                />
                             </View>
-                        </TouchableOpacity>
-                        <DateTimePicker 
-                            isVisible={this.state.isDatePickerVisible}
-                            onConfirm={this._handleDatePicked}
-                            onCancel={this._hideDatePicker}
-                            titleIOS={'Enter the Event Date'}
-                            minimumDate={new Date()}
-                        />
-                        <TouchableOpacity onPress={this._showTimePicker}>
-                            <View style={styles.titleInputWrapper}>
+                            <View style={styles.descriptionInputWrapper}>
                                 <Image
                                     style={styles.textboxImage}
-                                    source={require("../../../../assets/signup/age_text_box.png")}
+                                    source={require("../../../../assets/signup/name_text_box.png")}
                                 />
-                                <Text style={styles.date}>{this.state.time ==='' ? 'Start Time' : this.state.time.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'})}</Text>
+                                <TextInput
+                                    ref={input => { this.handleInput = input}}
+                                    style={styles.description}
+                                    autoFocus={false}
+                                    placeholder={"Add more info!"}
+                                    placeholderTextColor={"#000000"}
+                                    value={this.state.description}
+                                    multiline={true}
+                                    maxLength={400}
+                                    numberOfLines={8}
+                                    keyboardAppearance={'dark'}
+                                    onChangeText={data => { this.setState({description: data}); }}
+                                    blurOnSubmit={false}
+                                />
                             </View>
-                        </TouchableOpacity>
-                        <DateTimePicker 
-                            isVisible={this.state.isTimePickerVisible}
-                            mode={'time'}
-                            is24Hour={false}
-                            androidMode={"default"}
-                            onConfirm={this._handleTimePicked}
-                            onCancel={this._hideTimePicker}
-                            titleIOS={'Enter the Event\'s Start Time'}
-                        />
-                        <TouchableOpacity style={{flex:0.5}} onPress={() => {this._confirmDetails()}}>
-                            <View style={styles.buttonContainer}>
-                                <Text style={styles.buttonText}>Next</Text>
-                            </View>
-                        </TouchableOpacity>
-                        {/* To be removed */}
-                        <TouchableOpacity style={{flex:1}} onPress={() => {this.props.navigation.push('EventLocationAndPrivacy')}}>
-                            <View style={styles.buttonContainer}>
-                                <Text style={styles.buttonText}>ADMIN SKIP</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </KeyboardAvoidingView>                        
+                        </View>
+                        <View style={styles.dateAndTime}>
+                            <TouchableOpacity onPress={this._showDatePicker}>
+                                <View style={styles.titleInputWrapper}>
+                                    <Image
+                                        style={styles.textboxImage}
+                                        source={require("../../../../assets/signup/age_text_box.png")}
+                                    />
+                                    <Text style={styles.date}>{this.state.month}/{this.state.date}/{this.state.year}</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <DateTimePicker 
+                                isVisible={this.state.isDatePickerVisible}
+                                onConfirm={this._handleDatePicked}
+                                onCancel={this._hideDatePicker}
+                                titleIOS={'Enter your plan\'s date'}
+                                minimumDate={new Date()}
+                            />
+                            <TouchableOpacity onPress={this._showTimePicker}>
+                                <View style={styles.titleInputWrapper}>
+                                    <Image
+                                        style={styles.textboxImage}
+                                        source={require("../../../../assets/signup/age_text_box.png")}
+                                    />
+                                    <Text style={styles.date}>{this.state.time ==='' ? 'Start Time' : this.state.time.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'})}</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <DateTimePicker 
+                                isVisible={this.state.isTimePickerVisible}
+                                mode={'time'}
+                                is24Hour={false}
+                                androidMode={"default"}
+                                onConfirm={this._handleTimePicked}
+                                onCancel={this._hideTimePicker}
+                                titleIOS={'Enter your plan\'s Start Time'}
+                            />
+                        </View>
+                        <View style={styles.button}>
+                            <TouchableOpacity onPress={() => {this._confirmDetails()}}>
+                                <View style={styles.buttonContainer}>
+                                    <Text style={styles.buttonText}>Next</Text>
+                                </View>
+                            </TouchableOpacity>
+                            {/* To be removed */}
+                            <TouchableOpacity onPress={() => {this.props.navigation.push('EventLocationAndPrivacy')}}>
+                                <View style={styles.buttonContainer}>
+                                    <Text style={styles.buttonText}>ADMIN SKIP</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </SafeAreaView>                     
                 </LinearGradient>
-            </SafeAreaView>
+            </ScrollView>
         );
       }
 }
@@ -289,11 +296,22 @@ const styles = StyleSheet.create({
     safeAreaView: {
         flex:1,
     },
-    eventInfoContainer:{
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+    rootContainer: {
+        flex: 1
+    },
+    titleAndDescription: {
+        flex: 4.5,
+        justifyContent: 'center'
+    },
+    dateAndTime: {
+        flex: 2,
+        justifyContent: 'center',
+    },
+    button: {
+        flex: 3,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
     },
     titleInputWrapper: {
         width: Variables.deviceWidth - 50,
@@ -347,6 +365,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     buttonContainer: {
+        marginTop: 30,
         alignSelf: 'center',
         backgroundColor: '#3999c9',
         width: 220,

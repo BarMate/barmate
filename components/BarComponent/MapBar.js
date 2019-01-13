@@ -180,20 +180,21 @@ class Bar extends React.Component {
     let userID = firebase.auth().currentUser.uid;
     let barList = firebase.database().ref(`bars/`); 
     let newBarChildRef = barList.push();
+    //deletes the barID's key so it isn't stored inside an object with the same key
+    var barData = barID;
+    delete barData.key;
 
     if (userID) {
       firebase 
       .database()
-      .ref('bars')
-      .orderByChild('key')
-      .equalTo(key)
+      .ref('bars/')
       .once("value", snapshot =>{
-        if(snapshot.val() === null){
+        if(!snapshot.hasChild(key)){
           console.log("Data is undefined, adding bar to database...");
             firebase
               .database()
-              .ref(`bars/${newBarChildRef.key}`)
-              .update(barID);
+              .ref(`bars/${key}`)
+              .update(barData);
           } else {
             console.log("Data has been found in database, continuing...");
           }
@@ -205,15 +206,15 @@ class Bar extends React.Component {
       firebase 
       .database()
       .ref(`users/${userID}/bars`)
-      .orderByChild('key')
+      .orderByValue()
       .equalTo(key)
       .once("value", snapshot =>{
-        if(snapshot.val() === null){
+        if(!snapshot.exists()){
           console.log("User does not have bar in their home, continue adding bar...");
             firebase
               .database()
               .ref(`users/${userID}/bars/`)
-              .push(barID.key);
+              .push(key);
           } else {
             console.log("Data is already in users home! cannot add twice!");
           }

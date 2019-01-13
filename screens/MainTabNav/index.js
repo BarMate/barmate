@@ -61,8 +61,7 @@ const EventCreationContainer = createStackNavigator({
 },
 {
     initialRouteName: 'TitleDateAndDescription',
-    headerMode: 'null',
-    tabBarPosition: 'null',
+    headerMode: 'null'
 }); 
 
 const plansStackContainer = createStackNavigator({
@@ -119,6 +118,9 @@ const Main = createBottomTabNavigator(
         activeTintColor: 'white',
         inactiveTintColor: '#536497',
         showLabel: false,
+        safeAreaInset: {
+            bottom: 'never', top:'never'
+        },
         style: {
             backgroundColor: "#100D64"
         }

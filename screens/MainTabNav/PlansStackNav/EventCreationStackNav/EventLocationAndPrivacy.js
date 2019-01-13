@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, Picker} from 'react-native'
+import { Text, View, StyleSheet, FlatList } from 'react-native'
 import { Toast, ListItem } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView } from 'react-navigation';
@@ -14,26 +14,36 @@ class EventLocationAndPrivacy extends Component {
 	constructor(props) {
 		super(props) 
 		this.state = {
-			userBars: [],
+			userBarKeys: [],
+			userBarInfo: [],
 			privacySetting: ''
 		}
-		this.selectedSwitch = this.selectedSwitch.bind(this)
-		this.getBarsFromUser();
+		this.selectedSwitch = this.selectedSwitch.bind(this);
 	}
 
-	getBarsFromUser = () => {
-		let uid = firebase.auth().currentUser.uid;
+	componentDidMount() {
+		this.getUserBarsFromDB();
+	}
 
-        let usersRef = firebase.database().ref(`users/${uid}/bars`)
-        usersRef.once('value', snapshot => {
-            snapshot.forEach(child => {
-				console.log(child.val());
-                firebase.database().ref(`bars/`).orderByChild(`key`).equalTo(child.val()).on('value', bar => {
-					console.log(bar);
-					this.state.userBars.push(bar)
-                })
-            })
-        })
+	getUserBarsFromDB = () => {
+		let uid = firebase.auth().currentUser.uid;
+		let userBars = firebase.database().ref(`users/${uid}/bars`);
+		let publicBars = firebase.database().ref(`bars`);
+
+		userBars.on('value', snapshot => {
+			snapshot.forEach(userChild => {
+				publicBars.once('value', snapshot => {
+					snapshot.forEach(barChild => {
+						if(userChild.val() === barChild.key) {
+							//add key for flatlist reference
+							var barInfoWithKey = barChild.val();
+							barInfoWithKey.key = barChild.key;
+							this.state.userBarInfo.push(barInfoWithKey);							
+						}
+					})
+				})
+			})
+		})
 	}
 	selectedSwitch(setting){
 		this.setState({
@@ -47,7 +57,20 @@ class EventLocationAndPrivacy extends Component {
 				style={styles.gradient}
 				colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
 				<SafeAreaView style={styles.safeAreaView}>
-					<EventPrivacySwitch handler={this.selectedSwitch}/>
+					<View style={{alignItems: 'center'}}>
+						<EventPrivacySwitch handler={this.selectedSwitch}/>
+					</View>
+					<View>
+						<FlatList
+							style={{paddingTop: 20}}
+							data={this.state.userBarInfo}
+							renderItem={({ item }) => (
+								<View style={styles.flatListElement}>
+									<Text style={styles.flatListElementText}>{item.name}</Text>
+								</View>
+							)}
+						/>
+					</View>
 				</SafeAreaView>
 			</LinearGradient>
 		);
@@ -55,15 +78,39 @@ class EventLocationAndPrivacy extends Component {
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flatListElement: {
+		width: Variables.deviceWidth - 50,
+        padding: 5,
+        justifyContent: "center",
+        alignItems: "center",
+        alignSelf: 'center',
+        backgroundColor: "#ffffff",
+        flexDirection: "row",
+        borderRadius: 15,
+        marginTop: 5,
+        marginBottom: 20,
+	},
+	flatListElementText: {
+        paddingLeft: 10,
+        backgroundColor: "#ffffff",
+        height: 50,
+        fontFamily: 'HkGrotesk_Italic',
+        fontSize: 20,
+    },
 	gradient: {
 		width: Variables.deviceWidth,
 		height: Variables.deviceHeight
 	},
 	safeAreaView: {
 		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center'
-		
+		justifyContent: 'center',
+		paddingTop: 20,
+		paddingBottom: Variables.deviceHeight * 0.22
 	}
 });
 

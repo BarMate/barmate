@@ -61,7 +61,7 @@ class HomeScreen extends React.Component {
       snapshot.forEach(userChild => {
         publicBars.once('value', snapshot => {
           snapshot.forEach(barChild => {
-            if(userChild.val() === barChild.val().key) {
+            if(userChild.val() === barChild.key) {
               this.props.pushListData(barChild.val());
             }
           })
