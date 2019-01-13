@@ -8,13 +8,16 @@ import COLORS from '../../../../config/Colors.js'
 import { LinearGradient } from "expo";
 import { sendEventInfo } from '../../../../redux/actions'
 import firebase from '../../../../config/Firebase';
+import EventPrivacySwitch from '../../../../components/EventPrivacySwitch.js';
 
 class EventLocationAndPrivacy extends Component {
 	constructor(props) {
 		super(props) 
 		this.state = {
 			userBars: [],
+			privacySetting: ''
 		}
+		this.selectedSwitch = this.selectedSwitch.bind(this)
 		this.getBarsFromUser();
 	}
 
@@ -32,16 +35,21 @@ class EventLocationAndPrivacy extends Component {
             })
         })
 	}
-
+	selectedSwitch(setting){
+		this.setState({
+			privacySetting: setting
+		});
+		console.log(setting);
+	}
 	render() {
 		return (
-		<SafeAreaView style={styles.safeAreaView}>
 			<LinearGradient
 				style={styles.gradient}
 				colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-				
+				<SafeAreaView style={styles.safeAreaView}>
+					<EventPrivacySwitch handler={this.selectedSwitch}/>
+				</SafeAreaView>
 			</LinearGradient>
-		</SafeAreaView>
 		);
 	}
 }
@@ -52,9 +60,9 @@ const styles = StyleSheet.create({
 		height: Variables.deviceHeight
 	},
 	safeAreaView: {
-		flex:1,
 		flexDirection: 'column',
 		alignItems: 'center',
+		justifyContent: 'center'
 		
 	}
 });

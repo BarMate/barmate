@@ -102,7 +102,6 @@ class SignInScreen extends React.Component {
                   placeholderTextColor={"#000000"}
                   value={this.state.password}
                   onChangeText={password => this.setState({password: password})}/>
-                />
               </View>
               <Text style={styles.passwordRequirementText}>Forgot your password?</Text>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => {this._signInAsync()}}>
