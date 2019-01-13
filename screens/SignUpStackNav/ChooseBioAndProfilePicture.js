@@ -16,7 +16,7 @@ import Variables from "../../config/Variables";
 import COLORS from "../../config/Colors";
 import { LinearGradient } from "expo";
 import { connect } from "react-redux";
-import { sendProfilePicture, sendBio } from "../../redux/actions.js";
+import { sendProfilePicture, sendBio } from "../../redux/actions/SignUpActions"
 import firebase from "../../config/Firebase.js";
 import { Permissions, ImagePicker } from "expo";
 

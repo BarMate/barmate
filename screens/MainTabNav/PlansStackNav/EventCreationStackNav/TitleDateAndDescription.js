@@ -7,7 +7,7 @@ import Variables from "../../../../config/Variables.js";
 import COLORS from '../../../../config/Colors.js'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { LinearGradient } from "expo";
-import { sendEventInfo } from '../../../../redux/actions'
+import { sendEventInfo } from '../../../../redux/actions/PlansActions'
 import firebase from '../../../../config/Firebase';
 
 class TitleDateAndDescription extends Component {

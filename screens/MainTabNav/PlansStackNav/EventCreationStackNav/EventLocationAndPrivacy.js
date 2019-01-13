@@ -6,7 +6,7 @@ import { withNavigation, SafeAreaView } from 'react-navigation';
 import Variables from "../../../../config/Variables.js";
 import COLORS from '../../../../config/Colors.js'
 import { LinearGradient } from "expo";
-import { sendEventInfo } from '../../../../redux/actions'
+import { sendEventInfo } from '../../../../redux/actions/PlansActions'
 import firebase from '../../../../config/Firebase';
 import EventPrivacySwitch from '../../../../components/EventPrivacySwitch.js';
 

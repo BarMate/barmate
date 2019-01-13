@@ -19,7 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
 import { DrawerActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions.js';
+import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
 
@@ -57,7 +57,7 @@ class HomeScreen extends React.Component {
     let userBars = firebase.database().ref(`users/${uid}/bars`);
     let publicBars = firebase.database().ref(`bars`);
 
-    userBars.once('value', snapshot => {
+    userBars.on('value', snapshot => {
       snapshot.forEach(userChild => {
         publicBars.once('value', snapshot => {
           snapshot.forEach(barChild => {

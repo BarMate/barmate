@@ -10,6 +10,9 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
+
+import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
+import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 import DeleteAlert from '../Delete.js';
 import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
@@ -19,28 +22,29 @@ import TitleDateAndDescription from '../MainTabNav/PlansStackNav/EventCreationSt
 import Friends from '../Friends'
 
 import COLORS from '../../config/Colors.js';
+import CustomDrawer from '../../components/CustomDrawer'
+
 import { TouchableOpacity, Text, Image } from 'react-native'
 import { createBottomTabNavigator, createStackNavigator, createDrawerNavigator, withNavigation, DrawerActions  } from 'react-navigation';
+import CustomIcon from '../../components/CustomIcon'
 
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
     BarDetails, BarDetails,
 },
 { 
+    gestureResponseDistance: {
+        horizontal: 1000,
+    },
     initialRouteName: 'Home', 
     headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: navigation.state.routeName === 'Home' ? (<Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Home</Text>) : '',
         headerRight: navigation.state.routeName === 'BarDetails' ? (
             <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
                 <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
             </TouchableOpacity>) : '',
-        headerLeft: navigation.state.routeName === 'Home' ? (<TouchableOpacity onPress={() => {navigation.dispatch(DrawerActions.openDrawer())}}>
-                                                                <Image 
-                                                                    style={{marginLeft: 10, width: 30, height: 30}}
-                                                                    source={require('../../assets/login/defaultProfilePicture.png')}
-                                                                />  
-                                                            </TouchableOpacity>) : '',
+        headerLeft: navigation.state.routeName === 'Home' ? (<CustomIcon />) : '',
         headerStyle: {
           backgroundColor: 'rgba(16, 13, 100, 1)',
         },
@@ -72,7 +76,7 @@ const plansStackContainer = createStackNavigator({
 { 
     initialRouteName: 'Plans', 
     headerMode: 'float',
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: (navigation.state.routeName=='EventCreation' ? 'Create an Event' : 'Plans'),
         headerStyle: {
           backgroundColor: COLORS.HEADER_COLOR,
@@ -95,7 +99,7 @@ const Main = createBottomTabNavigator(
     Message: MessageScreen,
 },
 {
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
         tabBarIcon: ({ focused }) => {
             const { routeName } = navigation.state;
             if(routeName === 'Home') {
@@ -134,9 +138,10 @@ const DrawerContainer = createDrawerNavigator({
 },
 {
     drawerType: 'slide',
-    drawerBackgroundColor: '#42137B',
+    contentComponent: CustomDrawer,
+    drawerBackgroundColor: '#302c9e',
     contentOptions: {
-        activeBackgroundColor: '#42137B'
+        activeBackgroundColor: '#302c9e'
     }
 })
 

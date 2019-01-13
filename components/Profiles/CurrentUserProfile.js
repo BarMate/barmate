@@ -38,7 +38,7 @@ import COLORS from '../../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from 'react-redux';
-import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions.js';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions/CurrentUserProfileActions';
 
 class CurrentUserProfile extends React.Component {
 
@@ -363,7 +363,7 @@ class CurrentUserProfile extends React.Component {
         let uid = firebase.auth().currentUser.uid;
         let profile = firebase.database().ref(`/users/${uid}`);
         console.log('My profile')
-        profile.once('value').then(snapshot => {
+        profile.on('value', snapshot => {
             snapshot.forEach((child) => {
                 switch(child.key) {
                     case 'name':
@@ -502,10 +502,13 @@ class CurrentUserProfile extends React.Component {
                 >
                     <SafeAreaView>
                         <View style={styles.header}>
+                            <TouchableOpacity style={{paddingLeft: 15}} onPress={() => {this.props.navigation.openDrawer()}}>
+                                <Ionicons name={'ios-menu'} size={40} color={'#ffffff'}/>
+                            </TouchableOpacity>
                             <Text style={styles.headerTitle}>Profile</Text>
                             <View style={styles.settings}>
                                 <TouchableOpacity onPress={() => this._signOutAsync()}>
-                                    <Ionicons name={'md-settings'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
+                                    <Text style={[styles.headerTitle, {fontFamily: 'HkGrotesk_Medium', fontSize: 20,}]}>Edit</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -568,17 +571,17 @@ class CurrentUserProfile extends React.Component {
 
 // Extract data from store
 const mapStateToProps = state => ({
-    name: state.profileReducer.name,
-    bio: state.profileReducer.bio,
-    age: state.profileReducer.age,
-    handle: state.profileReducer.handle,
-    karma: state.profileReducer.karma,
-    modal: state.profileReducer.modal,
-    gender: state.profileReducer.gender,
-    interest: state.profileReducer.interest,
-    location: state.profileReducer.location,
-    color: state.profileReducer.color,
-    picture: state.profileReducer.picture,
+    name: state.currentProfileReducer.name,
+    bio: state.currentProfileReducer.bio,
+    age: state.currentProfileReducer.age,
+    handle: state.currentProfileReducer.handle,
+    karma: state.currentProfileReducer.karma,
+    modal: state.currentProfileReducer.modal,
+    gender: state.currentProfileReducer.gender,
+    interest: state.currentProfileReducer.interest,
+    location: state.currentProfileReducer.location,
+    color: state.currentProfileReducer.color,
+    picture: state.currentProfileReducer.picture,
 })
   
 // Dispatch data to store

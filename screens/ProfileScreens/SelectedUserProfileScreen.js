@@ -11,7 +11,7 @@
 // Imports
 import React from "react";
 import { AsyncStorage, StyleSheet, Dimensions } from "react-native";
-import SelectedUserProfile from '../components/Profiles/SelectedUserProfile'
+import SelectedUserProfile from '../../components/Profiles/SelectedUserProfile'
 
 class SelectedUserProfileScreen extends React.Component {
     render() {

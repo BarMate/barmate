@@ -8,7 +8,7 @@ import { LinearGradient } from "expo";
 import Variables from "../../../config/Variables.js";
 import COLORS from "../../../config/Colors.js";
 
-import { updateModal } from '../../../redux/actions.js'
+import { updateModal } from '../../../redux/actions/PlansActions'
 import { connect } from 'react-redux';
 import EventCard from '../../../components/EventCard.js'
 import {
@@ -22,7 +22,7 @@ import {
     StyleProvider,
   } from "native-base";
 
-class FriendsScreen extends Component {
+class PlansScreen extends Component {
 
     constructor(props) {
       super(props);
@@ -190,7 +190,7 @@ class FriendsScreen extends Component {
 
 // Extract data from store
 const mapStateToProps = state => ({
-  modal: state.profileReducer.modal,
+  modal: state.friendsReducer.modal,
 })
 
 // Dispatch data to store
@@ -207,4 +207,4 @@ const styles = StyleSheet.create({
       paddingBottom: Variables.deviceHeight * 0.22
     }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(FriendsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(PlansScreen);

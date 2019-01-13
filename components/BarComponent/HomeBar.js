@@ -25,7 +25,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-na
 import firebase from '../../config/Firebase';
 import { LinearGradient } from "expo";
 import { withNavigation } from 'react-navigation';
-import { pushSelectedBarData, refreshList } from '../../redux/actions.js';
+import { pushSelectedBarData, refreshList } from '../../redux/actions/HomeActions';
 import { connect } from 'react-redux';
 //=============================================================
 

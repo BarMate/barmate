@@ -36,7 +36,7 @@ import {LinearGradient} from 'expo'
 import Variables from '../config/Variables';
 import COLORS from '../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
-import { pushFriendsList, selectProfile, eraseFriendsList, refreshFriendsList, selectMessageProfile, updateFriendCount } from '../redux/actions'
+import { pushFriendsList, selectProfile, eraseFriendsList, refreshFriendsList, selectMessageProfile, updateFriendCount } from '../redux/actions/FriendsActions'
 import FriendsCard from '../components/FriendsCard'
 
 import { connect } from 'react-redux';
@@ -118,18 +118,18 @@ class Friends extends React.Component {
                             </View>
                         </View>
                         <View style={styles.flatlist}>
-                        <FlatList
-                            refreshControl={
-                            <RefreshControl
-                                refreshing={this.props.refreshing}
-                                onRefresh={() => {this._refreshing()}}
+                            <FlatList
+                                refreshControl={
+                                <RefreshControl
+                                    refreshing={this.props.refreshing}
+                                    onRefresh={() => {this._refreshing()}}
+                                />
+                                }
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={styles.contentContainerStyle}
+                                data={this.props.friends}
+                                renderItem={({item}) => <FriendsCard key={item.name} name={item.name} />}
                             />
-                            }
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={styles.contentContainerStyle}
-                            data={this.props.friends}
-                            renderItem={({item}) => <FriendsCard key={item.name} name={item.name} />}
-                        />
                         </View>
                     </SafeAreaView>
                 </LinearGradient>
@@ -186,7 +186,6 @@ const styles = StyleSheet.create({
         paddingBottom: 500, 
     },
     flatlist: {
-        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
     },
