@@ -1,9 +1,9 @@
 {
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 43841,
-  "expoServerNgrokUrl": "https://qw-kd6.josephcon1998.barmate.exp.direct",
-  "packagerNgrokUrl": "https://packager.qw-kd6.josephcon1998.barmate.exp.direct",
-  "ngrokPid": 43859
+  "packagerPort": null,
+  "packagerPid": null
 }

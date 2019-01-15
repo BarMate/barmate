@@ -46,6 +46,8 @@ class Friends extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            ids: [],
+            names: []
         };  
     }
 
@@ -55,6 +57,8 @@ class Friends extends React.Component {
 
     pullFriendsListDataFromDatabase() {
         let uid = firebase.auth().currentUser.uid
+        var i = 0;
+        var j = 0;
 
         let usersRef = firebase.database().ref(`users/${uid}/`)
         usersRef.once('value', snapshot => {
@@ -62,7 +66,13 @@ class Friends extends React.Component {
                 firebase.database().ref(`users/${child.val()}`).once('value', friendSnap => {
                     this.props.pushFriendsList(friendSnap.val())
                     // pushes an entire object when only needs just the name; fix to save dowloading excess data
+
+                    this.state.names[j] = friendSnap.val().name;
+                    j++;
                 })
+
+                this.state.ids[i] = child.val();
+                i++;
             })
         })
     }
@@ -71,7 +81,7 @@ class Friends extends React.Component {
         this.props.refreshFriendsList(true);
         this.props.eraseFriendsList();
         this.pullFriendsListDataFromDatabase();
-        this.props.refreshFriendsList(false)
+        this.props.refreshFriendsList(false);
     }
 
     returnUserBannerColor() {
@@ -128,7 +138,7 @@ class Friends extends React.Component {
                                 showsVerticalScrollIndicator={false}
                                 contentContainerStyle={styles.contentContainerStyle}
                                 data={this.props.friends}
-                                renderItem={({item}) => <FriendsCard key={item.name} name={item.name} />}
+                                renderItem={({item}) => <FriendsCard key={item.name} name={item.name} ids={this.state.ids} names={this.state.names}/>}
                             />
                         </View>
                     </SafeAreaView>
@@ -144,7 +154,7 @@ const mapStateToProps = state => ({
     refreshing: state.friendsReducer.refreshing,
     friendCount: state.friendsReducer.friendCount,
 })
-  
+
 // Dispatch data to store
 const mapDispatchToProps = {
     pushFriendsList,
@@ -154,7 +164,7 @@ const mapDispatchToProps = {
     selectMessageProfile,
     updateFriendCount,
 }
-  
+
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',

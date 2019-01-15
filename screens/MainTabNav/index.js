@@ -10,6 +10,7 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
+import Messages from '../MessageScreen'
 
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
@@ -117,6 +118,7 @@ const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
     Friends: Friends,
+    Message: Messages,
 },
 {
     drawerType: 'slide',

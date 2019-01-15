@@ -1,40 +1,24 @@
-/* 
-    MessagesReducer.js
-    
-    Reducer for Messages Screen
-    
-    Author:  Joseph Contumelio
-    Copyright(C) 2019, BarMate l.l.c.
-    All rights reserved
-*/
+import message from './MessageReducer';
 
-const initialState_messages = {
-    test: 0,
-}
-
-export const messagesReducer = (state = initialState_messages, action) => {
-    switch(action.type) {
-        case 'SELECT_BAR':
-            return {
+const messages = (state = [], action) => {
+    switch (action.type) {
+        case 'ADD_MESSAGE':
+            if (state.map(m => m.id).includes(action.id)) {
+                return state;
+            }else{
+                return [
                 ...state,
-                selectedBarData: action.payload,
+                message(undefined, action)
+                ]
             }
-        case 'PUSH_LIST_DATA':
-            return {
+        case 'SEND_MESSAGE':
+            return [
                 ...state,
-                carouselData: [...state.carouselData, action.payload]
-            }
-        case 'ERASE_LIST_DATA':
-            return {
-                ...state,
-                carouselData: []
-            }
-        case 'REFRESH_LIST':
-            return {
-                ...state,
-                refreshing: action.payload,
-            }
+                message(undefined, action)
+            ]
         default:
-            return state;
+            return state
     }
-}
+};
+
+export default messages;

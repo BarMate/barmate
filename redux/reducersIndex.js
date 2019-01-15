@@ -14,12 +14,14 @@ import { homeReducer } from './reducers/HomeReducer'
 import { searchReducer } from './reducers/SearchReducer'
 import { currentProfileReducer } from './reducers/CurrentUserProfileReducer'
 import { selectedProfileReducer } from './reducers/SelectedUserProfileReducer'
-import { messagesReducer } from './reducers/MessagesReducer'
+import messagesReducer from './reducers/MessagesReducer'
+import messageReducer from './reducers/MessageReducer'
 import { plansReducer } from './reducers/PlansReducer'
 import { signUpReducer } from './reducers/SignUpReducer'
 import { friendsReducer } from './reducers/FriendsReducer'
 import { signInReducer } from './reducers/SignInReducer'
 import { settingsReducer } from './reducers/SettingsReducer'
+import chatroomReducer from './reducers/ChatroomReducer';
 
 export default combineReducers({
     homeReducer,
@@ -32,5 +34,6 @@ export default combineReducers({
     friendsReducer,
     signInReducer,
     settingsReducer,
+    chatroomReducer,
+    messageReducer,
 });
-
