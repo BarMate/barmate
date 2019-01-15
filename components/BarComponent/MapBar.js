@@ -174,7 +174,11 @@ class Bar extends React.Component {
     }
   }
 
+<<<<<<< HEAD
  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
+=======
+  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
   _addBarToUserHome = async barID => {
     let key = barID.key;
     let userID = firebase.auth().currentUser.uid;
@@ -187,8 +191,12 @@ class Bar extends React.Component {
       .ref('bars')
       .orderByChild('key')
       .equalTo(key)
+<<<<<<< HEAD
       .once("value", snapshot => {
         console.log(`snapshot: ${JSON.stringify(snapshot.val())}`)
+=======
+      .once("value", snapshot =>{
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
         if(snapshot.val() === null){
           console.log("Data is undefined, adding bar to database...");
             firebase
@@ -214,6 +222,40 @@ class Bar extends React.Component {
   //   let newChildRef = bars.push();
   //   let length = 0;
 
+<<<<<<< HEAD
+=======
+      firebase 
+      .database()
+      .ref(`users/${userID}/bars`)
+      .orderByChild('key')
+      .equalTo(key)
+      .once("value", snapshot =>{
+        if(snapshot.val() === null){
+          console.log("User does not have bar in their home, continue adding bar...");
+            firebase
+              .database()
+              .ref(`users/${userID}/bars/${newChildRef.key}`)
+              .update(barID);
+          } else {
+            console.log("Data is already in users home! cannot add twice!");
+          }
+        })
+        .catch(error => {
+          console.log("error: ", error);
+        });
+    }
+  }
+  
+    
+  
+  // _addBarToUserHome = async barID => {
+  //   let key = barID.key;
+  //   let userID = firebase.auth().currentUser.uid;
+  //   let bars = firebase.database().ref(`users/${userID}/bars/`);    
+  //   let newChildRef = bars.push();
+  //   let length = 0;
+
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
   //   if (userID) {
 
   //     bars.once("value", (snapshot) => {

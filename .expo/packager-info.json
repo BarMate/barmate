@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "expoServerPort": null,
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
@@ -6,4 +7,13 @@
   "devToolsPort": 19002,
   "packagerPort": null,
   "packagerPid": null
+=======
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://9f-9jg.anonymous.barmate.exp.direct",
+  "packagerNgrokUrl": "https://packager.9f-9jg.anonymous.barmate.exp.direct",
+  "ngrokPid": 16560,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 16468
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
 }

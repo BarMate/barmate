@@ -10,10 +10,16 @@ import SearchScreen from './Search.js';
 import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
+<<<<<<< HEAD
 import Messages from '../MessageScreen'
 
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
+=======
+import DeleteAlert from '../Delete.js';
+import SelectedUserProfileScreen from '../SelectedUserProfileScreen';
+import CurrentUserProfileScreen from '../CurrentUserProfileScreen';
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
 
 import Friends from '../Friends'
 
@@ -118,7 +124,11 @@ const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
     Friends: Friends,
+<<<<<<< HEAD
     Message: Messages,
+=======
+    Delete: DeleteAlert,
+>>>>>>> fe2ac844238a481cb025690ce677aba97efcd606
 },
 {
     drawerType: 'slide',
