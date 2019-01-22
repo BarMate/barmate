@@ -121,6 +121,7 @@ class Map extends React.Component {
     };
 
     fetchMarkerData(){
+        let API_KEY = 'AIzaSyBaKri5i52v62Bl53dMX9WVWaz7gSAHZhk';
         navigator.geolocation.getCurrentPosition((position) => {
             const barUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + position.coords.latitude + ',' + position.coords.longitude + '&radius=5000&types=bar&key=' + API_KEY;
             const clubUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + position.coords.latitude + ',' + position.coords.longitude + '&radius=5000&types=night_club&key=' + API_KEY;

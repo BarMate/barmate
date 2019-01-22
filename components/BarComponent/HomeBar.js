@@ -217,6 +217,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: COLORS.GRADIENT_COLOR_1
   },
+  image: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  },
   title: {
     fontSize: 35,
     color: 'white',

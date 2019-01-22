@@ -101,7 +101,7 @@ _initialReadFromDatabase() {
       this.props.navigation.navigate("Main");
     }
     else {
-      this.props.navigation.navigate("Start")
+      this.props.navigation.navigate("SignIn")
     }
   }
 

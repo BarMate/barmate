@@ -109,14 +109,23 @@ class Friends extends React.Component {
                 colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
                 >
                     <SafeAreaView>
+                        
                         <View style={styles.header}>
+
+                            <TouchableOpacity style={{paddingLeft: 15}} onPress={() => {this.props.navigation.openDrawer()}}>
+                                <Ionicons name={'ios-menu'} size={40} color={'#ffffff'}/>
+                            </TouchableOpacity>
+
                             <Text style={styles.headerTitle}>Friends</Text>
+
                             <View style={styles.settings}>
                                 <TouchableOpacity style={{width :50, alignItems: 'center'}}>
                                     <Ionicons name={'md-add'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
                                 </TouchableOpacity>
                             </View>
+
                         </View>
+
                         <View style={styles.flatlist}>
                             <FlatList
                                 refreshControl={

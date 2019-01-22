@@ -21,16 +21,13 @@ import {
     SafeAreaView,
     Alert,
     ScrollView,
-    StatusBar
+    StatusBar,
+    Text,
 } from 'react-native';
 
-import getTheme from '../../native-base-theme/components';
-import Common from '../../native-base-theme/variables/commonColor';
 import { withNavigation } from 'react-navigation';
 import firebase from '../../config/Firebase';
 
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text, Button, List, ListItem, } from 'native-base';
 import {LinearGradient} from 'expo'
 
 import Variables from '../../config/Variables';
@@ -480,18 +477,6 @@ class CurrentUserProfile extends React.Component {
         } 
     }
 
-    _signOutAsync = async () => {
-        firebase.auth().signOut().then( () => {
-             AsyncStorage.clear().then(async () => {
-                this.props.navigation.navigate('Start');
-            }).catch(function(error){
-                console.log(error);
-            })
-          }).catch(function(error) {
-            console.log(error);
-          });
-    };
-
     render() {
         return (
             <View>
@@ -507,7 +492,7 @@ class CurrentUserProfile extends React.Component {
                             </TouchableOpacity>
                             <Text style={styles.headerTitle}>Profile</Text>
                             <View style={styles.settings}>
-                                <TouchableOpacity onPress={() => this._signOutAsync()}>
+                                <TouchableOpacity>
                                     <Text style={[styles.headerTitle, {fontFamily: 'HkGrotesk_Medium', fontSize: 20,}]}>Edit</Text>
                                 </TouchableOpacity>
                             </View>
