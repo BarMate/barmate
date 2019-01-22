@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, KeyboardAvoidingView, TextInput, Image, TouchableOpacity, ScrollView, StatusBar} from 'react-native'
+import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, ScrollView, StatusBar, Keyboard } from 'react-native'
 import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView, } from 'react-navigation';
@@ -182,6 +182,18 @@ class TitleDateAndDescription extends Component {
         this.props.navigation.push('EventLocationAndPrivacy')
     }
 
+    setAdminPlanObjectForStore(){
+        let planObject = {
+            creator: firebase.auth().currentUser.uid,
+            eventName: 'a',
+            description: 'b',
+            startTime: new Date('2020-01-21T19:27:20.000Z'),
+        }
+        this.props.sendEventInfo(planObject);
+        console.log(planObject);
+        this.props.navigation.push('EventLocationAndPrivacy')
+    }
+
     render() {
         return (
             <ScrollView scrollEnabled={false}>
@@ -275,7 +287,7 @@ class TitleDateAndDescription extends Component {
                                 </View>
                             </TouchableOpacity>
                             {/* To be removed */}
-                            <TouchableOpacity onPress={() => {this.props.navigation.push('EventLocationAndPrivacy')}}>
+                            <TouchableOpacity onPress={() => {this.setAdminPlanObjectForStore()}}>
                                 <View style={styles.buttonContainer}>
                                     <Text style={styles.buttonText}>ADMIN SKIP</Text>
                                 </View>

@@ -15,6 +15,11 @@ class EventPrivacySwitch extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.handler('hidden');
+    }
+
+    
     changeSettingMessage(selected){
         switch(selected){
             case 'hidden': 
@@ -48,7 +53,7 @@ class EventPrivacySwitch extends Component {
         return (
             <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: Variables.deviceWidth - 50}}>
                 <Text style={styles.title}>{this.state.settingState}</Text>
-                <View style={{height: 100, paddingTop: 5}}>
+                <View style={{height: 70, paddingTop: 5}}>
                     <View style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={styles.messageText}>{'\u2022 '}</Text>
@@ -66,7 +71,7 @@ class EventPrivacySwitch extends Component {
                 </View>
                 
                 <View>
-                    <MultiToggleSwitch itemContainer={styles.container}>
+                    <MultiToggleSwitch>
                         <MultiToggleSwitch.Item onPress={() => {this.props.handler('hidden'), this.changeSettingMessage('hidden')}}>
                             <Icon name={'ios-lock'} color={COLORS.GRADIENT_COLOR_1} size={30} />
                         </MultiToggleSwitch.Item>
@@ -85,12 +90,12 @@ class EventPrivacySwitch extends Component {
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 35,
+        fontSize: Variables.deviceWidth*0.08,
         color: 'white',
         fontFamily: 'HkGrotesk_Bold',
     },
     messageText: {
-        fontSize: 16,
+        fontSize: Variables.deviceWidth*0.03,
         color: 'white',
         flexWrap: 'wrap',
         fontFamily: 'HkGrotesk_Medium',

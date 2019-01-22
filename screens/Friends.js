@@ -112,7 +112,7 @@ class Friends extends React.Component {
                         <View style={styles.header}>
                             <Text style={styles.headerTitle}>Friends</Text>
                             <View style={styles.settings}>
-                                <TouchableOpacity style={{width :50, alignItems: 'center'}}>
+                                <TouchableOpacity style={{width: 50, alignItems: 'center'}}>
                                     <Ionicons name={'md-add'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
                                 </TouchableOpacity>
                             </View>
