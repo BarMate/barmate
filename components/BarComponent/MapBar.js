@@ -76,24 +76,24 @@ class Bar extends React.Component {
     if(price)
     {
       if(price === 0) {
-        return "$";
+        return " • $ • ";
       }
       else if(price === 1) {
-        return "$$";
+        return " • $$ • ";
       }
       else if(price === 2) {
-        return "$$$";
+        return " • $$$ • ";
       }
       else if(price === 3) {
-        return "$$$$";
+        return " • $$$$ • ";
       }
       else if(price === 4) {
-        return "$$$$$";
+        return " • $$$$$ • ";
       }
     }
     else {
       console.log("No price found for bar.. returning unknown")
-      return "N/A"
+      return " • N/A • "
     }
   }
 
@@ -234,13 +234,13 @@ class Bar extends React.Component {
         <LinearGradient
           style={styles.gradient}
           colors={[COLORS.TRANSPARENT_COLOR, "rgba(0, 0, 0, 0.5)"]}>
-          <View>
+          <View style={styles.contentContainer}>
             <Text style={styles.title}>{this.props.barID.name ? this.props.barID.name : 'Undefined'}</Text>
           </View>
           <View style={styles.footerText}>
-            <Text style={styles.rating}>{this._renderRating()}</Text>
-            <Text style={styles.price}> • {this._renderPrice()} • </Text>
-            <Text style={styles.open}>{this._renderOpen()}</Text>
+            <View style={styles.rating}>{this._renderRating()}</View>
+            <Text style={styles.price}>{this._renderPrice()}</Text>
+            <View style={styles.open}>{this._renderOpen()}</View>
           </View>
           <View>
             <Text style={styles.open}>{this._renderMapButton()}</Text>
@@ -271,15 +271,16 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: COLORS.GRADIENT_COLOR_1
   },
+  contentContainer: {
+    marginLeft: 15,
+  },
   title: {
     fontSize: 35,
     color: 'white',
     fontFamily: 'HkGrotesk_Bold',
-    marginLeft: 15,
   },
   rating: {
     marginBottom: 20,
-    marginLeft: 16,
     width: 110,
     height: 20,
   },
@@ -298,6 +299,7 @@ const styles = StyleSheet.create({
   footerText: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 15
   }  
 });
 

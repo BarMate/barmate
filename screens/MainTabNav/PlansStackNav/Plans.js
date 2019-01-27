@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, FlatList } from 'react-native';
-import {  } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons'; 
 import getTheme from "../../../native-base-theme/components/index.js";
 import Common from "../../../native-base-theme/variables/commonColor.js";
@@ -24,6 +24,12 @@ import {
 
 class PlansScreen extends Component {
 
+  static navigationOptions = ({navigation}) => {
+    return{
+      headerTitle: <Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Plans</Text>,
+      headerRight: <TouchableOpacity onPress={() => {navigation.push('TitleDateAndDescription')}}><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity>
+    }
+  };
     constructor(props) {
       super(props);
       var tempDate = new Date();
@@ -116,52 +122,70 @@ class PlansScreen extends Component {
       };
   }
 
+  componentDidMount() {
+		// this.makeRemoteRequest();
+	}
+
+	makeRemoteRequest() {
+		let uid = firebase.auth().currentUser.uid
+		let userRef = firebase.database().ref(`users/${uid}/friends`)
+		var plans = [];
+
+		var plansPromise = new Promise((resolve, reject) => {
+			// gets all friends
+			userRef.once('value', snapshot => {
+				// loops through each friend
+				counter = 0;
+				snapshot.forEach( child => {
+					var friend = firebase.database().ref('users/' + child.val() + '/events');
+					// loops through each event that each friend has created
+					friend.forEach(friendEvent => {
+						event = firebase.database().ref('events/' + friendEvent.val());
+						eventPrivacy = event.val().privacy;
+						if(eventPrivacy === 'hidden' || eventPrivacy === 'private'){
+							// pushes event if you're invited
+							eventPrivacy.friendsInvited.some(invitedMember => {
+								if(invitedMember.val() === uid){
+									plans.push(event.key)
+									return true;
+								}
+								return false
+							})
+						}
+						// pushes public events
+						else{
+							plans.push(event.key)
+						}
+					})
+					// loops through each event that each friend has been invited to
+					var friendInvites = firebase.database().ref('users/' + child.val() + '/invitedEvents');
+					friendInvites.forEach(friendEvent => {
+						event = firebase.database().ref('events/' + friendEvent.val());
+						eventPrivacy = event.val().privacy;
+						if(eventPrivacy === 'public'){
+							// pushes public events
+							plans.push(event.key)
+						}
+					})
+				})
+				
+			})
+		});
+
+		plansPromise.then((fullFriendsList) => {
+			
+			//this.sortArrayAlphabetically(fullFriendsList)
+		});
+	};
+  
   render() {
     return (
         <StyleProvider style={getTheme(Common)}>
         <Container>
-        {/* <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.props.modal}>
-            <Profile uid={'tpA4ijbBVhcQ8bu92XmsnJvsj1e2'}/>  
-         </Modal> */}
-          {/* <Header>
-            <Left style={{flex: 1}}>
-              <TouchableOpacity onPress={() => {this.props.navigation.navigate('Profile')}}>
-                  <Ionicons name={'ios-contact'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
-              </TouchableOpacity>
-            </Left>
-            <Body style={{flex: 3, justifyContent: 'center',}}>
-              <Title style={{alignSelf: 'center'}}>Friends</Title>
-            </Body>
-            <Right style={{flex: 1}}>
-              <Ionicons name={'md-people'} size={30} color={'#FFFFFF'} style={{paddingRight: 10,}}/>
-            </Right>
-          </Header> */}
           <Content scrollEnabled={false} style={{paddingBottom: 20}}>
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              {/* <TouchableOpacity onPress={() => {this.props.updateModal(true)}}><Text>Open Rodney profile</Text></TouchableOpacity> */}
-              
-              {/* TODO: add unique key to each */}
-              {/* {this.state.testObject.map(event => (
-                  <EventCard
-                    profilePicture = {event.profilePicture}
-                    creator = {event.creator}
-                    eventName = {event.eventName}
-                    description = {event.description}
-                    numberInvited = {event.numberInvited}
-                    numberAccepted = {event.numberAccepted}
-                    locations = {event.locations}
-                    isPrivate = {event.isPrivate}
-                    dateCreated = {event.dateCreated}
-                    startTime = {event.startTime}
-                    comments = {event.comments}
-                    creatorUID = {event.creatorUID}
-                  />
-                ))} */}
                   <FlatList
                     contentContainerStyle={styles.contentContainer}
                     data={this.state.testObject}
@@ -207,4 +231,4 @@ const styles = StyleSheet.create({
       paddingBottom: Variables.deviceHeight * 0.22
     }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PlansScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(PlansScreen));

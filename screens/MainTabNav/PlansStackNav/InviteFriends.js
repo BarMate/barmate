@@ -3,14 +3,21 @@ import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import { Toast } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView } from 'react-navigation';
-import Variables from "../../../../config/Variables.js";
-import COLORS from '../../../../config/Colors.js'
+import Variables from "../../../config/Variables.js";
+import COLORS from '../../../config/Colors.js'
 import { LinearGradient } from "expo";
-import { sendEventInfo } from '../../../../redux/actions/PlansActions'
-import firebase from '../../../../config/Firebase';
-import FriendsSelectorForPlans from '../../../../components/FriendsSelectorForPlans';
+import { sendEventInfo } from '../../../redux/actions/PlansActions'
+import firebase from '../../../config/Firebase';
+import FriendsSelectorForPlans from '../../../components/FriendsSelectorForPlans';
 
 class InviteFriends extends Component {
+
+	static navigationOptions = ({navigation}) => {
+        return{
+          headerTitle: <Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Invite your BarMates</Text>,
+        }
+	};
+	
 	constructor(props) {
 		super(props) 
 		this.state = {
@@ -49,8 +56,8 @@ class InviteFriends extends Component {
 			}) // .then here returns empty array
 		});
 
-		friendsPromise.then( (fullPostList) => {
-			this.sortArrayAlphabetically(fullPostList)
+		friendsPromise.then((fullFriendsList) => {
+			this.sortArrayAlphabetically(fullFriendsList)
 		});
 	};
 
@@ -73,6 +80,39 @@ class InviteFriends extends Component {
 		this.setState({isReady: true});
 	}
 
+	_confirmDetails(){
+		if(this.state.friendsInvited.length === 0) {
+            Toast.show({
+				style: {
+				  backgroundColor: "#6D6ABF",
+				  borderRadius: 15,
+			  },
+			  text: "You must invite at least one friend.",
+			  buttonText: "OK",
+			  duration: 3000,
+			  position: 'bottom',
+			  })
+		}
+        else{
+            this.setPlanObjectForStore();
+        }
+	}
+
+	setPlanObjectForStore(){
+		let planObject = {
+            creator: this.props.creatorObject.creator,
+            eventName: this.props.creatorObject.eventName,
+            description: this.props.creatorObject.description,
+			startTime: this.props.creatorObject.startTime,
+			barsInPlan: this.props.creatorObject.barsInPlan,
+			privacy: this.props.creatorObject.privacy,
+			friendsInvited: this.state.friendsInvited
+        }
+		this.props.sendEventInfo(planObject);
+		console.log(planObject);
+		this.props.navigation.push('EventCreated');
+	}
+
   	render() {
 		if(!this.state.isReady){
 			return(
@@ -87,7 +127,7 @@ class InviteFriends extends Component {
 				colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
 				<SafeAreaView style={styles.safeAreaView}>
 					<FriendsSelectorForPlans handler={this.setInvitesInPlan} friends={this.friendList}/>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => this._confirmDetails()}>
 						<View style={styles.buttonContainer}>
 							<Text style={styles.buttonText}>Finish</Text>
 						</View>
@@ -103,22 +143,21 @@ const mapStateToProps = state => ({
   creatorObject: state.plansReducer.planObject
 })
 
-// const mapDispatchToProps = {
-//     sendEventInfo
-// }
+const mapDispatchToProps = {
+    sendEventInfo
+}
 
 const styles = StyleSheet.create({
 	gradient: {
 		width: Variables.deviceWidth,
-		height: Variables.deviceHeight
+		height: Variables.deviceHeight,
 	},
 	safeAreaView: {
 		flexDirection: 'column',
 		justifyContent: 'center',
-		paddingTop: 20,
 	},
 	buttonContainer: {
-        marginTop: 30,
+        marginTop: 10,
         alignSelf: 'center',
         backgroundColor: '#3999c9',
         width: 220,
@@ -143,4 +182,4 @@ const styles = StyleSheet.create({
 	  }
 });
 
-export default connect(mapStateToProps, null)(withNavigation(InviteFriends));
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(InviteFriends));

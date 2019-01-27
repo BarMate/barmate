@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, ScrollView, StatusBar, Keyboard } from 'react-native'
 import { Toast } from 'native-base';
+import { Ionicons } from '@expo/vector-icons'; 
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView, } from 'react-navigation';
-import Variables from "../../../../config/Variables.js";
-import COLORS from '../../../../config/Colors.js'
+import Variables from "../../../config/Variables.js";
+import COLORS from '../../../config/Colors.js'
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { LinearGradient } from "expo";
-import { sendEventInfo } from '../../../../redux/actions/PlansActions'
-import firebase from '../../../../config/Firebase';
+import { sendEventInfo } from '../../../redux/actions/PlansActions'
+import firebase from '../../../config/Firebase';
 import { ViewUtils } from 'react-navigation';
 class TitleDateAndDescription extends Component {
+
+    static navigationOptions = ({navigation}) => {
+        return{
+          headerTitle: <Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Create an Event</Text>,
+        }
+    };
+
     constructor(props) {
         super(props) 
         this.state = {
@@ -206,7 +214,7 @@ class TitleDateAndDescription extends Component {
                             <View style={styles.titleInputWrapper}>
                                 <Image
                                     style={styles.textboxImage}
-                                    source={require("../../../../assets/signup/name_text_box.png")}
+                                    source={require("../../../assets/signup/name_text_box.png")}
                                 />
                                 <TextInput
                                     ref={input => { this.handleInput = input}}
@@ -226,7 +234,7 @@ class TitleDateAndDescription extends Component {
                             <View style={styles.descriptionInputWrapper}>
                                 <Image
                                     style={styles.textboxImage}
-                                    source={require("../../../../assets/signup/name_text_box.png")}
+                                    source={require("../../../assets/signup/name_text_box.png")}
                                 />
                                 <TextInput
                                     ref={input => { this.handleInput = input}}
@@ -249,7 +257,7 @@ class TitleDateAndDescription extends Component {
                                 <View style={styles.titleInputWrapper}>
                                     <Image
                                         style={styles.textboxImage}
-                                        source={require("../../../../assets/signup/age_text_box.png")}
+                                        source={require("../../../assets/signup/age_text_box.png")}
                                     />
                                     <Text style={styles.date}>{this.state.month}/{this.state.date}/{this.state.year}</Text>
                                 </View>
@@ -265,7 +273,7 @@ class TitleDateAndDescription extends Component {
                                 <View style={styles.titleInputWrapper}>
                                     <Image
                                         style={styles.textboxImage}
-                                        source={require("../../../../assets/signup/age_text_box.png")}
+                                        source={require("../../../assets/signup/age_text_box.png")}
                                     />
                                     <Text style={styles.date}>{this.state.time ==='' ? 'Start Time' : this.state.time.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'})}</Text>
                                 </View>
@@ -287,11 +295,11 @@ class TitleDateAndDescription extends Component {
                                 </View>
                             </TouchableOpacity>
                             {/* To be removed */}
-                            <TouchableOpacity onPress={() => {this.setAdminPlanObjectForStore()}}>
+                            {/* <TouchableOpacity onPress={() => {this.setAdminPlanObjectForStore()}}>
                                 <View style={styles.buttonContainer}>
                                     <Text style={styles.buttonText}>ADMIN SKIP</Text>
                                 </View>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
                     </SafeAreaView>                     
                 </LinearGradient>

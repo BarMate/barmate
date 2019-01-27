@@ -13,21 +13,22 @@ class PlansLocations extends React.Component {
     }
 
     updateBarsAttending(barID){
-        console.log('updating');
         attendingList = this.state.locationsAttending;
         wasRemoved = false;
         for(var x = 0; x < attendingList.length; x++){
             if(barID === attendingList[x]){
                 attendingList.splice(x,1);
-                wasRemoved = true;
+                wasRemoved = true;  
             }
         }
 
         if(!wasRemoved){
             attendingList.push(barID);
         }
-        this.props.handler(attendingList);
+
         this.setState({locationsAttending: attendingList});
+        console.log('sending '+ this.state.locationsAttending);
+        this.props.handler(this.state.locationsAttending);
     }
 
     renderNumber = (barID) => {

@@ -14,9 +14,10 @@ import CardDetails from './PlansStackNav/CardDetails'
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 import DeleteAlert from '../Delete.js';
-import EventLocationAndPrivacy from '../MainTabNav/PlansStackNav/EventCreationStackNav/EventLocationAndPrivacy.js'
-import InviteFriends from '../MainTabNav/PlansStackNav/EventCreationStackNav/InviteFriends.js'
-import TitleDateAndDescription from '../MainTabNav/PlansStackNav/EventCreationStackNav/TitleDateAndDescription.js'
+import EventLocationAndPrivacy from '../MainTabNav/PlansStackNav/EventLocationAndPrivacy.js'
+import InviteFriends from '../MainTabNav/PlansStackNav/InviteFriends.js'
+import TitleDateAndDescription from '../MainTabNav/PlansStackNav/TitleDateAndDescription.js'
+import EventCreated from '../MainTabNav/PlansStackNav/EventCreated'
 import Friends from '../Friends'
 
 import COLORS from '../../config/Colors.js';
@@ -54,27 +55,20 @@ const homeStackContainer = createStackNavigator({
     })
 });
 
-const EventCreationContainer = createStackNavigator({
-    TitleDateAndDescription: TitleDateAndDescription,
-    EventLocationAndPrivacy: EventLocationAndPrivacy,
-    InviteFriends: InviteFriends
-},
-{
-    initialRouteName: 'TitleDateAndDescription',
-    headerMode: 'null'
-}); 
 
 const plansStackContainer = createStackNavigator({
     Plans: PlansScreen,
     SelectedProfile: SelectedUserProfileScreen,
     CardDetails: CardDetails,
-    EventCreation: EventCreationContainer
+    TitleDateAndDescription: TitleDateAndDescription,
+    EventLocationAndPrivacy: EventLocationAndPrivacy,
+    InviteFriends: InviteFriends,
+    EventCreated: EventCreated
 },
 { 
     initialRouteName: 'Plans', 
     headerMode: 'float',
     defaultNavigationOptions: ({ navigation }) => ({
-        headerTitle: (navigation.state.routeName=='EventCreation' ? 'Create an Event' : 'Plans'),
         headerStyle: {
           backgroundColor: COLORS.HEADER_COLOR,
         },
@@ -83,8 +77,6 @@ const plansStackContainer = createStackNavigator({
           color: '#FFFFFF',
         },
         headerTintColor: '#fff',
-        headerRight: (navigation.state.routeName == 'Plans' ? <TouchableOpacity onPress={() => {navigation.navigate('EventCreation')}}><Ionicons name={'ios-add'} size={35} color={'#FFFFFF'} style={{paddingRight: 20}}/></TouchableOpacity> : null)
-        
     })
 });
 

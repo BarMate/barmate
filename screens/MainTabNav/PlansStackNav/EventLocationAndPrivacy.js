@@ -3,15 +3,22 @@ import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from 'rea
 import { Toast, ListItem } from 'native-base';
 import { connect } from 'react-redux';
 import { withNavigation, SafeAreaView } from 'react-navigation';
-import Variables from "../../../../config/Variables.js";
-import COLORS from '../../../../config/Colors.js'
+import Variables from "../../../config/Variables.js";
+import COLORS from '../../../config/Colors.js'
 import { LinearGradient } from "expo";
-import { sendEventInfo } from '../../../../redux/actions/PlansActions'
-import firebase from '../../../../config/Firebase';
-import EventPrivacySwitch from '../../../../components/EventPrivacySwitch.js';
-import PlansLocations from '../../../../components/PlansLocations.js'
+import { sendEventInfo } from '../../../redux/actions/PlansActions'
+import firebase from '../../../config/Firebase';
+import EventPrivacySwitch from '../../../components/EventPrivacySwitch.js';
+import PlansLocations from '../../../components/PlansLocations.js'
 
 class EventLocationAndPrivacy extends Component {
+
+	static navigationOptions = ({navigation}) => {
+        return{
+          headerTitle: <Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Privacy and Destinations</Text>,
+        }
+	};
+	
 	constructor(props) {
 		super(props) 
 		this.state = {
