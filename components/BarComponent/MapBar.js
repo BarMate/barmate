@@ -243,7 +243,7 @@ class Bar extends React.Component {
             <View style={styles.open}>{this._renderOpen()}</View>
           </View>
           <View>
-            <Text style={styles.open}>{this._renderMapButton()}</Text>
+            <View style={styles.open}>{this._renderMapButton()}</View>
           </View>
         </LinearGradient>
       </View>

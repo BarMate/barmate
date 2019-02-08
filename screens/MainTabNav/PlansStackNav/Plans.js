@@ -7,7 +7,7 @@ import Common from "../../../native-base-theme/variables/commonColor.js";
 import { LinearGradient } from "expo";
 import Variables from "../../../config/Variables.js";
 import COLORS from "../../../config/Colors.js";
-
+import firebase from '../../../config/Firebase';
 import { updateModal } from '../../../redux/actions/PlansActions'
 import { connect } from 'react-redux';
 import EventCard from '../../../components/EventCard.js'
@@ -123,61 +123,85 @@ class PlansScreen extends Component {
   }
 
   componentDidMount() {
-		// this.makeRemoteRequest();
+		this.makeRemoteRequest();
 	}
 
+
+  fetchFriendPublicPlans(child, plans, uid) {
+    let friend = firebase.database().ref('users/' + child.val() + '/events');
+    // loops through each event that each friend has created
+    friend.once('value', friendEvent => {
+      if(friendEvent.val() != null){
+        events = friendEvent.val();
+        Object.entries(events).forEach( ([key, value]) => {
+          eventDetailsCall = firebase.database().ref('events/' + value);
+          eventDetailsCall.once('value', eventDetails => {
+            eventPrivacy = eventDetails.val().privacy;
+            if(eventPrivacy === 'hidden' || eventPrivacy === 'private'){
+              // pushes event if you're invited
+              eventDetails.val().friendsInvited.forEach(invitedMember => {
+                if(invitedMember === uid){
+                  plans.push(eventDetails.key)
+                  return true;
+                }
+                else{
+                  return false;
+                }
+              })
+            }
+            // pushes public events
+            else{
+              plans.push(eventDetails.key)
+            }
+          })
+        })
+      }
+    })
+  }
+
+  fetchFriendCreatedPlans(child, plans, uid) {
+    let friendInvites = firebase.database().ref('users/' + child.val() + '/invitedEvents');
+    friendInvites.once('value', friendEvent => {
+      if(friendEvent.val() != null){
+        events = friendEvent.val();
+        Object.entries(events).forEach( ([key, value]) => {
+          eventDetailsCall = firebase.database().ref('events/' + value);
+          eventDetailsCall.once('value', eventDetails => {
+            eventPrivacy = eventDetails.val().privacy;
+            if(eventPrivacy === 'public'){
+              // pushes public events
+              console.log('friend invited event public ' + eventDetails.key);
+              plans.push(eventDetails.key)
+            }
+          })
+        })
+      }
+    })
+  }
+  
 	makeRemoteRequest() {
 		let uid = firebase.auth().currentUser.uid
-		let userRef = firebase.database().ref(`users/${uid}/friends`)
-		var plans = [];
-
-		var plansPromise = new Promise((resolve, reject) => {
-			// gets all friends
-			userRef.once('value', snapshot => {
-				// loops through each friend
-				counter = 0;
-				snapshot.forEach( child => {
-					var friend = firebase.database().ref('users/' + child.val() + '/events');
-					// loops through each event that each friend has created
-					friend.forEach(friendEvent => {
-						event = firebase.database().ref('events/' + friendEvent.val());
-						eventPrivacy = event.val().privacy;
-						if(eventPrivacy === 'hidden' || eventPrivacy === 'private'){
-							// pushes event if you're invited
-							eventPrivacy.friendsInvited.some(invitedMember => {
-								if(invitedMember.val() === uid){
-									plans.push(event.key)
-									return true;
-								}
-								return false
-							})
-						}
-						// pushes public events
-						else{
-							plans.push(event.key)
-						}
-					})
-					// loops through each event that each friend has been invited to
-					var friendInvites = firebase.database().ref('users/' + child.val() + '/invitedEvents');
-					friendInvites.forEach(friendEvent => {
-						event = firebase.database().ref('events/' + friendEvent.val());
-						eventPrivacy = event.val().privacy;
-						if(eventPrivacy === 'public'){
-							// pushes public events
-							plans.push(event.key)
-						}
-					})
-				})
-				
-			})
-		});
-
-		plansPromise.then((fullFriendsList) => {
-			
-			//this.sortArrayAlphabetically(fullFriendsList)
-		});
-	};
-  
+		let userRef = firebase.database().ref(`users/${uid}/friends`);
+    let plans = [];
+    // gets all friends
+    var friendsPromise = new Promise((resolve, reject) => {
+      userRef.once('value', snapshot => {
+        // loops through each friend
+        snapshot.forEach(child => {
+          this.fetchFriendPublicPlans(child, plans, uid);
+          this.fetchFriendCreatedPlans(child, plans, uid);
+        })
+      })
+    })
+    friendsPromise.then(plans => {
+      this.printPlans(plans);
+    })
+  }
+    
+  printPlans(arr){
+    console.log('The full array is' + arr);
+  }
+        
   render() {
     return (
         <StyleProvider style={getTheme(Common)}>
@@ -186,7 +210,7 @@ class PlansScreen extends Component {
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                  <FlatList
+                  {/* <FlatList
                     contentContainerStyle={styles.contentContainer}
                     data={this.state.testObject}
                     renderItem={({item}) => <EventCard
@@ -203,7 +227,7 @@ class PlansScreen extends Component {
                       comments = {item.comments}
                       creatorUID = {item.creatorUID}
                       />}
-                  />
+                  /> */}
             </LinearGradient>
           </Content>
         </Container>
