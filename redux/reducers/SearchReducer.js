@@ -1,3 +1,4 @@
+
 /* 
     SearchReducer.js
     
@@ -9,16 +10,30 @@
 */
 
 const initialState_search = {
-    test: 0,
+    destination: '',
+    submitSearch: '',
+    didUserSearch: false,
 }
 
 export const searchReducer = (state = initialState_search, action) => {
     switch(action.type) {
-        case 'ADD_NUMBER':
+        case 'ON_CHANGE_INPUT':
             return {
                 ...state,
-                counter: state.counter * 4,
+                destination: action.payload,
             }
+        case 'ON_SUBMIT_INPUT': {
+            return {
+                ...state,
+                submitSearch: action.payload,
+            }
+        }
+        case 'DID_USER_SEARCH': {
+            return {
+                ...state,
+                didUserSearch: action.payload,
+            }
+        }
         default:
             return state;
     }

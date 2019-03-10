@@ -11,6 +11,8 @@ import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
 
+import SearchBar from '../../components/SearchBar'
+
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 import DeleteAlert from '../Delete.js';
@@ -37,7 +39,7 @@ const homeStackContainer = createStackNavigator({
     defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: navigation.state.routeName === 'Home' ? (<Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Home</Text>) : '',
         headerRight: navigation.state.routeName === 'BarDetails' ? (
-            <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
+            <TouchableOpacity onPress={() => {alert('You would join a bar here!')}}>
                 <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
             </TouchableOpacity>) : '',
         headerLeft: navigation.state.routeName === 'Home' ? (<CustomIcon />) : '',
@@ -75,10 +77,27 @@ const plansStackContainer = createStackNavigator({
     })
 });
 
+// Only really used to give a header to the search screen
+const searchStackContainer = createStackNavigator({
+    Search: SearchScreen
+},
+{
+    
+    initialRouteName: 'Search', 
+    headerMode: 'float',
+    defaultNavigationOptions: ({ navigation }) => ({
+        headerTitle: <SearchBar />,
+        headerStyle: {
+          backgroundColor: COLORS.HEADER_COLOR,
+        },
+        headerTintColor: 'rgba(16, 13, 100, 1)',
+    })
+});
+
 const Main = createBottomTabNavigator(
 {
     Home: homeStackContainer,
-    Search: SearchScreen,
+    Search: searchStackContainer,
     Plans: plansStackContainer,
     Message: MessageScreen,
 },
