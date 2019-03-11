@@ -22,6 +22,7 @@ import { connect } from 'react-redux';
 import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
+import MapBar from '../../../components/BarComponent/MapBar'
 
 import {
   Container,
@@ -41,10 +42,6 @@ class HomeScreen extends React.Component {
     this.state = {
       refreshing: false,
     }
-  }
-
-  componentWillMount() {
-    this._refreshing()
   }
 
   _pullDataFromFirebaseToReduxStore() {
@@ -70,56 +67,18 @@ class HomeScreen extends React.Component {
     })
   }
 
-  _refreshing() {
-    // Refreshes the list of bars on users screen
-    this.props.refreshList(true);
-    this.props.eraseListData();
-    this._pullDataFromFirebaseToReduxStore();
-    this.props.refreshList(false);
-  }
-
-  // sitting this here til i make a place for it.
-  _signOutAsync = async () => {
-    console.log('Signing out')
-    firebase.auth().signOut().then( () => {
-         AsyncStorage.clear().then(async () => {
-            this.props.navigation.navigate('SignUp');
-        }).catch(function(error){
-            console.log(error);
-        })
-      }).catch(function(error) {
-        console.log(error);
-      });
-};
-
   render() {
-
     return (
-      <StyleProvider style={getTheme(Common)}>
-        <Container>
-          <StatusBar barStyle="light-content"/>
-          <Content scrollEnabled={false}>
-            <LinearGradient
-              style={styles.gradient}
-              colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <View style={styles.flatlist}>
-                <FlatList
-                    refreshControl={
-                      <RefreshControl
-                          refreshing={this.props.refreshing}
-                          onRefresh={() => {this._refreshing()}}
-                      />
-                    }
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.contentContainerStyle}
-                    data={this.props.carouselData}
-                    renderItem={({item}) => <HomeBar name={item.name} key={item.key} id={item.key} rating={item.rating} open={item.open} price={item.price}/>}
-                  />
-              </View>
-            </LinearGradient>
-          </Content>
-        </Container>
-      </StyleProvider>
+      <View>
+        <StatusBar barStyle="light-content"/>
+          <LinearGradient
+            style={styles.gradient}
+            colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
+            <View style={styles.flatlist}>
+                <MapBar />
+            </View>
+          </LinearGradient>
+      </View>
     );
   }
 }

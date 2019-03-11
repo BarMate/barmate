@@ -1,24 +1,16 @@
-//=============================================================
-// Bar.js
-//
-// The component for holding data on user's saved bars
-// including styling, name of bar, if it's open, etc..
-//
-// Author: Joseph Contumelio
-// Copyright(C) 2018, Barmate l.l.c.
-// All rights reserved.
-//=============================================================
+/* 
+    MapBar.js
+    
+    The component to show the user bars on the map screen
+    
+    Author:  Joseph Contumelio
+    Copyright(C) 2019, BarMate l.l.c.
+    All rights reserved
+*/
 
-//=============================================================
-// Variables and Constants
-//=============================================================
 import Variables from "../../config/Variables.js";
 import COLORS from "../../config/Colors.js";
-//=============================================================
 
-//=============================================================
-// Imports
-//=============================================================
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
@@ -27,42 +19,33 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { Body, Button } from "native-base";
 import firebase from "../../config/Firebase.js";
 import { withNavigation } from 'react-navigation';
-//=============================================================
 
 /*
   Props:
-    isMapComponent : bool 'Determine if the component belongs on the map screen
-    barID : object 'All the given data from a bar inside an object'
     name : string 'The name of the selected marker from the map screen'
-    rating : string 'The rating of the selected marker from the map screen'
-    open : string 'Either 'Closed', 'Open', or 'N/A' '
-    price
+    rating : float 'The rating of the selected marker from the map screen'
+    price_level : int 'The price estimate of the bar'
+    onHomeScreen : bool 'True if the bar is on the user's homescreen'
+    opening_hours: Object 'Contains information on bar hours'
+
 */
 
-class Bar extends React.Component {
+const CARD_HEIGHT = Variables.deviceHeight / 4;
+const CARD_WIDTH = CARD_HEIGHT - 50;
+
+class MapBar extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  _renderOpen() {
-    let open = undefined;
-    if(this.props.isMapComponent) {
-      open = this.props.barID.open;
-    }
-    else {
-      open = this.state.open;
-    }
-
-    if (open === "Open") {
-      return <Text style={{color: 'green'}}>Open</Text>
-    } else if (open === "Closed") {
-      return <Text style={{color: 'red'}}>Closed</Text>
-    } else if (open === "N/A") {
-      return <Text style={{color: 'yellow'}}>N/A</Text>
-    } else {
-      return <Text style={{color: 'yellow'}}>N/A</Text>
-      console.log("Could not gather open information");
-    }
+   _renderImage() {
+    const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CmRaAAAA3sk1cGBA_FacwW2xOUSEcCYFfCtWHmeV3eW6-eDrO85P6-QQ7moJXXOG51PieHp8-kHBlE8ye6VkWGKXw3FqmjfyuULmMEzzEG5k7gyX5seaKn-A6Z2dMejYHdXcdl3NEhBps-zJMGicdLYlI9SZZQBAGhSRHtI05rmDZwX_ZW_sdwEyPmdxkw&key=AIzaSyCN-KItGpvTPEhIMd9oG2CS8XldyOuVMAc`
+    return(
+      <Image 
+        style={styles.backgroundImage}
+        source={{uri: imageApi}}
+      />
+    )
   }
 
   _renderPrice() {
@@ -158,131 +141,31 @@ class Bar extends React.Component {
     }
   }
 
-  _renderMapButton() {
-    let barID = this.props.barID;
-    if (this.props.isMapComponent) {
-      return (
-        <Button
-          style={styles.button}
-          onPress={() => {
-            this._addBarToUserHome(barID);
-            alert('Bar added to HomeScreen!');
-          }}>
-          <Text style={{ fontSize: 25, color: "white" }}>Add to Home</Text>
-        </Button>
-      );
-    }
-  }
-
-  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
-  _addBarToUserHome = async barID => {
-    let key = barID.key;
-    let userID = firebase.auth().currentUser.uid;
-    let bars = firebase.database().ref(`users/${userID}/bars/`); 
-    let newChildRef = bars.push();
-    if (userID) {
-
-      firebase 
-      .database()
-      .ref('bars')
-      .orderByChild('key')
-      .equalTo(key)
-      .once("value", snapshot =>{
-        if(snapshot.val() === null){
-          console.log("Data is undefined, adding bar to database...");
-            firebase
-              .database()
-              .ref(`bars/${newChildRef.key}`)
-              .update(barID);
-          } else {
-            console.log("Data has been found in database, continuing...");
-          }
-        })
-        .catch(error => {
-          console.log("error: ", error);
-        });
-    }
-  }
-  
-    
-  
-  // _addBarToUserHome = async barID => {
-  //   let key = barID.key;
-  //   let userID = firebase.auth().currentUser.uid;
-  //   let bars = firebase.database().ref(`users/${userID}/bars/`);    
-  //   let newChildRef = bars.push();
-  //   let length = 0;
-
-  //   if (userID) {
-
-  //     bars.once("value", (snapshot) => {
-  //       length = snapshot.numChildren()
-  //     })
-
-  //     //Adding bar from map to database
-  //     firebase
-  //       .database()
-  //       .ref(`bars/${newChildRef.key}`)
-  //       .once("value", function(snapshot) {
-  //       })
-  //       .then(data => {
-  //         if (data.val() === null) {
-  //           console.log("Data is undefined, adding bar to database...");
-  //           firebase
-  //             .database()
-  //             .ref(`bars/${newChildRef.key}`)
-  //             .update(barID);
-  //         } else {
-  //           console.log("Data has been found in database, continuing...");
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log("error: ", error);
-  //       });
-
-  //     //Adding the bar to users home
-  //     firebase
-  //       .database()
-  //       .ref(`users/${userID}/bars/${newChildRef.key}`)
-  //       .once("value", function(snapshot) {
-          
-  //       })
-  //       .then(data => {
-  //         if (data.val() === null) {
-  //           console.log(
-  //             "User does not have bar in their home, continue adding bar..."
-  //           );
-  //           firebase
-  //             .database()
-  //             .ref(`users/${userID}/bars/${newChildRef.key}`)
-  //             .set(barID.key);
-  //         } else {
-  //           console.log("Data is already in users home! cannot add twice!");
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log("error", error);
-  //       });
-  //   }
-  // };
-
   render() {
     return (
-      <View style={styles.content}>
+      <View style={styles.rootContainer}>
+        {this._renderImage()}
         <LinearGradient
           style={styles.gradient}
-          colors={[COLORS.TRANSPARENT_COLOR, "rgba(0, 0, 0, 0.5)"]}>
-          <View>
-            <Text style={styles.title}>{this.props.barID.name ? this.props.barID.name : 'Undefined'}</Text>
-          </View>
-          <View style={styles.footerText}>
-            <Text style={styles.rating}>{this._renderRating()}</Text>
-            <Text style={styles.price}> • {this._renderPrice()} • </Text>
-            <Text style={styles.open}>{this._renderOpen()}</Text>
-          </View>
-          <View>
-            <Text style={styles.open}>{this._renderMapButton()}</Text>
-          </View>
+          colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}
+        >
+        <View style={styles.isAddedButtonContainer}>
+            <TouchableOpacity style={styles.isAddedButton}>
+              <Text style={styles.add}>Add</Text>
+            </TouchableOpacity>
+        </View>
+
+        <View style={styles.hoursContainer}>
+            <Text style={styles.hours}>Today: 7:00AM - 9:00PM</Text>
+        </View>
+
+        <View style={styles.nameContainer}>
+            <Text style={styles.name}>Manny's Bar</Text>
+        </View>
+
+        <View style={styles.otherContainer}>
+            <Text style={styles.other}>XXXXX • $$$</Text>
+        </View>
         </LinearGradient>
       </View>
     );
@@ -290,53 +173,72 @@ class Bar extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: COLORS.TRANSPARENT_COLOR,
-    justifyContent: "center",
-    alignItems: "center",
-    width: Variables.deviceWidth - 50
-  },
-  gradient: {
-    width: Variables.deviceWidth - 50,
-    height: 500,
-    borderRadius: 25,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-  },
-  content: {
-    width: Variables.deviceWidth - 50,
-    height: 500,
-    borderRadius: 25,
-    backgroundColor: COLORS.GRADIENT_COLOR_1
-  },
-  title: {
-    fontSize: 35,
-    color: 'white',
-    fontFamily: 'HkGrotesk_Bold',
-    marginLeft: 15,
-  },
-  rating: {
-    marginBottom: 20,
-    marginLeft: 16,
-    width: 110,
-    height: 20,
-  },
-  open: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: 'green',
-    fontFamily: 'HkGrotesk_LightItalic', 
-  },
-  price: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: 'white',
-    fontFamily: 'HkGrotesk_Light',
-  },
-  footerText: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  }  
+    rootContainer: {
+      justifyContent: 'flex-end',
+      backgroundColor: "#42137b",
+      height: CARD_HEIGHT,
+      width: CARD_WIDTH,
+      borderRadius: 25,
+    },
+    gradient: {
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
+      borderRadius: 25,
+    },
+    backgroundImage: {
+      borderRadius: 25,
+      position: 'absolute',
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
+    },
+    isAddedButtonContainer: {
+      flex: 1, 
+      alignItems: 'flex-end',
+      padding: 12,
+    },
+    hoursContainer: {
+      flex: 0.3,
+      justifyContent: 'flex-end'
+    },
+    nameContainer: {
+      flex: 0.3,
+      justifyContent: 'flex-end'
+    },
+    otherContainer: {
+      flex: 0.3,
+    },
+    isAddedButton: {
+      width: 50,
+      height: 40,
+      borderRadius: 9,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+    },
+    hours: {
+      fontSize: 10,
+      fontFamily: 'HkGrotesk_Regular',
+      color: 'white',
+      paddingLeft: 10,
+    },
+    name: {
+      fontSize: 18,
+      fontFamily: 'HkGrotesk_Bold',
+      color: 'white',
+      paddingLeft: 10,
+    },
+    other: {
+      fontSize: 15,
+      fontFamily: 'HkGrotesk_Bold',
+      color: 'white',
+      paddingLeft: 10,
+    },
+    add: {
+      fontFamily: 'HkGrotesk_Bold', 
+      fontSize: 20, 
+      color: '#302c9e',
+      alignSelf: 'center',
+      justifyContent: 'center',
+    }
 });
 
-export default withNavigation(Bar);
+export default withNavigation(MapBar);

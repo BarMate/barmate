@@ -1,8 +1,8 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 12640,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://2f-up5.anonymous.barmategithub.exp.direct",
   "packagerNgrokUrl": "https://packager.2f-up5.anonymous.barmategithub.exp.direct",
   "ngrokPid": 15872
