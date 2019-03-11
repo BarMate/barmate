@@ -75,7 +75,7 @@ class HomeScreen extends React.Component {
             style={styles.gradient}
             colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
             <View style={styles.flatlist}>
-                <MapBar />
+                
             </View>
           </LinearGradient>
       </View>

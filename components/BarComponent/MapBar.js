@@ -19,15 +19,16 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { Body, Button } from "native-base";
 import firebase from "../../config/Firebase.js";
 import { withNavigation } from 'react-navigation';
+import API_KEY from '../../config/API_Key';
+import _ from 'lodash'
 
 /*
   Props:
     name : string 'The name of the selected marker from the map screen'
     rating : float 'The rating of the selected marker from the map screen'
-    price_level : int 'The price estimate of the bar'
-    onHomeScreen : bool 'True if the bar is on the user's homescreen'
-    opening_hours: Object 'Contains information on bar hours'
-
+    price : int 'The price estimate of the bar'
+    id : string 'Place ID for business provided by Google'
+    photo : string 'Reference to business photo'
 */
 
 const CARD_HEIGHT = Variables.deviceHeight / 4;
@@ -36,28 +37,76 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 class MapBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      detailResults: {},
+    }
   }
 
-   _renderImage() {
-    const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CmRaAAAA3sk1cGBA_FacwW2xOUSEcCYFfCtWHmeV3eW6-eDrO85P6-QQ7moJXXOG51PieHp8-kHBlE8ye6VkWGKXw3FqmjfyuULmMEzzEG5k7gyX5seaKn-A6Z2dMejYHdXcdl3NEhBps-zJMGicdLYlI9SZZQBAGhSRHtI05rmDZwX_ZW_sdwEyPmdxkw&key=AIzaSyCN-KItGpvTPEhIMd9oG2CS8XldyOuVMAc`
-    return(
-      <Image 
-        style={styles.backgroundImage}
-        source={{uri: imageApi}}
-      />
-    )
+  _renderImage() {
+    if(this.props.photo) {
+      const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.photo}&key=${API_KEY}`
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={{uri: imageApi}}
+        />
+      )
+    }
+    else {
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={require('../../assets/global/gradient.png')}
+        />
+      )
+    }
+  }
+
+  async onGetDetailsRequest(place_id) {
+    const detailsURL = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&fields=opening_hours&key=${API_KEY}`
+
+    try {
+      const results = await fetch(detailsURL);
+      const json = await results.json();
+
+      this.setState({
+        detailResults: json,
+      })
+
+      console.log(`Detail results: ${JSON.stringify(this.state.detailResults)}`)
+
+    } catch(err) { console.log('Could not reach Details API... ' + err)}
+  }
+
+  _renderHours() {
+    try {
+      this.onGetDetailsRequest(this.props.id);
+    } catch(err) {console.log(`Could not get details to render hours: ${err}`)}
+
+    if(this.state.detailResults != {}) {
+      let date = new Date();
+      let day = date.getDay();
+
+      if(this.state.detailResults.opening_hours.weekday_text != null) {
+
+        this.state.detailResults.opening_hours.weekday_text.forEach((result, index) => {
+
+          if(result.includes(day)) {
+            return(this.state.detailResults.opening_hours.weekday_text[index])
+          }
+
+        })
+      }
+    }
+    else {
+      return('Hours not available') 
+    }
   }
 
   _renderPrice() {
-    let price = undefined;
-    if(this.props.isMapComponent) {
-      price = this.props.barID.price;
-    }
-    else {
-      price = this.state.price;
-    }
-    if(price)
+    if(this.props.price)
     {
+      price = this.props.price;
       if(price === 0) {
         return "$";
       }
@@ -75,70 +124,76 @@ class MapBar extends React.Component {
       }
     }
     else {
-      console.log("No price found for bar.. returning unknown")
       return "N/A"
     }
   }
 
   _renderRating() {
-    let rating = undefined;
-    if(this.props.isMapComponent) {
-      rating = this.props.barID.rating;
+    if(this.props.rating) {
+      rating = this.props.rating;
+      if (rating <= 0.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/0star.png")}
+          />
+        );
+      } else if (rating >= 0.5 && rating <= 1.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/1star.png")}
+          />
+        );
+      } else if (rating >= 1.5 && rating <= 2.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/2star.png")}
+          />
+        );
+      } else if (rating >= 2.5 && rating <= 3.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/3star.png")}
+          />
+        );
+      } else if (rating >= 3.5 && rating <= 4.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/4star.png")}
+          />
+        );
+      } else if (rating >= 4.5 && rating <= 5) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/5star.png")}
+          />
+        );
+      } else {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/unknown.png")}
+          />
+        );
+      }
     }
     else {
-      rating = this.state.rating;
-    }
-
-    if (rating <= 0.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/0star.png")}
-        />
-      );
-    } else if (rating >= 0.5 && rating <= 1.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/1star.png")}
-        />
-      );
-    } else if (rating >= 1.5 && rating <= 2.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/2star.png")}
-        />
-      );
-    } else if (rating >= 2.5 && rating <= 3.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/3star.png")}
-        />
-      );
-    } else if (rating >= 3.5 && rating <= 4.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/4star.png")}
-        />
-      );
-    } else if (rating >= 4.5 && rating <= 5) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/5star.png")}
-        />
-      );
-    } else {
-      return (
+      return(
         <Image
           style={styles.rating}
           source={require("../../assets/global/ratings/unknown.png")}
         />
-      );
+      )
     }
+  }
+
+  _renderAddButton() {
+    
   }
 
   render() {
@@ -150,21 +205,23 @@ class MapBar extends React.Component {
           colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}
         >
         <View style={styles.isAddedButtonContainer}>
+            {this._renderAddButton()}
             <TouchableOpacity style={styles.isAddedButton}>
               <Text style={styles.add}>Add</Text>
             </TouchableOpacity>
         </View>
 
         <View style={styles.hoursContainer}>
-            <Text style={styles.hours}>Today: 7:00AM - 9:00PM</Text>
+            <Text style={styles.hours}>{/*this._renderHours()*/}</Text>
         </View>
 
         <View style={styles.nameContainer}>
-            <Text style={styles.name}>Manny's Bar</Text>
+            <Text numberOfLines={1} style={styles.name}>{this.props.name}</Text>
         </View>
 
         <View style={styles.otherContainer}>
-            <Text style={styles.other}>XXXXX • $$$</Text>
+            {this._renderRating()}
+            <Text style={styles.price}> • {this._renderPrice()}</Text>
         </View>
         </LinearGradient>
       </View>
@@ -206,18 +263,19 @@ const styles = StyleSheet.create({
     },
     otherContainer: {
       flex: 0.3,
+      flexDirection: 'row',
     },
     isAddedButton: {
-      width: 50,
-      height: 40,
+      width: 45,
+      height: 30,
       borderRadius: 9,
       backgroundColor: 'white',
       justifyContent: 'center',
     },
     hours: {
       fontSize: 10,
-      fontFamily: 'HkGrotesk_Regular',
-      color: 'white',
+      fontFamily: 'HkGrotesk_Italic',
+      color: '#ebebeb',
       paddingLeft: 10,
     },
     name: {
@@ -225,12 +283,7 @@ const styles = StyleSheet.create({
       fontFamily: 'HkGrotesk_Bold',
       color: 'white',
       paddingLeft: 10,
-    },
-    other: {
-      fontSize: 15,
-      fontFamily: 'HkGrotesk_Bold',
-      color: 'white',
-      paddingLeft: 10,
+      flexWrap: 'wrap',
     },
     add: {
       fontFamily: 'HkGrotesk_Bold', 
@@ -238,7 +291,17 @@ const styles = StyleSheet.create({
       color: '#302c9e',
       alignSelf: 'center',
       justifyContent: 'center',
-    }
+    },
+    rating: {
+      width: 55,
+      height: 10,
+      marginLeft: 10,
+    },
+    price: {
+      fontSize: 10,
+      fontFamily: 'HkGrotesk_Bold',
+      color: 'white',
+    },
 });
 
 export default withNavigation(MapBar);

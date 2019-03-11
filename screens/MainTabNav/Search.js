@@ -18,7 +18,8 @@ import Variables from '../../config/Variables';
 import { connect } from 'react-redux'
 import { onSubmitNearbySearch, userSearch } from '../../redux/actions/SearchActions'
 import MapBar from '../../components/BarComponent/MapBar'
-const API_KEY = 'AIzaSyCN-KItGpvTPEhIMd9oG2CS8XldyOuVMAc';
+import API_KEY from '../../config/API_Key';
+
 const CARD_HEIGHT = Variables.deviceHeight / 4;
 const CARD_WIDTH = CARD_HEIGHT - 50;
 
@@ -34,383 +35,19 @@ class Search extends Component {
     super(props);
     this.state = {
       region: {
-        latitude: 45.52220671242907,
-        longitude: -122.6653281029795,
-        latitudeDelta: 0.04864195044303443,
-        longitudeDelta: 0.040142817690068,
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.0041,
+        longitudeDelta: 0.0021,
       },
       error: "",
       longitude: 0,
       latitude: 0,
       destination: '',
       predictions: [],
-      search: [],
-      didUserSearch: false,
-      markers: [
-        {
-          coordinate: {
-            latitude: 45.524548,
-            longitude: -122.6749817,
-          },
-          title: "Best Place",
-          description: "This is the best place in Portland",
-          image: Images[0],
-        },
-        {
-          coordinate: {
-            latitude: 45.524698,
-            longitude: -122.6655507,
-          },
-          title: "Second Best Place",
-          description: "This is the second best place in Portland",
-          image: Images[1],
-        },
-        {
-          coordinate: {
-            latitude: 45.5230786,
-            longitude: -122.6701034,
-          },
-          title: "Third Best Place",
-          description: "This is the third best place in Portland",
-          image: Images[2],
-        },
-        {
-          coordinate: {
-            latitude: 45.521016,
-            longitude: -122.6561917,
-          },
-          title: "Fourth Best Place",
-          description: "This is the fourth best place in Portland",
-          image: Images[3],
-        },
-      ],
-      mapstyle: [
-        {
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#1d2c4d"
-            }
-          ]
-        },
-        {
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#8ec3b9"
-            }
-          ]
-        },
-        {
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#1a3646"
-            }
-          ]
-        },
-        {
-          "featureType": "administrative",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "administrative.country",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#4b6878"
-            }
-          ]
-        },
-        {
-          "featureType": "administrative.land_parcel",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "administrative.land_parcel",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#64779e"
-            }
-          ]
-        },
-        {
-          "featureType": "administrative.province",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#4b6878"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape.man_made",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#334e87"
-            }
-          ]
-        },
-        {
-          "featureType": "landscape.natural",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#023e58"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#283d6a"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "labels.text",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#6f9ba5"
-            }
-          ]
-        },
-        {
-          "featureType": "poi",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#1d2c4d"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.park",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#023e58"
-            }
-          ]
-        },
-        {
-          "featureType": "poi.park",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#3C7680"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#304a7d"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.icon",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#98a5be"
-            }
-          ]
-        },
-        {
-          "featureType": "road",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#1d2c4d"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#2c6675"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            {
-              "color": "#255763"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#b0d5ce"
-            }
-          ]
-        },
-        {
-          "featureType": "road.highway",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#023e58"
-            }
-          ]
-        },
-        {
-          "featureType": "road.local",
-          "elementType": "labels",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "stylers": [
-            {
-              "visibility": "off"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#98a5be"
-            }
-          ]
-        },
-        {
-          "featureType": "transit",
-          "elementType": "labels.text.stroke",
-          "stylers": [
-            {
-              "color": "#1d2c4d"
-            }
-          ]
-        },
-        {
-          "featureType": "transit.line",
-          "elementType": "geometry.fill",
-          "stylers": [
-            {
-              "color": "#283d6a"
-            }
-          ]
-        },
-        {
-          "featureType": "transit.station",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#3a4762"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "geometry",
-          "stylers": [
-            {
-              "color": "#0e1626"
-            }
-          ]
-        },
-        {
-          "featureType": "water",
-          "elementType": "labels.text.fill",
-          "stylers": [
-            {
-              "color": "#4e6d70"
-            }
-          ]
-        }
-      ],
-      dataStub: [
-      {
-        geometry: {
-          location: {
-            lat: 41.072160,
-            lng: -81.502920,
-          }
-        },
-        name: 'Test Bar 1',
-        place_id: 'ChIJi6C1MxquEmsR9-c-3O48ykI'
-      },
-      {
-        geometry: {
-          location: {
-            lat: 41.072430,
-            lng: -81.503050,
-          }
-        },
-        name: 'Test Bar 2',
-        place_id: 'ChIJi6C1MxquEmsR9-c-3O4834ykI'
-      },
-      {
-        geometry: {
-          location: {
-            lat: 41.072240,
-            lng: -81.503300,
-          }
-        },
-        name: 'Test Bar 3',
-        place_id: 'ChIJi6C1MxquEmsR9-c-3O428ykI'
-      },
-
-    ]
+      textSearchResults: [],
+      nearbySearchResults: [],
+      detailsSearchResults: {},
     };
     this.onChangeInputFieldDebounced = _.debounce(this.onChangeInputField, 500);
   }
@@ -423,21 +60,28 @@ class Search extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       position => {
+        this.setState({
+          region: {
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            longitudeDelta: 0.0041,
+            latitudeDelta: 0.0021,
+          }
+        })
         this.map.animateToCoordinate({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         }, 1000)
       },
+      
       error => this.setState({error: error.message}),
       { enableHighAccuracy: true, maximumAge: 2000, timeout: 200000 }
     );
 
-    // We should detect when scrolling has stopped then animate
-    // We should just debounce the event listener here
     this.animation.addListener(({ value }) => {
       let index = Math.floor(value / CARD_WIDTH + 0.3); // animate 30% away from landing on the next item
-      if (index >= this.state.markers.length) {
-        index = this.state.markers.length - 1;
+      if (index >= this.state.nearbySearchResults.length) {
+        index = this.state.nearbySearchResults.length - 1;
       }
       if (index <= 0) {
         index = 0;
@@ -449,8 +93,8 @@ class Search extends Component {
           this.index = index;
           this.map.animateToRegion(
             {
-              latitude: this.state.dataStub[index].geometry.location.lat,
-              longitude: this.state.dataStub[index].geometry.location.lng,
+              latitude: this.state.nearbySearchResults[index].geometry.location.lat,
+              longitude: this.state.nearbySearchResults[index].geometry.location.lng,
               latitudeDelta: this.state.region.latitudeDelta,
               longitudeDelta: this.state.region.longitudeDelta,
             },
@@ -494,15 +138,15 @@ class Search extends Component {
       const result = await fetch(apiURL);
       const json = await result.json();
       this.setState({
-        search: json.candidates,
+        textSearchResults: json.candidates,
         // latitude: json.candidates[0].geometry.location.lat,
         // longitude: json.candidates[0].geometry.location.lng,
       })
       this.map.animateToRegion({
         latitude: json.candidates[0].geometry.location.lat, 
         longitude: json.candidates[0].geometry.location.lng,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
+        latitudeDelta: this.state.region.latitudeDelta,
+        longitudeDelta: this.state.region.longitudeDelta,
       }, 1000)
     } catch(err) {
       console.log(err);
@@ -510,7 +154,8 @@ class Search extends Component {
   }
 
   async onSearchNearby(query) {
-    const textSearchURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}}&key=${API_KEY}&radius=2000&type=bar`;
+    const textSearchURL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${API_KEY}&radius=2000&type=bar`;
+    console.log(textSearchURL)
     let longitude = 0;
     let latitude = 0;
     this.props.userSearch(true);
@@ -519,6 +164,10 @@ class Search extends Component {
     try {
       const result = await fetch(textSearchURL);
       const json = await result.json();
+      this.setState({
+        latitude: json.results[0].geometry.location.lat,
+        longitude: json.results[0].geometry.location.lng,
+      })
       latitude = json.results[0].geometry.location.lat;
       longitude = json.results[0].geometry.location.lng;
     } catch(err) {
@@ -530,12 +179,21 @@ class Search extends Component {
       const result = await fetch(nearbySearchURL);
       const json = await result.json();
       
-      this.map.animateToRegion({
-        latitude: latitude, 
-        longitude: longitude,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
-      }, 1000)
+      if(json.status === 'ZERO_RESULTS') {
+        alert('No results found, please search again')
+      }
+      else {
+        this.map.animateToRegion({
+          latitude: this.state.latitude, 
+          longitude: this.state.longitude,
+          latitudeDelta: this.state.region.latitudeDelta,
+          longitudeDelta: this.state.region.longitudeDelta,
+        }, 1000)
+
+        this.setState({
+          nearbySearchResults: json.results
+        })
+      }
     } catch(err) {
       console.log(err);
     }
@@ -548,8 +206,13 @@ class Search extends Component {
         <Text style={styles.suggestions} key={prediction.id}>{prediction.description}</Text>
       </TouchableHighlight>
     )
+    
+    const latlng = {
+      latitude: this.state.region.latitude,
+      longitude: this.state.region.longitude,
+    }
 
-    const interpolations = this.state.markers.map((marker, index) => {
+    const interpolations = this.state.nearbySearchResults.map((marker, index) => {
       const inputRange = [
         (index - 1) * CARD_WIDTH,
         index * CARD_WIDTH,
@@ -578,8 +241,9 @@ class Search extends Component {
           showsUserLocation={true}
           showsMyLocationButton={true}
         >
+     
           {
-            this.state.dataStub.map((marker, index) => {
+            this.state.nearbySearchResults.map((marker, index) => {
               const scaleStyle = {
                 transform: [
                   {
@@ -591,20 +255,21 @@ class Search extends Component {
                 opacity: interpolations[index].opacity,
               }
               const latlng = {
-                latitude: this.state.dataStub[index].geometry.location.lat,
-                longitude: this.state.dataStub[index].geometry.location.lng,
+                latitude: this.state.nearbySearchResults[index].geometry.location.lat,
+                longitude: this.state.nearbySearchResults[index].geometry.location.lng,
               }
               return(
-                <MapView.Marker key={index} coordinate={latlng}>
-                  <Animated.View style={[styles.markerWrap, opacityStyle]}>
-                    <Animated.View style={[styles.markerWrap, scaleStyle]}>
-                      <View style={styles.marker} />
+                  <MapView.Marker  key={index} coordinate={latlng}>
+                    <Animated.View style={[styles.markerWrap, opacityStyle]}>
+                      <Animated.View style={[styles.markerWrap, scaleStyle]}>
+                        <View style={styles.marker} />
+                      </Animated.View>
                     </Animated.View>
-                  </Animated.View>
-                </MapView.Marker>
+                  </MapView.Marker>
               )
             })
           }
+          
         </MapView>
         {this.props.didUserSearch ? null : predictions}
         <Animated.ScrollView
@@ -628,26 +293,20 @@ class Search extends Component {
           contentContainerStyle={styles.endPadding}
         >
             {
-              this.state.dataStub.map((marker, index) => (
-                // <View style={styles.card} key={index}>
-                //   <Image 
-                //     source={marker.image}
-                //     style={styles.cardImage}
-                //     resizeMode="cover"
-                //   />
-                //   <View style={styles.textContent}>
-                //     <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-                //     <Text numberOfLines={1} style={styles.carddescription}>
-                //       {marker.description}
-                //     </Text>
-                //   </View>
-                // </View>
+              this.state.nearbySearchResults.map((marker, index) => (
                 <View style={{padding: 5}} key={index}>
-                    <MapBar />
+                    <MapBar 
+                      name={marker.name} 
+                      rating={marker.rating}
+                      price={marker.price_level}
+                      id={marker.place_id}
+                      photo={marker.photos ? marker.photos[0].photo_reference : null}
+                    />
                 </View>
               ))
             }
-          </Animated.ScrollView> 
+          
+        </Animated.ScrollView> 
       </View>
     );
   }
@@ -688,10 +347,9 @@ const styles = StyleSheet.create({
     color: 'white',
     borderWidth: 0.5,
   },
-
   scrollView: {
     position: "absolute",
-    bottom: 30,
+    bottom: 20,
     left: 0,
     right: 0,
     paddingVertical: 10,
@@ -699,36 +357,8 @@ const styles = StyleSheet.create({
   endPadding: {
     paddingRight: Variables.deviceWidth - CARD_WIDTH,
   },
-  card: {
-    padding: 10,
-    elevation: 2,
-    backgroundColor: "#FFF",
-    marginHorizontal: 10,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    shadowOffset: { x: 2, y: -2 },
-    height: CARD_HEIGHT,
-    width: CARD_WIDTH,
-    overflow: "hidden",
-  },
-  cardImage: {
-    flex: 3,
-    width: "100%",
-    height: "100%",
-    alignSelf: "center",
-  },
   textContent: {
     flex: 1,
-  },
-  cardtitle: {
-    fontSize: 12,
-    marginTop: 5,
-    fontWeight: "bold",
-  },
-  cardDescription: {
-    fontSize: 12,
-    color: "#444",
   },
   markerWrap: {
     alignItems: "center",
