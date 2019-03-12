@@ -15,8 +15,6 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 import { LinearGradient } from "expo";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { Body, Button } from "native-base";
 import firebase from "../../config/Firebase.js";
 import { withNavigation } from 'react-navigation';
 import API_KEY from '../../config/API_Key';

@@ -23,12 +23,6 @@ import API_KEY from '../../config/API_Key';
 const CARD_HEIGHT = Variables.deviceHeight / 4;
 const CARD_WIDTH = CARD_HEIGHT - 50;
 
-const Images = [
-  { uri: "https://i.imgur.com/sNam9iJ.jpg" },
-  { uri: "https://i.imgur.com/N7rlQYt.jpg" },
-  { uri: "https://i.imgur.com/UDrH0wm.jpg" },
-  { uri: "https://i.imgur.com/Ka8kNST.jpg" }
-]
 class Search extends Component {
 
   constructor(props) {
@@ -206,11 +200,6 @@ class Search extends Component {
         <Text style={styles.suggestions} key={prediction.id}>{prediction.description}</Text>
       </TouchableHighlight>
     )
-    
-    const latlng = {
-      latitude: this.state.region.latitude,
-      longitude: this.state.region.longitude,
-    }
 
     const interpolations = this.state.nearbySearchResults.map((marker, index) => {
       const inputRange = [

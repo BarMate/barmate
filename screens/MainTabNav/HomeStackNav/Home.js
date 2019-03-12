@@ -22,18 +22,11 @@ import { connect } from 'react-redux';
 import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
-import MapBar from '../../../components/BarComponent/MapBar'
 
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Left,
-  Right,
-  Body,
-  StyleProvider,
-} from "native-base";
+import Carousel from 'react-native-snap-carousel';
+
+const CARD_HEIGHT = Variables.deviceHeight / 2;
+const CARD_WIDTH = CARD_HEIGHT - 100;
 
 class HomeScreen extends React.Component {
 
@@ -41,9 +34,41 @@ class HomeScreen extends React.Component {
     super(props);
     this.state = {
       refreshing: false,
+      data: [
+        {
+          name: 'Mannys',
+          key: '4320ofjdwkjf32',
+        },
+        {
+          name: 'Score',
+          key: '3424234',
+        },
+        {
+          name: 'Dog',
+          key: '324',
+        },
+        {
+          name: 'Jay',
+          key: '7657567567567',
+        },
+      ]
     }
   }
 
+
+
+  componentWillMount() {
+    this._refreshing()
+  }
+
+  _refreshing() {
+    // Refreshes the list of bars on users screen
+    this.props.refreshList(true);
+    this.props.eraseListData();
+    this._pullDataFromFirebaseToReduxStore();
+    this.props.refreshList(false);
+  }
+  
   _pullDataFromFirebaseToReduxStore() {
     // 1) pull key references from user firebase
     // 2) For each key, look inside the firebase bar database
@@ -74,8 +99,21 @@ class HomeScreen extends React.Component {
           <LinearGradient
             style={styles.gradient}
             colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
+            <View style={{flex: .6}}>
+            
+            </View>
             <View style={styles.flatlist}>
-                
+                <Carousel 
+                  ref={c => { this._carousel = c}}
+                  data={this.state.data}
+                  renderItem={data => <HomeBar name={data.name} key={data.index} id={data.key}/>}
+                  sliderWidth={Variables.deviceWidth}
+                  itemWidth={CARD_WIDTH}
+                  windowSize={1}
+                />
+            </View>
+            <View style={styles.bottomContainer}>
+              <Text style={styles.name}>Manny's Bar</Text>
             </View>
           </LinearGradient>
       </View>
@@ -100,17 +138,27 @@ const mapDispatchToProps = {
 
 const styles = StyleSheet.create({
   gradient: {
+    position: 'absolute',
     width: Variables.deviceWidth,
     height: Variables.deviceHeight
   },
   flatlist: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    // paddingTop: Variables.deviceHeight / 7,
+  },
+  bottomContainer: {
+    flex: 2.2,
     alignItems: 'center',
   },
-  contentContainerStyle: {
-    paddingBottom: 220, 
-  }
+  name: {
+    fontSize: 20,
+    fontFamily: 'HkGrotesk_Bold',
+    color: 'white',
+    flexWrap: 'wrap',
+    paddingTop: 50,
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen); 

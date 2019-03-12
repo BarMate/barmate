@@ -36,6 +36,7 @@
     "react-native-maps": "^0.21.0",
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-parallax-swiper": "^1.1.7",
+    "react-native-parallax-view": "^2.0.6",
     "react-native-refresher": "^0.1.1",
     "react-native-scripts": "^2.0.1",
     "react-native-search-bar": "^3.4.2",

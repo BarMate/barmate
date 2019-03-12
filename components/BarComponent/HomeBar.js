@@ -1,34 +1,28 @@
-//=============================================================
-// Bar.js
-//
-// The component for holding data on user's saved bars
-// including styling, name of bar, if it's open, etc..
-//
-// Author: Joseph Contumelio
-// Copyright(C) 2018, Barmate l.l.c.
-// All rights reserved.
-//=============================================================
+/* 
+    HomeBar.js
+    
+    The component for holding data on user's saved bars
+    including styling, name of bar, if it's open, etc..
+    
+    Author:  Joseph Contumelio
+    Copyright(C) 2019, BarMate l.l.c.
+    All rights reserved
+*/
 
-//=============================================================
-// Variables and Constants
-//=============================================================
-import Variables from "../../config/Variables.js";
-import COLORS from "../../config/Colors.js";
-//=============================================================
 
-//=============================================================
-// Imports
-//=============================================================
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, Text, Image, TouchableHighlight, Alert } from "react-native";
 
 import firebase from '../../config/Firebase';
 import { LinearGradient } from "expo";
 import { withNavigation } from 'react-navigation';
 import { pushSelectedBarData, refreshList } from '../../redux/actions/HomeActions';
 import { connect } from 'react-redux';
-//=============================================================
 
+import Variables from "../../config/Variables.js";
+import COLORS from "../../config/Colors.js";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import API_KEY from '../../config/API_Key'
 /*
   Props:
     key : string 'Used for the unique key for each bar component'
@@ -37,6 +31,9 @@ import { connect } from 'react-redux';
     open : string 'Either 'Closed', 'Open', or 'N/A' '
     price : Int
 */
+
+const CARD_HEIGHT = Variables.deviceHeight / 2;
+const CARD_WIDTH = CARD_HEIGHT - 100;
 
 class Bar extends React.Component {
   constructor(props) {
@@ -54,6 +51,26 @@ class Bar extends React.Component {
     } else {
       return <Text style={{color: 'yellow'}}>N/A</Text>
       console.log("Could not gather open information");
+    }
+  }
+
+  _renderImage() {
+    if(this.props.photo === true) {
+      const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.photo}&key=${API_KEY}`
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={{uri: imageApi}}
+        />
+      )
+    }
+    else {
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=CmRaAAAA3sk1cGBA_FacwW2xOUSEcCYFfCtWHmeV3eW6-eDrO85P6-QQ7moJXXOG51PieHp8-kHBlE8ye6VkWGKXw3FqmjfyuULmMEzzEG5k7gyX5seaKn-A6Z2dMejYHdXcdl3NEhBps-zJMGicdLYlI9SZZQBAGhSRHtI05rmDZwX_ZW_sdwEyPmdxkw&key=AIzaSyCN-KItGpvTPEhIMd9oG2CS8XldyOuVMAc'}}
+        />
+      )
     }
   }
 
@@ -175,22 +192,22 @@ class Bar extends React.Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={() => {this._sendDataToStoreAndOpen()}} onLongPress={() => {this._deleteBarPrompt()}}>
-      <View style={styles.content}>
-        <LinearGradient
-          style={styles.gradient}
-          colors={[COLORS.TRANSPARENT_COLOR, "rgba(0, 0, 0, 0.5)"]}>
-          <View>
-            <Text style={styles.title}>{this.props.name ? this.props.name : 'Loading...'}</Text>
-          </View>
-          <View style={styles.footerText}>
-            <Text style={styles.rating}>{this._renderRating()}</Text>
-            <Text style={styles.price}> • {this._renderPrice()} • </Text>
-            <Text style={styles.open}>{this._renderOpen()}</Text>
-          </View>
-        </LinearGradient>
-      </View>
-      </TouchableOpacity>
+      <TouchableHighlight>
+        <View style={styles.rootContainer}>
+            {this._renderImage()}
+              <LinearGradient
+                style={styles.gradient}
+                colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}>
+                  <View style={styles.openContainer}>
+                      {this._renderOpen()}
+                  </View>
+                  <View style={styles.nameContainer}>
+                      <Text style={styles.name}>{this.props.name}</Text>
+                      <Ionicons style={styles.arrow} name={'ios-arrow-dropright-circle'} size={40} color={'#ffffff'}/>
+                  </View>
+              </LinearGradient>
+        </View>
+      </TouchableHighlight>
     );
   }
 }
@@ -203,21 +220,33 @@ const mapDispatchToProps = {
 
 const styles = StyleSheet.create({
   gradient: {
-    width: Variables.deviceWidth - 50,
-    height: 450,
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
     borderRadius: 25,
+  },
+  rootContainer: {
+    backgroundColor: "#42137b",
+    height: CARD_HEIGHT,
+    width: CARD_WIDTH,
+    borderRadius: 25,
+  },
+  backgroundImage: {
+    borderRadius: 25,
+    position: 'absolute',
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+  },
+  openContainer: {
+    flex: 5,
     justifyContent: 'flex-end',
+    marginLeft: 15,
+  },
+  nameContainer: {
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'flex-start',
   },
-  content: {
-    marginTop: 75,
-    marginBottom: 50,
-    width: Variables.deviceWidth - 50,
-    height: 450,
-    borderRadius: 25,
-    backgroundColor: COLORS.GRADIENT_COLOR_1
-  },
-  title: {
+  name: {
     fontSize: 35,
     color: 'white',
     fontFamily: 'HkGrotesk_Bold',
@@ -241,10 +270,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'HkGrotesk_Light',
   },
-  footerText: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  }  
+  arrow: {
+    marginLeft: 'auto',
+    paddingRight: 15,
+  },
 });
 
 export default connect(null, mapDispatchToProps)(withNavigation(Bar));
