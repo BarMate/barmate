@@ -191,7 +191,89 @@ class MapBar extends React.Component {
   }
 
   _renderAddButton() {
+    let isBarInUserHome = false;
+
+    const userBars = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`);
+
+    userBars.once('value', snapshot => {
+      snapshot.forEach(bars => {
+        if(bars.val() === this.props.id) {
+          isBarInUserHome = true;
+        }
+      })
+    }).catch(err => {
+      console.log(`Error getting users bars list for MapBar: ${err}`)
+    })
+
+    if(isBarInUserHome === true) {
+      return(
+        <View style={styles.isAddedButton}>
+          <Text style={styles.added}>Added</Text>
+        </View>
+      )
+    }
+    else {
+      return (
+        <TouchableOpacity onPress={() => {this._addBarToUserHome()}} style={styles.addButton}>
+          <Text style={styles.add}>Add</Text>
+        </TouchableOpacity>
+      )
+    }
+  }
+
+  async _addBarToUserHome() {
+    /*
+      Doing two things (in order):
+      - Check to see if bar being added is in database
+        If it is, then skip adding it, if not, add to database
+      - After Bar is added, add a reference to the bar in the user's
+        bar folder in database
+    */
     
+    const detailsURL = `https://maps.googleapis.com/maps/api/place/details/json?key=${API_KEY}&placeid=${this.props.id}&fields=name,rating,place_id,price_level,geometry/location,opening_hours,formatted_address,photos`
+    let isBarInDatabase = false;
+    let isBarInUserHome = false;
+
+    try {
+      const result = await fetch(detailsURL);
+      var json = await result.json();
+    } catch(err) { console.log(`Failed to get result from Google Details API: ${err}`)}
+
+    // Check bar db
+    let barsRef = firebase.database().ref(`bars`);
+    barsRef.once('value', snapshot => {
+
+      snapshot.forEach(barID => {
+        if(this.props.id === barID.key) {
+          isBarInDatabase = true;
+        }
+      })
+
+      if(isBarInDatabase === false) {
+        console.log('Adding Bar to database')
+        firebase.database().ref(`bars/${json.result.place_id}`).update(json.result);
+      }
+    })
+
+    // Add reference to bar in users bar folder
+    let usersRef = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`)
+    usersRef.once('value', snapshot => {
+      snapshot.forEach(barID => {
+        if(this.props.id === barID.val()) {
+          isBarInUserHome = true;
+        }
+      })
+
+      if(isBarInUserHome === false) {
+        console.log('Adding Bar to user home...')
+        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`).push(this.props.id).catch(err => {
+          console.log(`Unable to add bar to user home... ${err}`)
+        })
+      }
+      else {
+        console.log('Bar is already in user home!')
+      }
+    })
   }
 
   render() {
@@ -204,9 +286,6 @@ class MapBar extends React.Component {
         >
         <View style={styles.isAddedButtonContainer}>
             {this._renderAddButton()}
-            <TouchableOpacity style={styles.isAddedButton}>
-              <Text style={styles.add}>Add</Text>
-            </TouchableOpacity>
         </View>
 
         <View style={styles.hoursContainer}>
@@ -263,11 +342,19 @@ const styles = StyleSheet.create({
       flex: 0.3,
       flexDirection: 'row',
     },
-    isAddedButton: {
+    addButton: {
       width: 45,
       height: 30,
       borderRadius: 9,
       backgroundColor: 'white',
+      justifyContent: 'center',
+    },
+    isAddedButton: {
+      width: 65,
+      height: 30,
+      borderRadius: 9,
+      borderWidth: 2,
+      borderColor: 'white',
       justifyContent: 'center',
     },
     hours: {
@@ -287,6 +374,13 @@ const styles = StyleSheet.create({
       fontFamily: 'HkGrotesk_Bold', 
       fontSize: 20, 
       color: '#302c9e',
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
+    added: {
+      fontFamily: 'HkGrotesk_Bold', 
+      fontSize: 20, 
+      color: '#FFFFFF',
       alignSelf: 'center',
       justifyContent: 'center',
     },

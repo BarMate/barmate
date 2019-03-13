@@ -10,6 +10,7 @@
 
 const initialState_messages = {
     test: 0,
+    carouselData: [],
 }
 
 export const messagesReducer = (state = initialState_messages, action) => {

@@ -25,11 +25,12 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import API_KEY from '../../config/API_Key'
 /*
   Props:
-    key : string 'Used for the unique key for each bar component'
+    id : string 'Used for the unique key for each bar component'
     name : string 'The name of the selected marker from the map screen'
     rating : Float 'The rating of the selected marker from the map screen'
     open : string 'Either 'Closed', 'Open', or 'N/A' '
     price : Int
+    photo : string 'Photo reference for bar'
 */
 
 const CARD_HEIGHT = Variables.deviceHeight / 2;
@@ -55,7 +56,7 @@ class Bar extends React.Component {
   }
 
   _renderImage() {
-    if(this.props.photo === true) {
+    if(this.props.photo !== null) {
       const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.photo}&key=${API_KEY}`
       return(
         <Image 
@@ -157,6 +158,7 @@ class Bar extends React.Component {
       rating: this.props.rating,
       open: this.props.open,
       price: this.props.price,
+      photo: this.props.photo,
     }
     this.props.pushSelectedBarData(tempObject);
     this.props.navigation.navigate('BarDetails');
@@ -192,17 +194,17 @@ class Bar extends React.Component {
 
   render() {
     return (
-      <TouchableHighlight>
+      <TouchableHighlight style={{borderRadius: 25}} onPress={() => {this._sendDataToStoreAndOpen()}}>
         <View style={styles.rootContainer}>
             {this._renderImage()}
               <LinearGradient
                 style={styles.gradient}
                 colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}>
                   <View style={styles.openContainer}>
-                      {this._renderOpen()}
+                      {/* {this._renderOpen()} */}
                   </View>
                   <View style={styles.nameContainer}>
-                      <Text style={styles.name}>{this.props.name}</Text>
+                      <Text numberOfLines={2}  style={styles.name}>{this.props.name}</Text>
                       <Ionicons style={styles.arrow} name={'ios-arrow-dropright-circle'} size={40} color={'#ffffff'}/>
                   </View>
               </LinearGradient>
@@ -251,6 +253,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'HkGrotesk_Bold',
     marginLeft: 15,
+    flexWrap: 'wrap',
   },
   rating: {
     marginBottom: 20,

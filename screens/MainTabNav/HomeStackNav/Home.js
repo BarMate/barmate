@@ -33,47 +33,23 @@ class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
-      data: [
-        {
-          name: 'Mannys',
-          key: '4320ofjdwkjf32',
-        },
-        {
-          name: 'Score',
-          key: '3424234',
-        },
-        {
-          name: 'Dog',
-          key: '324',
-        },
-        {
-          name: 'Jay',
-          key: '7657567567567',
-        },
-      ]
+      
     }
   }
 
-
-
   componentWillMount() {
-    this._refreshing()
-  }
-
-  _refreshing() {
-    // Refreshes the list of bars on users screen
-    this.props.refreshList(true);
-    this.props.eraseListData();
-    this._pullDataFromFirebaseToReduxStore();
-    this.props.refreshList(false);
+    this._listenToBarData();
   }
   
-  _pullDataFromFirebaseToReduxStore() {
-    // 1) pull key references from user firebase
-    // 2) For each key, look inside the firebase bar database
-    //    When the key being searched for is found, take that data
-    //    and push it to the store.
+  componentDidMount() {
+    console.log(`Carousel Data: ${this.props.carouselData}`)
+  }
+
+  _listenToBarData() {
+    // - pull key references from user firebase
+    // - For each key, look inside the firebase bar database
+    //   When the key being searched for is found, take that data
+    //   and push it to the store.
 
     let uid = firebase.auth().currentUser.uid;
     let userBars = firebase.database().ref(`users/${uid}/bars`);
@@ -83,14 +59,14 @@ class HomeScreen extends React.Component {
       snapshot.forEach(userChild => {
         publicBars.once('value', snapshot => {
           snapshot.forEach(barChild => {
-            if(userChild.val() === barChild.val().key) {
+            if(userChild.val() === barChild.key) {
               this.props.pushListData(barChild.val());
             }
           })
         })
       })
     })
-  }
+}
 
   render() {
     return (
@@ -105,15 +81,23 @@ class HomeScreen extends React.Component {
             <View style={styles.flatlist}>
                 <Carousel 
                   ref={c => { this._carousel = c}}
-                  data={this.state.data}
-                  renderItem={data => <HomeBar name={data.name} key={data.index} id={data.key}/>}
+                  data={this.props.carouselData}
+                  renderItem={(data, index) => 
+                    <HomeBar 
+                      key={index} 
+                      name={data.item.name} 
+                      rating={data.item.rating} 
+                      price={data.item.price_level} 
+                      photo={data.item.photos ? data.item.photos[0].photo_reference : null}
+                    />
+                  }
                   sliderWidth={Variables.deviceWidth}
                   itemWidth={CARD_WIDTH}
                   windowSize={1}
                 />
             </View>
             <View style={styles.bottomContainer}>
-              <Text style={styles.name}>Manny's Bar</Text>
+              {/* <Text style={styles.name}>Manny's Bar</Text> */}
             </View>
           </LinearGradient>
       </View>

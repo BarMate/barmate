@@ -19,6 +19,7 @@ import { connect } from 'react-redux'
 import { onSubmitNearbySearch, userSearch } from '../../redux/actions/SearchActions'
 import MapBar from '../../components/BarComponent/MapBar'
 import API_KEY from '../../config/API_Key';
+import firebase from '../../config/Firebase';
 
 const CARD_HEIGHT = Variables.deviceHeight / 4;
 const CARD_WIDTH = CARD_HEIGHT - 50;
@@ -110,7 +111,7 @@ class Search extends Component {
       this.onSearchNearby(nextProps.submitSearch)
     }
   }
-  
+
   async onChangeInputField() {
     const apiURL = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${API_KEY}&input=${this.props.destination}&location=${this.state.latitude},${this.state.longitude}&radius=2000&types=establishment`;
     try {
@@ -125,16 +126,18 @@ class Search extends Component {
   }
 
   async onSearchFindPlaceFromText(place) {
-    const apiURL = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${place}&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=${API_KEY}`
+    const apiURL = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${place}&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry,types&key=${API_KEY}`
     this.props.userSearch(true);
     Keyboard.dismiss();
     try {
       const result = await fetch(apiURL);
       const json = await result.json();
-      this.setState({
-        textSearchResults: json.candidates,
-        // latitude: json.candidates[0].geometry.location.lat,
-        // longitude: json.candidates[0].geometry.location.lng,
+      json.candidates[0].types.forEach(types => {
+        if(types === 'bar' || types === 'night_club') {
+          this.setState({
+            nearbySearchResults: json.candidates,
+          })
+        }
       })
       this.map.animateToRegion({
         latitude: json.candidates[0].geometry.location.lat, 
