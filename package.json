@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "compression": "^1.7.3",
+    "connectycube-reactnative": "^1.5.0",
     "expo": "^28.0.0",
     "firebase": "^5.7.2",
     "morgan": "^1.9.1",
