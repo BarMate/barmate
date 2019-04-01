@@ -6,7 +6,7 @@
 
 #mainNav {
   min-height: 56px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 #mainNav .navbar-toggler {
@@ -27,7 +27,7 @@
 }
 
 #mainNav .navbar-nav .nav-item:hover {
-  color: fade(white, 80%);
+  color: fade(rgba(255,255,255,0.9), 80%);
   outline: none;
   background-color: transparent;
 }
@@ -60,10 +60,10 @@
     color: rgba(255, 255, 255, 0.75);
   }
   #mainNav .nav-link:active {
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
   }
   #mainNav.navbar-shrink {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
   }
   #mainNav.navbar-shrink .navbar-brand {
     color: #161616;
@@ -92,8 +92,8 @@
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 22, 0.3)), color-stop(75%, rgba(22, 22, 22, 0.7)), to(#161616)), url("../img/bg-masthead.jpg");
-  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.3) 0%, rgba(22, 22, 22, 0.7) 75%, #161616 100%), url("../img/bg-masthead.jpg");
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(22, 22, 22, 0.3)), color-stop(75%, rgba(22, 22, 22, 0.7)), to(#161616)), url("../img/nightclub.jpg");
+  background: linear-gradient(to bottom, rgba(22, 22, 22, 0.3) 0%, rgba(22, 22, 22, 0.7) 75%, #161616 100%), url("../img/nightclub.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -150,26 +150,26 @@
 }
 
 .btn-primary {
-  background-color: #64a19d;
+  background-color: #302c9e;
 }
 
 .btn-primary:hover {
-  background-color: #4f837f;
+  background-color: #302c9e;
 }
 
 .btn-primary:focus {
-  background-color: #4f837f;
+  background-color: #302c9e;
   color: white;
 }
 
 .btn-primary:active {
-  background-color: #467370 !important;
+  background-color: #302c9e !important;
 }
 
 .about-section {
   padding-top: 10rem;
   background: -webkit-gradient(linear, left top, left bottom, from(#161616), color-stop(75%, rgba(22, 22, 22, 0.9)), to(rgba(22, 22, 22, 0.8)));
-  background: linear-gradient(to bottom, #161616 0%, rgba(22, 22, 22, 0.9) 75%, rgba(22, 22, 22, 0.8) 100%);
+  background: linear-gradient(to bottom, #161616 0%, rgba(66, 19, 123, 0.9) 75%, rgba(22, 22, 22, 1) 100%);
 }
 
 .about-section p {
