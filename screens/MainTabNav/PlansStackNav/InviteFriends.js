@@ -43,6 +43,7 @@ class InviteFriends extends Component {
 			usersRef.once('value', snapshot => {
 				snapshot.forEach((child) => {
 					var childID = child.val();
+					console.log(childID);
 					var childRef = firebase.database().ref('users/' + childID);
 					childRef.once('value', friendSnap => {
 						var friendInfoWithKey = friendSnap.val()

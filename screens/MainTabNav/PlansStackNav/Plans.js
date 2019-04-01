@@ -182,25 +182,38 @@ class PlansScreen extends Component {
 	makeRemoteRequest() {
 		let uid = firebase.auth().currentUser.uid
 		let userRef = firebase.database().ref(`users/${uid}/friends`);
-    let plans = [];
-    // gets all friends
-    var friendsPromise = new Promise((resolve, reject) => {
-      userRef.once('value', snapshot => {
-        // loops through each friend
-        snapshot.forEach(child => {
-          this.fetchFriendPublicPlans(child, plans, uid);
-          this.fetchFriendCreatedPlans(child, plans, uid);
-        })
-      })
-    })
-    friendsPromise.then(plans => {
-      this.printPlans(plans);
-    })
-  }
+    let friendsList = [];
     
-  printPlans(arr){
-    console.log('The full array is' + arr);
+    var friendsPromise = new Promise((resolve, reject) => {
+        userRef.once('value', snapshot => {
+          // stores all friends in the friendsList array
+          snapshot.forEach(child => {
+            friendsList.push(snapshot.val());
+            if(friendsList.length === snapshot.numChildren()){
+							resolve(friendsList);
+						}
+          })
+        })
+    })
+    
+    friendsPromise.then((friends)=>{
+      console.log(friendsList);
+    })
+    // gets all friends
+    // var friendsPromise = new Promise((resolve, reject) => {
+    //   userRef.once('value', snapshot => {
+    //     // loops through each friend
+    //     snapshot.forEach(child => {
+    //       this.fetchFriendPublicPlans(child, plans, uid);
+    //       this.fetchFriendCreatedPlans(child, plans, uid);
+    //     })
+    //   })
+    // })
+    // friendsPromise.then(plans => {
+    //   this.printPlans(plans);
+    // })
   }
+
         
   render() {
     return (

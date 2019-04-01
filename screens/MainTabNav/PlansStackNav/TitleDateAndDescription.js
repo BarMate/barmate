@@ -183,19 +183,7 @@ class TitleDateAndDescription extends Component {
             creator: firebase.auth().currentUser.uid,
             eventName: this.state.title,
             description: this.state.description,
-            startTime: this.getStartTime(this.state.selectedDateObject, this.state.time),
-        }
-        this.props.sendEventInfo(planObject);
-        console.log(planObject);
-        this.props.navigation.push('EventLocationAndPrivacy')
-    }
-
-    setAdminPlanObjectForStore(){
-        let planObject = {
-            creator: firebase.auth().currentUser.uid,
-            eventName: 'a',
-            description: 'b',
-            startTime: new Date('2020-01-21T19:27:20.000Z'),
+            startTime: this.getStartTime(this.state.selectedDateObject, this.state.time).toString()
         }
         this.props.sendEventInfo(planObject);
         console.log(planObject);
@@ -294,12 +282,6 @@ class TitleDateAndDescription extends Component {
                                     <Text style={styles.buttonText}>Next</Text>
                                 </View>
                             </TouchableOpacity>
-                            {/* To be removed */}
-                            {/* <TouchableOpacity onPress={() => {this.setAdminPlanObjectForStore()}}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={styles.buttonText}>ADMIN SKIP</Text>
-                                </View>
-                            </TouchableOpacity> */}
                         </View>
                     </SafeAreaView>                     
                 </LinearGradient>
