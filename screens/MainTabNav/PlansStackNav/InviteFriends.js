@@ -107,7 +107,9 @@ class InviteFriends extends Component {
 			startTime: this.props.creatorObject.startTime,
 			barsInPlan: this.props.creatorObject.barsInPlan,
 			privacy: this.props.creatorObject.privacy,
-			friendsInvited: this.state.friendsInvited
+			friendsInvited: this.state.friendsInvited,
+			friendsAccepted: 0,
+			comments: []
         }
 		this.props.sendEventInfo(planObject);
 		console.log(planObject);

@@ -11,6 +11,9 @@ export default class AsyncImage extends Component {
             image: null,
             isActualPicture: null
         }
+    }
+
+    componentDidMount(){
         this.loadImage();
     }
     

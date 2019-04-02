@@ -6,6 +6,8 @@ import COLORS from '../config/Colors.js'
 import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux';
 import { sendCardObject } from '../redux/actions/PlansActions'
+import firebase from '../config/Firebase';
+import AsyncImage from "./AsyncImage.js";
 
 /*
     This component returns an Event card seen from the friend's screen (Friends.js)
@@ -31,6 +33,23 @@ import { sendCardObject } from '../redux/actions/PlansActions'
         creatorUID - TEMPORARY - WILL BECOME CREATOR - UID of user who created the event. When passed to creator, we will need to get creator name from DB and use that for creator
 */
 class EventCard extends Component {
+
+    constructor(props){
+        super(props);
+        
+        this.state = {
+            creator: '',
+            description: '',
+            numberInvited: 0,
+            numberAccepted: 0,
+            locations: [],
+            isPrivate: null,
+            startTime: '',
+            comments: [],
+            creatorUID: '',
+            profilePicture: ''
+        }
+    }
 
     // This function takes in a Date object and determines how long ago the post was created
     getCreationTime(timeCreated){
@@ -73,23 +92,51 @@ class EventCard extends Component {
 
     setCardObjectForStore(){
         let cardObject = {
-            creator: this.props.creator,
-            profilePicture : this.props.profilePicture,
-            eventName: this.props.eventName,
-            description: this.props.description,
-            numberInvited: this.props.numberInvited,
-            numberAccepted: this.props.numberAccepted,
-            locations: this.props.locations,
-            isPrivate: this.props.isPrivate,
-            dateCreated: this.getCreationTime(this.props.dateCreated),
-            startTime: this.props.startTime,
-            comments: this.props.comments,
-            creatorUID: this.props.creatorUID,
+            creator: this.state.creator,
+            profilePicture : this.state.profilePicture,
+            eventName: this.state.eventName,
+            description: this.state.description,
+            numberInvited: this.state.numberInvited,
+            numberAccepted: this.state.numberAccepted,
+            locations: this.state.locations,
+            isPrivate: this.state.isPrivate,
+            dateCreated: this.getCreationTime(this.state.dateCreated),
+            startTime: this.state.startTime,
+            comments: this.state.comments,
+            creatorUID: this.state.creatorUID,
         }
         this.props.sendCardObject(cardObject);
         this.props.navigation.push('CardDetails')
     }
     
+    componentDidMount(){
+        this.fetchUserData();
+    }
+
+    fetchUserData(){
+        var eventRef = firebase.database().ref('events/'+this.props.event);
+        creatorName = '';
+        eventRef.once('value').then((snapshot) => {
+            var details = snapshot.val();
+            this.setState({
+                description:details.description,
+                eventName: details.eventName,
+                numberInvited: details.friendsInvited.length,
+                numberAccepted: 0,
+                locations: details.barsInPlan,
+                isPrivate: details.privacy === "public" ? true : false,
+                startTime: details.startTime,
+                comments: 0,
+                creatorUID: details.creator
+            });
+            creatorRef = firebase.database().ref('users/'+ details.creator);
+            creatorRef.once('value').then((creatorData) => {
+                creatorName =  creatorData.val().name;
+                this.setState({creator:creatorName});
+            })
+        })
+    }
+
     render() {
         return(
         <View style={{alignItems: "center", justifyContent: "center"}}>
@@ -97,37 +144,39 @@ class EventCard extends Component {
                 <View style={styles.cardBackground}>
                     <View style={styles.cardContents}>
                         <View style={{flexDirection: "row"}}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedProfile', {uid: this.props.creatorUID})}>
-                                <View style={styles.profilePictureView}/>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedProfile', {uid: this.state.creatorUID})}>
+                                <View style={styles.profilePictureView}>
+                                    <AsyncImage uid={this.state.creatorUID} style={styles.profilePictureView}/>
+                                </View>
                             </TouchableOpacity> 
                             <View style={{flexDirection: "column"}}> 
                                 <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.creatorName}>{this.props.creator}</Text>
-                                    <Text style={{fontFamily: 'HkGrotesk_Regular'}}> created an event {this.getCreationTime(this.props.dateCreated)}</Text>
+                                    <Text style={styles.creatorName}>{this.state.creator}</Text>
+                                    <Text style={{fontFamily: 'HkGrotesk_Regular'}}> created an event {this.getCreationTime(this.state.dateCreated)}</Text>
                                 </View>
                                 <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.eventName} numberOfLines={1} ellipsizeMode={'tail'}>{this.props.eventName}</Text>
+                                    <Text style={styles.eventName} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.eventName}</Text>
                                     <View style={{alignItems: "center", justifyContent: "center"}}>
                                         {
-                                            this.props.isPrivate ? <Ionicons name={'md-lock'} size={18} color={COLORS.GRADIENT_COLOR_1}/>
+                                            this.state.isPrivate ? <Ionicons name={'md-lock'} size={18} color={COLORS.GRADIENT_COLOR_1}/>
                                             : <Ionicons name={'md-unlock'} size={18} color={COLORS.GRADIENT_COLOR_2}/>
                                         }
                                     </View>
                                     
                                 </View>
                                 <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.eventDate} numberOfLines={1} ellipsizeMode={'tail'}>{this.props.startTime}</Text>
+                                    <Text style={styles.eventDate} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.startTime}</Text>
                                 </View>
                             </View>
                         </View>
                         <View>
-                            <Text style={{fontFamily: 'HkGrotesk_Regular'}} numberOfLines={3} ellipsizeMode={'tail'}>{this.props.description}</Text>
+                            <Text style={{fontFamily: 'HkGrotesk_Regular'}} numberOfLines={3} ellipsizeMode={'tail'}>{this.state.description}</Text>
                         </View>
                         <View style={{position: 'absolute', bottom: 5, flexDirection: 'row' }}>
                             <Ionicons name={'ios-text'} size={20} color={COLORS.GRADIENT_COLOR_1} />
-                            <Text style={{paddingLeft: 2}}>{this.props.comments.length}</Text>
-                            <Text style={styles.invitedView}>Invited: {this.props.numberInvited}</Text>
-                            <Text style={styles.acceptedView}>Accepted: {this.props.numberAccepted}</Text>
+                            <Text style={{paddingLeft: 2}}>{this.state.comments}</Text>
+                            <Text style={styles.invitedView}>Invited: {this.state.numberInvited}</Text>
+                            <Text style={styles.acceptedView}>Accepted: {this.state.numberAccepted}</Text>
                         </View>
                     </View>
                 </View>

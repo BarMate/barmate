@@ -35,89 +35,7 @@ class PlansScreen extends Component {
       var tempDate = new Date();
       this.state = {
           modalVisible: false,
-          testObject: [
-            {
-              profilePicture: null,
-              creator: 'Rodney Morgan',
-              creatorUID: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-              eventName: 'Rodney\'s 22nd Birthday!',
-              description: 'join me for my 22nd bday banger',
-              numberInvited: 50,
-              numberAccepted: 14,
-              locations: [
-                  "Manny's Pub", "Thursday's Lounge"
-              ],
-              isPrivate: false,
-              dateCreated: new Date().setHours(tempDate.getHours() - 6),
-              startTime: new Date().toLocaleString(),
-              comments: [],
-            }, 
-            {
-              profilePicture: null,
-              creator: 'Joe Contumellio',
-              creatorUID: 'c3TJEiWKKPZDmk7BYrZ8hhj5dDe2',
-              eventName: 'Alcohol Anonymous Meeting',
-              description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-              numberInvited: 23,
-              numberAccepted: 8,
-              locations: [
-                  "Manny's Pub"
-              ],
-              isPrivate: true,
-              dateCreated: new Date().setDate(tempDate.getDate()-20),
-              startTime: new Date().toLocaleString(),
-              comments: [
-                {
-                  commentorUID: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-                  message: 'Bro I\'m totally in!',
-                  timestamp: new Date()
-                }
-              ],
-            },
-            {
-              profilePicture: null,
-              creator: 'Kevin Turner',
-              creatorUID: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-              eventName: 'Skeet Shooting Bar Crawl',
-              description: 'GRATATATATA! POW! POW! POW!!!! BANG!',
-              numberInvited: 50,
-              numberAccepted: 14,
-              locations: [
-                  "Manny's Pub", "Thursday's Lounge", "BullWinkles"
-              ],
-              isPrivate: true,
-              dateCreated: new Date().setDate(tempDate.getDate()-31),
-              startTime: new Date().toLocaleString(),
-              comments: [
-                {
-                  commentor: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-                  message: 'It be like that sometimes',
-                  timestamp: new Date()
-                },
-                {
-                  commentor: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-                  message: 'That\'s the way she goes',
-                  timestamp: new Date()
-                },
-              ],
-            },
-            {
-              profilePicture: null,
-              creator: 'Rodney Morgan',
-              creatorUID: 'tpA4ijbBVhcQ8bu92XmsnJvsj1e2',
-              eventName: 'Rodney\'s 22nd Birthday!',
-              description: 'join me for my 22nd bday banger',
-              numberInvited: 50,
-              numberAccepted: 14,
-              locations: [
-                  "Manny's Pub", "Thursday's Lounge"
-              ],
-              isPrivate: false,
-              dateCreated: new Date().setHours(tempDate.getHours() - 6),
-              startTime: new Date().toLocaleString(),
-              comments: [],
-            }, 
-        ]
+          events: []
 
       };
   }
@@ -125,93 +43,66 @@ class PlansScreen extends Component {
   componentDidMount() {
 		this.makeRemoteRequest();
 	}
-
-
-  fetchFriendPublicPlans(child, plans, uid) {
-    let friend = firebase.database().ref('users/' + child.val() + '/events');
-    // loops through each event that each friend has created
-    friend.once('value', friendEvent => {
-      if(friendEvent.val() != null){
-        events = friendEvent.val();
-        Object.entries(events).forEach( ([key, value]) => {
-          eventDetailsCall = firebase.database().ref('events/' + value);
-          eventDetailsCall.once('value', eventDetails => {
-            eventPrivacy = eventDetails.val().privacy;
-            if(eventPrivacy === 'hidden' || eventPrivacy === 'private'){
-              // pushes event if you're invited
-              eventDetails.val().friendsInvited.forEach(invitedMember => {
-                if(invitedMember === uid){
-                  plans.push(eventDetails.key)
-                  return true;
-                }
-                else{
-                  return false;
-                }
-              })
-            }
-            // pushes public events
-            else{
-              plans.push(eventDetails.key)
-            }
-          })
-        })
-      }
-    })
-  }
-
-  fetchFriendCreatedPlans(child, plans, uid) {
-    let friendInvites = firebase.database().ref('users/' + child.val() + '/invitedEvents');
-    friendInvites.once('value', friendEvent => {
-      if(friendEvent.val() != null){
-        events = friendEvent.val();
-        Object.entries(events).forEach( ([key, value]) => {
-          eventDetailsCall = firebase.database().ref('events/' + value);
-          eventDetailsCall.once('value', eventDetails => {
-            eventPrivacy = eventDetails.val().privacy;
-            if(eventPrivacy === 'public'){
-              // pushes public events
-              console.log('friend invited event public ' + eventDetails.key);
-              plans.push(eventDetails.key)
-            }
-          })
-        })
-      }
-    })
-  }
   
 	makeRemoteRequest() {
-		let uid = firebase.auth().currentUser.uid
-		let userRef = firebase.database().ref(`users/${uid}/friends`);
-    let friendsList = [];
-    
+    let uid = firebase.auth().currentUser.uid;
+    let userRef = firebase.database().ref(`users/${uid}/friends`);
+    var eventSearchListByID = [];
+
+    // puts IDs of all friends + own ID into eventSearchListByID then triggers the friendsPromise Promise
     var friendsPromise = new Promise((resolve, reject) => {
-        userRef.once('value', snapshot => {
-          // stores all friends in the friendsList array
-          snapshot.forEach(child => {
-            friendsList.push(snapshot.val());
-            if(friendsList.length === snapshot.numChildren()){
-							resolve(friendsList);
-						}
+      userRef.once('value', snapshot => {
+        snapshot.forEach(child => {
+          eventSearchListByID.push(child.val());
+          if(eventSearchListByID.length === snapshot.numChildren()){
+            eventSearchListByID.push(uid);
+            resolve(eventSearchListByID);
+          }
+        })
+      })
+    })
+    
+    // TODO: See which public events your friends have accepted
+    var eventsAndTimestamps = [];
+    var indexCounter = 0;
+    var eventsPromise = new Promise((resolve, reject) => {
+      friendsPromise.then((eventSearchListByID) => {
+        comparison = eventSearchListByID.length;
+        let eventsRef = firebase.database().ref(`events`);
+        eventSearchListByID.forEach((friend) => {
+          eventsRef.orderByChild('creator').equalTo(friend).once('value', (snapshot) => {
+            snapshot.forEach((data) => {
+              eventInfo = data.val();
+              if(eventInfo.privacy === "public" || eventInfo.friendsInvited.includes(uid) || eventInfo.creator === uid){
+                var dateInMiliseconds = Date.parse(eventInfo.startTime);
+                var dateObject = new Date(dateInMiliseconds);
+                eventsAndTimestamps.push({key: data.key, timestamp: dateObject});
+              }
+            })
+            indexCounter++;
+            if(indexCounter >= eventSearchListByID.length){
+              resolve(eventsAndTimestamps);
+            }
           })
         })
+      })
     })
-    
-    friendsPromise.then((friends)=>{
-      console.log(friendsList);
+
+    // puts events in order by relevance and sets state for rendering
+    eventsPromise.then((eventsAndTimestamps) => {
+      eventsAndTimestamps.sort((a,b) => {
+        var decision = a.timestamp - b.timestamp ? -1 : 1;
+        return(decision);
+      })
+
+      var eventsInOrder = [];
+      eventsAndTimestamps.forEach((element) => {
+        eventsInOrder.push(element.key);
+      })
+
+      this.setState({events: eventsInOrder});
+      console.log(this.state.events);
     })
-    // gets all friends
-    // var friendsPromise = new Promise((resolve, reject) => {
-    //   userRef.once('value', snapshot => {
-    //     // loops through each friend
-    //     snapshot.forEach(child => {
-    //       this.fetchFriendPublicPlans(child, plans, uid);
-    //       this.fetchFriendCreatedPlans(child, plans, uid);
-    //     })
-    //   })
-    // })
-    // friendsPromise.then(plans => {
-    //   this.printPlans(plans);
-    // })
   }
 
         
@@ -223,24 +114,15 @@ class PlansScreen extends Component {
             <LinearGradient
               style={styles.gradient}
               colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-                  {/* <FlatList
+                  <FlatList
                     contentContainerStyle={styles.contentContainer}
-                    data={this.state.testObject}
-                    renderItem={({item}) => <EventCard
-                      profilePicture = {item.profilePicture}
-                      creator = {item.creator}
-                      eventName = {item.eventName}
-                      description = {item.description}
-                      numberInvited = {item.numberInvited}
-                      numberAccepted = {item.numberAccepted}
-                      locations = {item.locations}
-                      isPrivate = {item.isPrivate}
-                      dateCreated = {item.dateCreated}
-                      startTime = {item.startTime}
-                      comments = {item.comments}
-                      creatorUID = {item.creatorUID}
-                      />}
-                  /> */}
+                    data={this.state.events}
+                    renderItem={({item}) => 
+                      <EventCard
+                        event = {item}
+                      />
+                    }
+                  />
             </LinearGradient>
           </Content>
         </Container>
