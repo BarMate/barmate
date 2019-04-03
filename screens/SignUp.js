@@ -13,23 +13,16 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import * as firebase from 'firebase'
+import firebase from '../config/Firebase.js';
 
 import { Form, Label, Input, Item, Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text, H1, H2, Button } from 'native-base';
 import { Col, Row, Grid } from 'react-native-easy-grid';
 import getTheme from '../native-base-theme/components';
 import Common from '../native-base-theme/variables/commonColor';
 
-var { height, width } = Dimensions.get('window');
+import Variables from '../config/Variables.js';
 
-/*
-    On ios, just swipe back to get back to login page
-    need to add a back button for android users because we're hiding the header
-
-    This page is pretty unfinished but it will actually create a user if given an email and password
-*/
-
-class SignUpScreen extends React.Component {
+export default class Signup_page1 extends React.Component {
 
     static navigationOptions = {
         header: null,
@@ -59,9 +52,7 @@ class SignUpScreen extends React.Component {
         if (this.state.loading) {
             return <Text>Loading...</Text>
         }
-        return  <Button onPress={this.signUp.bind(this)} block light>
-                    <Text>Sign up</Text>
-                </Button>;
+        return <Button onPress={this.signUp.bind(this)} block light> <Text> Sign up </Text> </Button>;
     }
 
     render() {
@@ -69,21 +60,23 @@ class SignUpScreen extends React.Component {
         <StyleProvider style={getTheme(Common)}>
             <Container>
               <Content scrollEnabled={false}>
-                <View style={{width: width, height: height}}>
+                <View style={{width: Variables.deviceWidth, height: Variables.deviceHeight}}>
                     <Grid>
                         <Row style={{backgroundColor: '#3F51B5'}}>
                             <Body>
-                                <Form style={{width: width, marginTop: 60}}>
+                                <Form style={{width: Variables.deviceWidth, marginTop: 60}}>
                                     <Item underline>
                                         <Input placeholder='Email address...'
                                                value={this.state.email}
-                                               onChangeText={email => this.setState({email})}/>
+                                               clearButtonMode='while-editing'
+                                               onChangeText={email => this.setState({email})} />
                                     </Item>
                                     <Item underline>
-                                        <Input placeholder='Password'
+                                        <Input placeholder='Password' 
                                                secureTextEntry
                                                value={this.state.password}
-                                               onChangeText={password => this.setState({password})}/>
+                                               clearButtonMode='while-editing'
+                                               onChangeText={password => this.setState({password})} />
                                     </Item>
                                 </Form>
                             </Body>
@@ -91,6 +84,9 @@ class SignUpScreen extends React.Component {
                         <Row style={{backgroundColor: '#3F51B5'}}>
                             <Body>
                                 {this.renderButtonOrLoading()}
+                                <Button onPress={() => {this.props.navigation.navigate('SignIn')}}>
+                                    <Text>Page 2</Text>
+                                </Button>
                             </Body>
                         </Row>
                     </Grid>
@@ -101,5 +97,63 @@ class SignUpScreen extends React.Component {
         );
     }
 };
+export class Signup_page2 extends React.Component {
 
-export default SignUpScreen;
+    static navigationOptions = {
+        header: null,
+        headerVisible: false,
+    };
+    render() {
+        return(
+            <Text>page2</Text>
+        );
+    }
+};
+export class Signup_page3 extends React.Component {
+
+    static navigationOptions = {
+        header: null,
+        headerVisible: false,
+    };
+    render() {
+        return(
+            <Text>page3</Text>
+        );
+    }
+};
+export class Signup_page4 extends React.Component {
+
+    static navigationOptions = {
+        header: null,
+        headerVisible: false,
+    };
+    render() {
+        return(
+            <Text>page4</Text>
+        );
+    }
+};
+export class Signup_page5 extends React.Component {
+
+    static navigationOptions = {
+        header: null,
+        headerVisible: false,
+    };
+    render() {
+        return(
+            <Text>page5</Text>
+        );
+    }
+};
+export class Signup_page6 extends React.Component {
+
+    static navigationOptions = {
+        header: null,
+        headerVisible: false,
+    };
+    render() {
+        return(
+            <Text>page6</Text>
+        );
+    }
+};

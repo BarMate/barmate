@@ -25,7 +25,7 @@ export default {
   badgePadding: platform === "ios" ? 3 : 0,
 
   // Button
-  btnFontFamily: platform === "ios" ? "System" : "Roboto",
+  btnFontFamily: platform === "ios" ? "System" : "Roboto_medium",
   btnDisabledBg: "#b5b5b5",
   buttonPadding: 6,
   get btnPrimaryBg() {
@@ -104,7 +104,7 @@ export default {
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
-  brandWarning: "#f0ad4e",
+  brandWarning: "#6D6ABF",
   brandDark: "#000",
   brandLight: "#f4f4f4",
   brandLogIn: "#1c2e63",
@@ -138,7 +138,7 @@ export default {
 
   // Header
   toolbarBtnColor: platform === "ios" ? "#007aff" : "#fff",
-  toolbarDefaultBg: platform === "ios" ? "#030e2c" : "#030e2c",
+  toolbarDefaultBg: platform === "ios" ? "#100D64" : "#100D64",
   toolbarHeight: platform === "ios" ? (isIphoneX ? 88 : 64) : 56,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
   toolbarInputColor: platform === "ios" ? "#536497" : "#536497",
@@ -186,8 +186,8 @@ export default {
 
   // List
   listBg: "transparent",
-  listBorderColor: "#c9c9c9",
-  listDividerBg: "#f4f4f4",
+  listBorderColor: "rgba(255,255,255,0.1)",
+  listDividerBg: "rgba(255,255,255,0.1)",
   listBtnUnderlayColor: "#DDD",
   listItemPadding: platform === "ios" ? 10 : 12,
   listNoteColor: "#808080",
@@ -238,7 +238,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: platform === "ios" ? "System" : "Roboto_medium",
+  titleFontfamily: platform === "ios" ? "HkGrotesk_Bold" : "HkGrotesk_Bold",
   titleFontSize: platform === "ios" ? 17 : 19,
   subTitleFontSize: platform === "ios" ? 11 : 14,
   subtitleColor: platform === "ios" ? "#000" : "#fff",
