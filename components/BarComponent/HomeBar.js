@@ -33,8 +33,8 @@ import API_KEY from '../../config/API_Key'
     photo : string 'Photo reference for bar'
 */
 
-const CARD_HEIGHT = Variables.deviceHeight / 2;
-const CARD_WIDTH = CARD_HEIGHT - 100;
+const CARD_HEIGHT = Variables.deviceHeight / 1.5;
+const CARD_WIDTH = Variables.deviceWidth - 50;
 
 class Bar extends React.Component {
   constructor(props) {
@@ -231,6 +231,9 @@ const styles = StyleSheet.create({
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
     borderRadius: 25,
+    shadowOpacity: 1.0,
+    shadowRadius: 10,
+    shadowColor: 'black',
   },
   backgroundImage: {
     borderRadius: 25,

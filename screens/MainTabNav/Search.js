@@ -233,7 +233,7 @@ class Search extends Component {
           showsUserLocation={true}
           showsMyLocationButton={true}
         >
-     
+          
           {
             this.state.nearbySearchResults.map((marker, index) => {
               const scaleStyle = {

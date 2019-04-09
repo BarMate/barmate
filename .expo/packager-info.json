@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 36768,
+  "expoServerNgrokUrl": "https://i7-xh4.josephcon1998.barmate.exp.direct",
+  "packagerNgrokUrl": "https://packager.i7-xh4.josephcon1998.barmate.exp.direct",
+  "ngrokPid": 36779,
   "webpackServerPort": null
 }

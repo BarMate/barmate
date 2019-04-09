@@ -12,6 +12,7 @@ const initialState_home = {
     carouselData: [],
     selectedBarData: {},
     refreshing: false,
+    loading: true,
 }
 
 export const homeReducer = (state = initialState_home, action) => {
@@ -24,7 +25,12 @@ export const homeReducer = (state = initialState_home, action) => {
         case 'PUSH_LIST_DATA':
             return {
                 ...state,
-                carouselData: [...state.carouselData, action.payload]
+                carouselData: action.payload,
+            }
+        case 'UPDATE_LIST_DATA':
+            return {
+                ...state,
+                carouselData: action.payload,
             }
         case 'ERASE_LIST_DATA':
             return {
@@ -35,6 +41,11 @@ export const homeReducer = (state = initialState_home, action) => {
             return {
                 ...state,
                 refreshing: action.payload,
+            }
+        case 'UPDATE_LOADING':
+            return {
+                ...state,
+                loading: action.payload,
             }
         default:
             return state;

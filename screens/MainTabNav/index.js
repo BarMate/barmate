@@ -44,7 +44,7 @@ const homeStackContainer = createStackNavigator({
             </TouchableOpacity>) : '',
         headerLeft: navigation.state.routeName === 'Home' ? (<CustomIcon />) : '',
         headerStyle: {
-          backgroundColor: 'rgba(16, 13, 100, 1)',
+          backgroundColor: '#111E6C',
         },
         headerTitleStyle: {
           fontFamily: 'HkGrotesk_Bold',
@@ -123,9 +123,9 @@ const Main = createBottomTabNavigator(
     tabBarOptions: {
         activeTintColor: 'white',
         inactiveTintColor: '#536497',
-        showLabel: false,
+        showLabel: true,
         style: {
-            backgroundColor: "#100D64"
+            backgroundColor: "#111E6C"
         }
     },
     animationEnabled: false,

@@ -17,23 +17,24 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, FlatList, Text, RefreshControl, StatusBar, AsyncStorage } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationEvents } from 'react-navigation';
 import { connect } from 'react-redux';
-import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
+import { updateLoading, selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
+import BasicLoadingIndicator from '../../../components/BasicLoadingIndicator';
 
 import Carousel from 'react-native-snap-carousel';
 
-const CARD_HEIGHT = Variables.deviceHeight / 2;
-const CARD_WIDTH = CARD_HEIGHT - 100;
+const CARD_HEIGHT = Variables.deviceHeight / 1.5;
+const CARD_WIDTH = Variables.deviceWidth - 50;
 
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      
+        cache: [],
     }
   }
 
@@ -45,6 +46,22 @@ class HomeScreen extends React.Component {
     console.log(`Carousel Data: ${this.props.carouselData}`)
   }
 
+  _updateListData() {
+    let uid = firebase.auth().currentUser.uid;
+    let userBars = firebase.database().ref(`users/${uid}/bars`);
+    let publicBars = firebase.database().ref(`bars`);
+
+    userBars.on('value', snapshot => {
+      
+    })
+  }
+
+  _renderIndicator() {
+    return(
+      <BasicLoadingIndicator animating={this.props.loading} />
+    )
+  }
+
   _listenToBarData() {
     // - pull key references from user firebase
     // - For each key, look inside the firebase bar database
@@ -54,32 +71,43 @@ class HomeScreen extends React.Component {
     let uid = firebase.auth().currentUser.uid;
     let userBars = firebase.database().ref(`users/${uid}/bars`);
     let publicBars = firebase.database().ref(`bars`);
-
+    
     userBars.on('value', snapshot => {
       snapshot.forEach(userChild => {
         publicBars.once('value', snapshot => {
           snapshot.forEach(barChild => {
             if(userChild.val() === barChild.key) {
-              this.props.pushListData(barChild.val());
+              this.setState({cache: [...this.state.cache, barChild.val()]})
             }
           })
-        })
+        }).then(() => {
+            this.props.updateLoading(false)
+            this.props.pushListData(this.state.cache)
+          }
+        )
       })
     })
 }
 
+  _snapToLastItem() {
+    if(this.props.carouselData) {
+      this._carousel.snapToItem(this.props.carouselData.length - 1)
+    }
+  }
+
   render() {
     return (
-      <View>
+      <View style={styles.rootContainer}>
         <StatusBar barStyle="light-content"/>
-          <LinearGradient
+        {/* <NavigationEvents
+          onDidFocus={() => this._snapToLastItem()}
+        /> */}
+        <LinearGradient
             style={styles.gradient}
             colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-            <View style={{flex: .6}}>
-            
-            </View>
-            <View style={styles.flatlist}>
-                <Carousel 
+                {this._renderIndicator()}
+                <Carousel
+                  contentContainerCustomStyle={{justifyContent: 'center', alignItems: 'center',}}
                   ref={c => { this._carousel = c}}
                   data={this.props.carouselData}
                   renderItem={(data, index) => 
@@ -95,10 +123,6 @@ class HomeScreen extends React.Component {
                   itemWidth={CARD_WIDTH}
                   windowSize={1}
                 />
-            </View>
-            <View style={styles.bottomContainer}>
-              {/* <Text style={styles.name}>Manny's Bar</Text> */}
-            </View>
           </LinearGradient>
       </View>
     );
@@ -109,6 +133,7 @@ class HomeScreen extends React.Component {
 const mapStateToProps = state => ({
   refreshing: state.homeReducer.refreshing,
   carouselData: state.homeReducer.carouselData,
+  loading: state.homeReducer.loading,
 })
 
 // Dispatch data to store
@@ -118,6 +143,7 @@ const mapDispatchToProps = {
   eraseListData,
   refreshList,
   updatePicture,
+  updateLoading,
 }
 
 const styles = StyleSheet.create({
@@ -126,22 +152,10 @@ const styles = StyleSheet.create({
     width: Variables.deviceWidth,
     height: Variables.deviceHeight
   },
-  flatlist: {
-    flex: 3,
+  rootContainer: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    // paddingTop: Variables.deviceHeight / 7,
-  },
-  bottomContainer: {
-    flex: 2.2,
-    alignItems: 'center',
-  },
-  name: {
-    fontSize: 20,
-    fontFamily: 'HkGrotesk_Bold',
-    color: 'white',
-    flexWrap: 'wrap',
-    paddingTop: 50,
+    justifyContent: 'center',
   },
 });
 

@@ -37,6 +37,7 @@ class MapBar extends React.Component {
     super(props);
     this.state = {
       detailResults: {},
+      updateAddButton: false,
     }
   }
 
@@ -266,7 +267,9 @@ class MapBar extends React.Component {
 
       if(isBarInUserHome === false) {
         console.log('Adding Bar to user home...')
-        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`).push(this.props.id).catch(err => {
+        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`).push(this.props.id)
+        .then(this.setState({updateAddButton: true}))
+        .catch(err => {
           console.log(`Unable to add bar to user home... ${err}`)
         })
       }
@@ -285,7 +288,11 @@ class MapBar extends React.Component {
           colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}
         >
         <View style={styles.isAddedButtonContainer}>
-            {this._renderAddButton()}
+            {this.state.updateAddButton ? 
+              <View style={styles.isAddedButton}>
+                <Text style={styles.added}>Added</Text>
+              </View> : this._renderAddButton()
+            }
         </View>
 
         <View style={styles.hoursContainer}>
