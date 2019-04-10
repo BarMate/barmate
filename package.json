@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "jest-expo": "~27.0.0",
+    "react-native-debugger-open": "^0.3.19",
     "react-test-renderer": "16.3.1"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -13,7 +14,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "test": "jest",
-    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19003'"
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19003'",
+    "postinstall": "rndebugger-open"
   },
   "jest": {
     "preset": "jest-expo"

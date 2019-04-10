@@ -18,6 +18,7 @@ import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen
 import DeleteAlert from '../Delete.js';
 
 import Friends from '../Friends'
+import FriendsHeader from '../../components/Friends/FriendsHeader'
 
 import COLORS from '../../config/Colors.js';
 import CustomDrawer from '../../components/CustomDrawer'
@@ -94,6 +95,24 @@ const searchStackContainer = createStackNavigator({
     })
 });
 
+const friendsStackNavigator = createStackNavigator({
+    Friends: Friends,
+    SelectedFriend: Friends,
+},
+{
+    
+    initialRouteName: 'Friends', 
+    headerMode: 'float',
+    defaultNavigationOptions: ({ navigation }) => ({
+        headerTitle: <FriendsHeader />,
+        headerStyle: {
+          backgroundColor: COLORS.GRADIENT_COLOR_1,
+          borderBottomWidth: 0,
+        },
+        headerTintColor: 'rgba(16, 13, 100, 1)',
+    })
+});
+
 const Main = createBottomTabNavigator(
 {
     Home: homeStackContainer,
@@ -136,7 +155,7 @@ const Main = createBottomTabNavigator(
 const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
-    Friends: Friends,
+    Friends: friendsStackNavigator,
     Delete: DeleteAlert,
 },
 {
