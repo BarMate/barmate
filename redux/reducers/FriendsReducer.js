@@ -9,44 +9,22 @@
 */
 
 const initialState_friends = {
-    selectedProfileData: null,
     friends: [],
-    refreshing: false,
-    selectedMessageProfileData: null,
-    friendCount: 0,
+    loading: true,
+
 }
 
 export const friendsReducer = (state = initialState_friends, action) => {
     switch(action.type) {
-        case 'SELECT_PROFILE':
+        case 'PUSH_FRIENDS':
             return {
                 ...state,
-                selectedProfileData: action.payload,
+                friends: [...state.friends, action.payload],
             }
-        case 'PUSH_FRIENDS_LIST':
+        case 'UPDATE_LOADING':
             return {
                 ...state,
-                friends: [...state.friends, action.payload]
-            }
-        case 'ERASE_LIST':
-            return {
-                ...state,
-                friends: []
-            }
-        case 'REFRESH_LIST':
-            return {
-                ...state,
-                refreshing: action.payload,
-            }
-        case 'SELECT_MESSAGE_PROFILE': 
-            return {
-                ...state,
-                selectedMessageProfileData: action.payload
-            }
-        case 'UPDATE_FRIEND_COUNT': 
-            return {
-                ...state,
-                friendCount: action.paylooad,
+                loading: action.payload,
             }
         default:
             return state;

@@ -14,7 +14,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "test": "jest",
-    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19003'",
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19004'",
     "postinstall": "rndebugger-open"
   },
   "jest": {

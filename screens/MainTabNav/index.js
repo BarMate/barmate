@@ -29,7 +29,7 @@ import CustomIcon from '../../components/CustomIcon'
 
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
-    BarDetails, BarDetails,
+    BarDetails: BarDetails,
 },
 { 
     gestureResponseDistance: {

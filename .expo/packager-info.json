@@ -1,8 +1,9 @@
 {
-  "expoServerNgrokUrl": "https://2f-up5.josephcon1998.barmategithub.exp.direct",
-  "packagerNgrokUrl": "https://packager.2f-up5.josephcon1998.barmategithub.exp.direct",
-  "ngrokPid": 16548,
-  "expoServerPort": 19003,
+  "expoServerNgrokUrl": "https://i7-xh4.josephcon1998.barmate.exp.direct",
+  "packagerNgrokUrl": "https://packager.i7-xh4.josephcon1998.barmate.exp.direct",
+  "ngrokPid": 43197,
+  "expoServerPort": 19000,
   "packagerPort": 19004,
-  "packagerPid": 13500
+  "packagerPid": 43183,
+  "devToolsPort": 19002
 }

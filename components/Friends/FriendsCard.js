@@ -3,27 +3,53 @@ import { SafeAreaView, Text, View, StyleSheet, TouchableOpacity, Image } from 'r
 import Variables from '../../config/Variables';
 import { withNavigation } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
+import firebase from '../../config/Firebase'
+import FriendPicture from '../../components/FriendPicture'
 
 let FRIEND_CARD_WIDTH = Variables.deviceWidth;
 let FRIEND_CARD_HEIGHT = 50;
 
 class FriendsCard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        }   
+    }
+
+    componentDidMount() {
+        this._getProfilePicture();
+    }
+
+    _getProfilePicture() {
+        let imageRef = firebase.storage().ref(`users/${this.props.id}/profile-picture`)
+        imageRef.getDownloadURL().then(url => {
+            console.log(`PIC: ${url}`)
+            this.props.sendFriendPicture(url);
+        }).catch(error => {
+        switch (error.code) {
+            case 'storage/object-not-found':
+            // File doesn't exist
+            console.log('File doesnt exist')
+            return '';
+        }          
+    })}
+
   render() {
     return (
-        <View style={styles.rootContainer}>
-            <View style={styles.imageContainer}>
-                <Image 
-                    source={require('../../assets/global/closed.png')}
-                    style={styles.image}
-                />
+        <TouchableOpacity onPress={() => console.log('Hello')}>
+            <View style={styles.rootContainer}>
+                <View style={styles.imageContainer}>
+                    <FriendPicture url={this.props.pic} />
+                </View>
+                <View style={styles.nameContainer}>
+                    <Text style={styles.name}>{this.props.name}</Text>
+                </View>
+                <View style={styles.messageContainer}>
+                    <Ionicons name={'ios-text'} size={35} color={'#111E6C'} />
+                </View>
             </View>
-            <View style={styles.nameContainer}>
-                <Text style={styles.name}>{this.props.name}</Text>
-            </View>
-            <View style={styles.messageContainer}>
-                <Ionicons name={'ios-text'} size={35} color={'#111E6C'} />
-            </View>
-        </View>
+        </TouchableOpacity>
     )
   }
 }
