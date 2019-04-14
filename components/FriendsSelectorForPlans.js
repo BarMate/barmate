@@ -24,7 +24,6 @@ class FriendsSelectorForPlans extends Component {
     }
 
     renderInvited = ({item}) => {
-        console.log(item);
         if (this.state.friendsInvited.indexOf(item.key) > -1){
             return (
                 <View style={styles.userCard}>

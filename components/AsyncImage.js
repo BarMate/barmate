@@ -9,16 +9,17 @@ export default class AsyncImage extends Component {
         this.state = { 
             loaded: false, 
             image: null,
-            isActualPicture: null
+            isActualPicture: null,
+            uid: this.props.uid
         }
     }
 
     componentDidMount(){
         this.loadImage();
     }
-    
+
     loadImage(){
-        let imageRef = firebase.storage().ref(`users/${this.props.uid}/profile-picture`)
+        let imageRef = firebase.storage().ref(`users/${this.state.uid}/profile-picture`)
         imageRef.getDownloadURL().then(url => {
             console.log('successfully retrieved image for ' + this.props.uid + '\n' + url);
             this.setState({
@@ -30,7 +31,7 @@ export default class AsyncImage extends Component {
         .catch(error => {
             switch (error.code) {
                 case 'storage/object-not-found':
-                    console.log('Image doesnt exist for ' + this.props.uid)
+                    console.log('Image doesnt exist for ' + this.state.uid)
                     this.setState({
                         image: require('../assets/login/defaultProfilePicture.png'),
                         loaded: true,
@@ -38,7 +39,7 @@ export default class AsyncImage extends Component {
                     })
                     break;
                 default: 
-                    console.log('there was an error retrieving the image for ' + this.props.uid);
+                    console.log('there was an error retrieving the image for ' + this.state.uid);
                     this.setState({
                         loaded: false,
                         isActualPicture: false

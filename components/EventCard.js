@@ -47,7 +47,7 @@ class EventCard extends Component {
             startTime: '',
             comments: [],
             creatorUID: '',
-            profilePicture: ''
+            profilePicture: '',
         }
     }
 
@@ -127,12 +127,13 @@ class EventCard extends Component {
                 isPrivate: details.privacy === "public" ? true : false,
                 startTime: details.startTime,
                 comments: 0,
-                creatorUID: details.creator
+                creatorUID: details.creator,
+                //dateCreated: details.dateCreated
             });
             creatorRef = firebase.database().ref('users/'+ details.creator);
             creatorRef.once('value').then((creatorData) => {
                 creatorName =  creatorData.val().name;
-                this.setState({creator:creatorName});
+                this.setState({creator: creatorName});
             })
         })
     }
