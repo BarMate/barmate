@@ -36,6 +36,22 @@ export function pushListData(data) {
         type: 'PUSH_LIST_DATA',
         payload: data,
     }
+}
+
+// Updates carousel when user adds or removes bar
+export function updateListData(data) {
+    return {
+        type: 'UPDATE_LIST_DATA',
+        payload: data,
+    }
+} 
+
+// Updates state of loading indicator
+export function updateLoading(bool) {
+    return {
+        type: 'UPDATE_LOADING',
+        payload: bool,
+    }
 } 
 
 // Pushes data from selected bar to store

@@ -11,6 +11,8 @@ import MessageScreen from './Message.js';
 import PlansScreen from './PlansStackNav/Plans';
 import CardDetails from './PlansStackNav/CardDetails'
 
+import SearchBar from '../../components/SearchBar'
+
 import SelectedUserProfileScreen from '../ProfileScreens/SelectedUserProfileScreen';
 import CurrentUserProfileScreen from '../ProfileScreens/CurrentUserProfileScreen';
 import DeleteAlert from '../Delete.js';
@@ -18,6 +20,7 @@ import EventLocationAndPrivacy from '../MainTabNav/PlansStackNav/EventCreationSt
 import InviteFriends from '../MainTabNav/PlansStackNav/EventCreationStackNav/InviteFriends.js'
 import TitleDateAndDescription from '../MainTabNav/PlansStackNav/EventCreationStackNav/TitleDateAndDescription.js'
 import Friends from '../Friends'
+import FriendsHeader from '../../components/Friends/FriendsHeader'
 
 import COLORS from '../../config/Colors.js';
 import CustomDrawer from '../../components/CustomDrawer'
@@ -28,7 +31,7 @@ import CustomIcon from '../../components/CustomIcon'
 
 const homeStackContainer = createStackNavigator({
     Home: HomeScreen,
-    BarDetails, BarDetails,
+    BarDetails: BarDetails,
 },
 { 
     gestureResponseDistance: {
@@ -39,12 +42,12 @@ const homeStackContainer = createStackNavigator({
     defaultNavigationOptions: ({ navigation }) => ({
         headerTitle: navigation.state.routeName === 'Home' ? (<Text style={{fontFamily: 'HkGrotesk_Bold', fontSize: 20, color: 'white'}}>Home</Text>) : '',
         headerRight: navigation.state.routeName === 'BarDetails' ? (
-            <TouchableOpacity onPress={() => {alert('You were join a bar here!')}}>
+            <TouchableOpacity onPress={() => {alert('You would join a bar here!')}}>
                 <Text style={{color: 'white', fontFamily: 'HkGrotesk_Bold', fontSize: 20, marginRight: 15}}>Join</Text>
             </TouchableOpacity>) : '',
         headerLeft: navigation.state.routeName === 'Home' ? (<CustomIcon />) : '',
         headerStyle: {
-          backgroundColor: 'rgba(16, 13, 100, 1)',
+          backgroundColor: '#111E6C',
         },
         headerTitleStyle: {
           fontFamily: 'HkGrotesk_Bold',
@@ -88,10 +91,45 @@ const plansStackContainer = createStackNavigator({
     })
 });
 
+// Only really used to give a header to the search screen
+const searchStackContainer = createStackNavigator({
+    Search: SearchScreen
+},
+{
+    
+    initialRouteName: 'Search', 
+    headerMode: 'float',
+    defaultNavigationOptions: ({ navigation }) => ({
+        headerTitle: <SearchBar />,
+        headerStyle: {
+          backgroundColor: COLORS.HEADER_COLOR,
+        },
+        headerTintColor: 'rgba(16, 13, 100, 1)',
+    })
+});
+
+const friendsStackNavigator = createStackNavigator({
+    Friends: Friends,
+    SelectedFriend: Friends,
+},
+{
+    
+    initialRouteName: 'Friends', 
+    headerMode: 'float',
+    defaultNavigationOptions: ({ navigation }) => ({
+        headerTitle: <FriendsHeader />,
+        headerStyle: {
+          backgroundColor: COLORS.GRADIENT_COLOR_1,
+          borderBottomWidth: 0,
+        },
+        headerTintColor: 'rgba(16, 13, 100, 1)',
+    })
+});
+
 const Main = createBottomTabNavigator(
 {
     Home: homeStackContainer,
-    Search: SearchScreen,
+    Search: searchStackContainer,
     Plans: plansStackContainer,
     Message: MessageScreen,
 },
@@ -117,12 +155,9 @@ const Main = createBottomTabNavigator(
     tabBarOptions: {
         activeTintColor: 'white',
         inactiveTintColor: '#536497',
-        showLabel: false,
-        // safeAreaInset: {
-        //     bottom: 'never', top:'never'
-        // },
+        showLabel: true,
         style: {
-            backgroundColor: "#100D64"
+            backgroundColor: "#111E6C"
         }
     },
     animationEnabled: false,
@@ -133,7 +168,7 @@ const Main = createBottomTabNavigator(
 const DrawerContainer = createDrawerNavigator({
     Home: Main,
     Profile: CurrentUserProfileScreen,
-    Friends: Friends,
+    Friends: friendsStackNavigator,
     Delete: DeleteAlert,
 },
 {

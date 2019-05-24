@@ -17,109 +17,114 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View, FlatList, Text, RefreshControl, StatusBar, AsyncStorage } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo";
-import { DrawerActions } from 'react-navigation';
+import { DrawerActions, NavigationEvents } from 'react-navigation';
 import { connect } from 'react-redux';
-import { selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
+import { updateLoading, selectBar, pushListData, eraseListData, refreshList, updatePicture } from '../../../redux/actions/HomeActions';
 import HomeBar from '../../../components/BarComponent/HomeBar.js'
 import firebase from '../../../config/Firebase.js';
+import BasicLoadingIndicator from '../../../components/BasicLoadingIndicator';
 
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Left,
-  Right,
-  Body,
-  StyleProvider,
-} from "native-base";
+import Carousel from 'react-native-snap-carousel';
+
+const CARD_HEIGHT = Variables.deviceHeight / 1.5;
+const CARD_WIDTH = Variables.deviceWidth - 50;
 
 class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
+        cache: [],
     }
   }
 
   componentWillMount() {
-    this._refreshing()
+    this._listenToBarData();
+  }
+  
+  componentDidMount() {
+    console.log(`Carousel Data: ${this.props.carouselData}`)
   }
 
-  _pullDataFromFirebaseToReduxStore() {
-    // 1) pull key references from user firebase
-    // 2) For each key, look inside the firebase bar database
-    //    When the key being searched for is found, take that data
-    //    and push it to the store.
-
+  _updateListData() {
     let uid = firebase.auth().currentUser.uid;
     let userBars = firebase.database().ref(`users/${uid}/bars`);
     let publicBars = firebase.database().ref(`bars`);
 
     userBars.on('value', snapshot => {
+      
+    })
+  }
+
+  _renderIndicator() {
+    return(
+      <BasicLoadingIndicator animating={this.props.loading} />
+    )
+  }
+
+  _listenToBarData() {
+    // - pull key references from user firebase
+    // - For each key, look inside the firebase bar database
+    //   When the key being searched for is found, take that data
+    //   and push it to the store.
+
+    let uid = firebase.auth().currentUser.uid;
+    let userBars = firebase.database().ref(`users/${uid}/bars`);
+    let publicBars = firebase.database().ref(`bars`);
+    
+    userBars.on('value', snapshot => {
       snapshot.forEach(userChild => {
         publicBars.once('value', snapshot => {
           snapshot.forEach(barChild => {
             if(userChild.val() === barChild.key) {
-              this.props.pushListData(barChild.val());
+              this.setState({cache: [...this.state.cache, barChild.val()]})
             }
           })
-        })
+        }).then(() => {
+            this.props.updateLoading(false)
+            this.props.pushListData(this.state.cache)
+          }
+        )
       })
     })
-  }
+}
 
-  _refreshing() {
-    // Refreshes the list of bars on users screen
-    this.props.refreshList(true);
-    this.props.eraseListData();
-    this._pullDataFromFirebaseToReduxStore();
-    this.props.refreshList(false);
+  _snapToLastItem() {
+    if(this.props.carouselData) {
+      this._carousel.snapToItem(this.props.carouselData.length - 1)
+    }
   }
-
-  // sitting this here til i make a place for it.
-  _signOutAsync = async () => {
-    console.log('Signing out')
-    firebase.auth().signOut().then( () => {
-         AsyncStorage.clear().then(async () => {
-            this.props.navigation.navigate('SignUp');
-        }).catch(function(error){
-            console.log(error);
-        })
-      }).catch(function(error) {
-        console.log(error);
-      });
-};
 
   render() {
-
     return (
-      <StyleProvider style={getTheme(Common)}>
-        <Container>
-          <StatusBar barStyle="light-content"/>
-          <Content scrollEnabled={false}>
-            <LinearGradient
-              style={styles.gradient}
-              colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
-              <View style={styles.flatlist}>
-                <FlatList
-                    refreshControl={
-                      <RefreshControl
-                          refreshing={this.props.refreshing}
-                          onRefresh={() => {this._refreshing()}}
-                      />
-                    }
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.contentContainerStyle}
-                    data={this.props.carouselData}
-                    renderItem={({item}) => <HomeBar name={item.name} key={item.key} id={item.key} rating={item.rating} open={item.open} price={item.price}/>}
-                  />
-              </View>
-            </LinearGradient>
-          </Content>
-        </Container>
-      </StyleProvider>
+      <View style={styles.rootContainer}>
+        <StatusBar barStyle="light-content"/>
+        {/* <NavigationEvents
+          onDidFocus={() => this._snapToLastItem()}
+        /> */}
+        <LinearGradient
+            style={styles.gradient}
+            colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}>
+                {this._renderIndicator()}
+                <Carousel
+                  contentContainerCustomStyle={{justifyContent: 'center', alignItems: 'center',}}
+                  ref={c => { this._carousel = c}}
+                  data={this.props.carouselData}
+                  renderItem={(data, index) => 
+                    <HomeBar 
+                      key={index} 
+                      name={data.item.name} 
+                      rating={data.item.rating} 
+                      price={data.item.price_level} 
+                      photo={data.item.photos ? data.item.photos[0].photo_reference : null}
+                    />
+                  }
+                  sliderWidth={Variables.deviceWidth}
+                  itemWidth={CARD_WIDTH}
+                  windowSize={1}
+                />
+          </LinearGradient>
+      </View>
     );
   }
 }
@@ -128,6 +133,7 @@ class HomeScreen extends React.Component {
 const mapStateToProps = state => ({
   refreshing: state.homeReducer.refreshing,
   carouselData: state.homeReducer.carouselData,
+  loading: state.homeReducer.loading,
 })
 
 // Dispatch data to store
@@ -137,21 +143,20 @@ const mapDispatchToProps = {
   eraseListData,
   refreshList,
   updatePicture,
+  updateLoading,
 }
 
 const styles = StyleSheet.create({
   gradient: {
+    position: 'absolute',
     width: Variables.deviceWidth,
     height: Variables.deviceHeight
   },
-  flatlist: {
+  rootContainer: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  contentContainerStyle: {
-    paddingBottom: 220, 
-  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen); 

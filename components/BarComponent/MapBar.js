@@ -1,80 +1,111 @@
-//=============================================================
-// Bar.js
-//
-// The component for holding data on user's saved bars
-// including styling, name of bar, if it's open, etc..
-//
-// Author: Joseph Contumelio
-// Copyright(C) 2018, Barmate l.l.c.
-// All rights reserved.
-//=============================================================
+/* 
+    MapBar.js
+    
+    The component to show the user bars on the map screen
+    
+    Author:  Joseph Contumelio
+    Copyright(C) 2019, BarMate l.l.c.
+    All rights reserved
+*/
 
-//=============================================================
-// Variables and Constants
-//=============================================================
 import Variables from "../../config/Variables.js";
 import COLORS from "../../config/Colors.js";
-//=============================================================
 
-//=============================================================
-// Imports
-//=============================================================
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 
 import { LinearGradient } from "expo";
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { Body, Button } from "native-base";
 import firebase from "../../config/Firebase.js";
 import { withNavigation } from 'react-navigation';
-//=============================================================
+import API_KEY from '../../config/API_Key';
+import _ from 'lodash'
 
 /*
   Props:
-    isMapComponent : bool 'Determine if the component belongs on the map screen
-    barID : object 'All the given data from a bar inside an object'
     name : string 'The name of the selected marker from the map screen'
-    rating : string 'The rating of the selected marker from the map screen'
-    open : string 'Either 'Closed', 'Open', or 'N/A' '
-    price
+    rating : float 'The rating of the selected marker from the map screen'
+    price : int 'The price estimate of the bar'
+    id : string 'Place ID for business provided by Google'
+    photo : string 'Reference to business photo'
 */
 
-class Bar extends React.Component {
+const CARD_HEIGHT = Variables.deviceHeight / 4;
+const CARD_WIDTH = CARD_HEIGHT - 50;
+
+class MapBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      detailResults: {},
+      updateAddButton: false,
+    }
   }
 
-  _renderOpen() {
-    let open = undefined;
-    if(this.props.isMapComponent) {
-      open = this.props.barID.open;
+  _renderImage() {
+    if(this.props.photo) {
+      const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.photo}&key=${API_KEY}`
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={{uri: imageApi}}
+        />
+      )
     }
     else {
-      open = this.state.open;
+      return(
+        <Image 
+          style={styles.backgroundImage}
+          source={require('../../assets/global/gradient.png')}
+        />
+      )
     }
+  }
 
-    if (open === "Open") {
-      return <Text style={{color: 'green'}}>Open</Text>
-    } else if (open === "Closed") {
-      return <Text style={{color: 'red'}}>Closed</Text>
-    } else if (open === "N/A") {
-      return <Text style={{color: 'yellow'}}>N/A</Text>
-    } else {
-      return <Text style={{color: 'yellow'}}>N/A</Text>
-      console.log("Could not gather open information");
+  async onGetDetailsRequest(place_id) {
+    const detailsURL = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&fields=opening_hours&key=${API_KEY}`
+
+    try {
+      const results = await fetch(detailsURL);
+      const json = await results.json();
+
+      this.setState({
+        detailResults: json,
+      })
+
+      console.log(`Detail results: ${JSON.stringify(this.state.detailResults)}`)
+
+    } catch(err) { console.log('Could not reach Details API... ' + err)}
+  }
+
+  _renderHours() {
+    try {
+      this.onGetDetailsRequest(this.props.id);
+    } catch(err) {console.log(`Could not get details to render hours: ${err}`)}
+
+    if(this.state.detailResults != {}) {
+      let date = new Date();
+      let day = date.getDay();
+
+      if(this.state.detailResults.opening_hours.weekday_text != null) {
+
+        this.state.detailResults.opening_hours.weekday_text.forEach((result, index) => {
+
+          if(result.includes(day)) {
+            return(this.state.detailResults.opening_hours.weekday_text[index])
+          }
+
+        })
+      }
+    }
+    else {
+      return('Hours not available') 
     }
   }
 
   _renderPrice() {
-    let price = undefined;
-    if(this.props.isMapComponent) {
-      price = this.props.barID.price;
-    }
-    else {
-      price = this.state.price;
-    }
-    if(price)
+    if(this.props.price)
     {
+      price = this.props.price;
       if(price === 0) {
         return "$";
       }
@@ -92,159 +123,190 @@ class Bar extends React.Component {
       }
     }
     else {
-      console.log("No price found for bar.. returning unknown")
       return "N/A"
     }
   }
 
   _renderRating() {
-    let rating = undefined;
-    if(this.props.isMapComponent) {
-      rating = this.props.barID.rating;
+    if(this.props.rating) {
+      rating = this.props.rating;
+      if (rating <= 0.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/0star.png")}
+          />
+        );
+      } else if (rating >= 0.5 && rating <= 1.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/1star.png")}
+          />
+        );
+      } else if (rating >= 1.5 && rating <= 2.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/2star.png")}
+          />
+        );
+      } else if (rating >= 2.5 && rating <= 3.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/3star.png")}
+          />
+        );
+      } else if (rating >= 3.5 && rating <= 4.4) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/4star.png")}
+          />
+        );
+      } else if (rating >= 4.5 && rating <= 5) {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/5star.png")}
+          />
+        );
+      } else {
+        return (
+          <Image
+            style={styles.rating}
+            source={require("../../assets/global/ratings/unknown.png")}
+          />
+        );
+      }
     }
     else {
-      rating = this.state.rating;
-    }
-
-    if (rating <= 0.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/0star.png")}
-        />
-      );
-    } else if (rating >= 0.5 && rating <= 1.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/1star.png")}
-        />
-      );
-    } else if (rating >= 1.5 && rating <= 2.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/2star.png")}
-        />
-      );
-    } else if (rating >= 2.5 && rating <= 3.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/3star.png")}
-        />
-      );
-    } else if (rating >= 3.5 && rating <= 4.4) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/4star.png")}
-        />
-      );
-    } else if (rating >= 4.5 && rating <= 5) {
-      return (
-        <Image
-          style={styles.rating}
-          source={require("../../assets/global/ratings/5star.png")}
-        />
-      );
-    } else {
-      return (
+      return(
         <Image
           style={styles.rating}
           source={require("../../assets/global/ratings/unknown.png")}
         />
-      );
+      )
     }
   }
 
-  _renderMapButton() {
-    let barID = this.props.barID;
-    if (this.props.isMapComponent) {
+  _renderAddButton() {
+    let isBarInUserHome = false;
+
+    const userBars = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`);
+
+    userBars.once('value', snapshot => {
+      snapshot.forEach(bars => {
+        if(bars.val() === this.props.id) {
+          isBarInUserHome = true;
+        }
+      })
+    }).catch(err => {
+      console.log(`Error getting users bars list for MapBar: ${err}`)
+    })
+
+    if(isBarInUserHome === true) {
+      return(
+        <View style={styles.isAddedButton}>
+          <Text style={styles.added}>Added</Text>
+        </View>
+      )
+    }
+    else {
       return (
-        <Button
-          style={styles.button}
-          onPress={() => {
-            this._addBarToUserHome(barID);
-            alert('Bar added to HomeScreen!');
-          }}>
-          <Text style={{ fontSize: 25, color: "white" }}>Add to Home</Text>
-        </Button>
-      );
+        <TouchableOpacity onPress={() => {this._addBarToUserHome()}} style={styles.addButton}>
+          <Text style={styles.add}>Add</Text>
+        </TouchableOpacity>
+      )
     }
   }
 
-  // WORK IN PROGRESS - FIXING ISSUE WHERE DUPLICATES CAN BE SENT
-  _addBarToUserHome = async barID => {
-    let key = barID.key;
-    let userID = firebase.auth().currentUser.uid;
-    let barList = firebase.database().ref(`bars/`); 
-    let newBarChildRef = barList.push();
-    //deletes the barID's key so it isn't stored inside an object with the same key
-    var barData = barID;
-    delete barData.key;
-
-    if (userID) {
-      firebase 
-      .database()
-      .ref('bars/')
-      .once("value", snapshot =>{
-        if(!snapshot.hasChild(key)){
-          console.log("Data is undefined, adding bar to database...");
-            firebase
-              .database()
-              .ref(`bars/${key}`)
-              .update(barData);
-          } else {
-            console.log("Data has been found in database, continuing...");
-          }
-        })
-        .catch(error => {
-          console.log("error: ", error);
-        });
-
-      firebase 
-      .database()
-      .ref(`users/${userID}/bars`)
-      .orderByValue()
-      .equalTo(key)
-      .once("value", snapshot =>{
-        if(!snapshot.exists()){
-          console.log("User does not have bar in their home, continue adding bar...");
-            firebase
-              .database()
-              .ref(`users/${userID}/bars/`)
-              .push(key);
-          } else {
-            console.log("Data is already in users home! cannot add twice!");
-          }
-        })
-        .catch(error => {
-          console.log("error: ", error);
-        });
-    }
-  }
-  
+  async _addBarToUserHome() {
+    /*
+      Doing two things (in order):
+      - Check to see if bar being added is in database
+        If it is, then skip adding it, if not, add to database
+      - After Bar is added, add a reference to the bar in the user's
+        bar folder in database
+    */
     
+    const detailsURL = `https://maps.googleapis.com/maps/api/place/details/json?key=${API_KEY}&placeid=${this.props.id}&fields=name,rating,place_id,price_level,geometry/location,opening_hours,formatted_address,photos`
+    let isBarInDatabase = false;
+    let isBarInUserHome = false;
 
+    try {
+      const result = await fetch(detailsURL);
+      var json = await result.json();
+    } catch(err) { console.log(`Failed to get result from Google Details API: ${err}`)}
+
+    // Check bar db
+    let barsRef = firebase.database().ref(`bars`);
+    barsRef.once('value', snapshot => {
+
+      snapshot.forEach(barID => {
+        if(this.props.id === barID.key) {
+          isBarInDatabase = true;
+        }
+      })
+
+      if(isBarInDatabase === false) {
+        console.log('Adding Bar to database')
+        firebase.database().ref(`bars/${json.result.place_id}`).update(json.result);
+      }
+    })
+
+    // Add reference to bar in users bar folder
+    let usersRef = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`)
+    usersRef.once('value', snapshot => {
+      snapshot.forEach(barID => {
+        if(this.props.id === barID.val()) {
+          isBarInUserHome = true;
+        }
+      })
+
+      if(isBarInUserHome === false) {
+        console.log('Adding Bar to user home...')
+        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/bars`).push(this.props.id)
+        .then(this.setState({updateAddButton: true}))
+        .catch(err => {
+          console.log(`Unable to add bar to user home... ${err}`)
+        })
+      }
+      else {
+        console.log('Bar is already in user home!')
+      }
+    })
+  }
 
   render() {
     return (
-      <View style={styles.content}>
+      <View style={styles.rootContainer}>
+        {this._renderImage()}
         <LinearGradient
           style={styles.gradient}
-          colors={[COLORS.TRANSPARENT_COLOR, "rgba(0, 0, 0, 0.5)"]}>
-          <View>
-            <Text style={styles.title}>{this.props.barID.name ? this.props.barID.name : 'Undefined'}</Text>
-          </View>
-          <View style={styles.footerText}>
-            <Text style={styles.rating}>{this._renderRating()}</Text>
-            <Text style={styles.price}> • {this._renderPrice()} • </Text>
-            <Text style={styles.open}>{this._renderOpen()}</Text>
-          </View>
-          <View>
-            <Text style={styles.open}>{this._renderMapButton()}</Text>
-          </View>
+          colors={[COLORS.TRANSPARENT_COLOR, "rgba(66, 19, 123, 0.8)"]}
+        >
+        <View style={styles.isAddedButtonContainer}>
+            {this.state.updateAddButton ? 
+              <View style={styles.isAddedButton}>
+                <Text style={styles.added}>Added</Text>
+              </View> : this._renderAddButton()
+            }
+        </View>
+
+        <View style={styles.hoursContainer}>
+            <Text style={styles.hours}>{/*this._renderHours()*/}</Text>
+        </View>
+
+        <View style={styles.nameContainer}>
+            <Text numberOfLines={1} style={styles.name}>{this.props.name}</Text>
+        </View>
+
+        <View style={styles.otherContainer}>
+            {this._renderRating()}
+            <Text style={styles.price}> • {this._renderPrice()}</Text>
+        </View>
         </LinearGradient>
       </View>
     );
@@ -252,53 +314,93 @@ class Bar extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: COLORS.TRANSPARENT_COLOR,
-    justifyContent: "center",
-    alignItems: "center",
-    width: Variables.deviceWidth - 50
-  },
-  gradient: {
-    width: Variables.deviceWidth - 50,
-    height: 500,
-    borderRadius: 25,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-  },
-  content: {
-    width: Variables.deviceWidth - 50,
-    height: 500,
-    borderRadius: 25,
-    backgroundColor: COLORS.GRADIENT_COLOR_1
-  },
-  title: {
-    fontSize: 35,
-    color: 'white',
-    fontFamily: 'HkGrotesk_Bold',
-    marginLeft: 15,
-  },
-  rating: {
-    marginBottom: 20,
-    marginLeft: 16,
-    width: 110,
-    height: 20,
-  },
-  open: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: 'green',
-    fontFamily: 'HkGrotesk_LightItalic', 
-  },
-  price: {
-    fontSize: 20,
-    marginBottom: 20,
-    color: 'white',
-    fontFamily: 'HkGrotesk_Light',
-  },
-  footerText: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  }  
+    rootContainer: {
+      justifyContent: 'flex-end',
+      backgroundColor: "#42137b",
+      height: CARD_HEIGHT,
+      width: CARD_WIDTH,
+      borderRadius: 25,
+    },
+    gradient: {
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
+      borderRadius: 25,
+    },
+    backgroundImage: {
+      borderRadius: 25,
+      position: 'absolute',
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
+    },
+    isAddedButtonContainer: {
+      flex: 1, 
+      alignItems: 'flex-end',
+      padding: 12,
+    },
+    hoursContainer: {
+      flex: 0.3,
+      justifyContent: 'flex-end'
+    },
+    nameContainer: {
+      flex: 0.3,
+      justifyContent: 'flex-end'
+    },
+    otherContainer: {
+      flex: 0.3,
+      flexDirection: 'row',
+    },
+    addButton: {
+      width: 45,
+      height: 30,
+      borderRadius: 9,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+    },
+    isAddedButton: {
+      width: 65,
+      height: 30,
+      borderRadius: 9,
+      borderWidth: 2,
+      borderColor: 'white',
+      justifyContent: 'center',
+    },
+    hours: {
+      fontSize: 10,
+      fontFamily: 'HkGrotesk_Italic',
+      color: '#ebebeb',
+      paddingLeft: 10,
+    },
+    name: {
+      fontSize: 18,
+      fontFamily: 'HkGrotesk_Bold',
+      color: 'white',
+      paddingLeft: 10,
+      flexWrap: 'wrap',
+    },
+    add: {
+      fontFamily: 'HkGrotesk_Bold', 
+      fontSize: 20, 
+      color: '#302c9e',
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
+    added: {
+      fontFamily: 'HkGrotesk_Bold', 
+      fontSize: 20, 
+      color: '#FFFFFF',
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
+    rating: {
+      width: 55,
+      height: 10,
+      marginLeft: 10,
+    },
+    price: {
+      fontSize: 10,
+      fontFamily: 'HkGrotesk_Bold',
+      color: 'white',
+    },
 });
 
-export default withNavigation(Bar);
+export default withNavigation(MapBar);

@@ -9,49 +9,18 @@
 */
 
 
-// Resets array when user refreshes friends list
-export function eraseFriendsList() {
+// Push Friend IDS to reducer
+export function updateLoading(bool) {
     return {
-        type: 'ERASE_LIST',
+        type: 'UPDATE_LOADING',
+        payload: bool,
     }
 }
 
-// Updates screen element of total number of friends
-export function updateFriendCount(count) {
+// Push Friends Names to reducer
+export function pushFriends(friends) {
     return {
-        type: 'UPDATE_FRIEND_COUNT',
-        payload: count
-    }
-}
-
-// Used for Refresh Control of Flatlist; tells flatlist to reload
-export function refreshFriendsList(bool) {
-    return {
-        type: 'REFRESH_LIST',
-        payload: bool
-    }
-}
-
-// When user wants to message one of their friends from the friends screen
-export function selectMessageProfile(messageProfile) {
-    return {
-        type: 'SELECT_MESSAGE_PROFILE',
-        payload: messageProfile
-    }
-}
-
-// Push the updated friends list to the reducer that is listened by the flatlist
-export function pushFriendsList(friends) {
-    return {
-        type: 'PUSH_FRIENDS_LIST',
-        payload: friends
-    }
-}
-
-// Called when user selects the profile of a friend on friends page
-export function selectProfile(profile) {
-    return {
-        type: 'SELECT_PROFILE',
-        payload: profile
+        type: 'PUSH_FRIENDS',
+        payload: friends,
     }
 }
