@@ -120,7 +120,6 @@ class Friends extends React.Component {
                         </View>
                     </SafeAreaView>
                 </LinearGradient>
-            </View>
         );
     }   
 }

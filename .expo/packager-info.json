@@ -1,1 +1,9 @@
-{}
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://i7-xh4.josephcon1998.barmate.exp.direct",
+  "packagerNgrokUrl": "https://packager.i7-xh4.josephcon1998.barmate.exp.direct",
+  "ngrokPid": 6978,
+  "devToolsPort": 19002,
+  "packagerPort": 19004,
+  "packagerPid": 6947
+}
