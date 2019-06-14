@@ -1,8 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 16008,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "packagerPid": 10419,
+  "expoServerNgrokUrl": "https://un-6dw.josephcon1998.barmaterepo.exp.direct",
+  "packagerNgrokUrl": "https://packager.un-6dw.josephcon1998.barmaterepo.exp.direct",
+  "ngrokPid": 10427,
+  "devToolsPort": 19002
 }
