@@ -2,6 +2,10 @@
 
 # expo
 .expo/
+.expo-shared/
+
+# vscode config
+.vscode/
 
 # dependencies
 /node_modules
