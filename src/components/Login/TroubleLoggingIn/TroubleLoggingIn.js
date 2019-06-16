@@ -12,7 +12,7 @@ class TroubleLoggingIn extends Component {
     return (
     <View style={[this.props.style, styles.rootContainer]}>
       <TouchableWithoutFeedback>
-        <Text style={styles.text}>Trouble Signing In?</Text>
+        <Text style={styles.text}>Trouble Logging In?</Text>
       </TouchableWithoutFeedback>
     </View>
     );
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingBottom: 5,
         fontFamily: 'HkGrotesk_Light',
+        paddingTop: 20,
     },
 })
 export default TroubleLoggingIn;

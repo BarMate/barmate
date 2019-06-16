@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, Dimensions } from 'react-native';
 
-import { Logo, FadeView } from '../../index';
+import { Logo, FadeView } from '../../Global/index';
 
 class ForegroundView extends Component {
   constructor(props) {
@@ -13,16 +13,19 @@ class ForegroundView extends Component {
   render() {
     return (
         <View style={[this.props.style, styles.rootContainer]}>
-            <View style={styles.upperArea}>
+            {/**TODO: Move this code into its own component in the login directory */}
+            <SafeAreaView style={styles.upperArea}>
                 <Logo />
-            </View>
+            </SafeAreaView>
             <FadeView style={styles.lowerArea}>
-                <View style={styles.textContainer}>
-                    <Text style={styles.headerText}>{this.props.name}</Text>
-                </View>
-                <View style={styles.bodyContainer}>
-                    {this.props.children}
-                </View>
+                <SafeAreaView>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.headerText}>{this.props.name}</Text>
+                    </View>
+                    <View style={styles.bodyContainer}>
+                        {this.props.children}
+                    </View>
+                </SafeAreaView>
             </FadeView>
         </View>
     );
@@ -36,12 +39,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     upperArea: {
-        flex: 0.21,
+        flex: 0.23,
         justifyContent: 'center',
         alignItems: 'center',
     },
     lowerArea: {
-        flex: 0.79,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff',

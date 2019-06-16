@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Animated, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import { TouchableWithBounce } from '../../Global/index';
 import { Ionicons } from '@expo/vector-icons'
+import styles from './styles';
 
 class ButtonSignup extends Component {
   constructor(props) {
@@ -21,25 +22,5 @@ class ButtonSignup extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    rootContainer: {
-        width: 300,
-        height: 50,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderWidth: 1,
-        backgroundColor: '#302C9E',
-        marginTop: 30,
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 20,
-        paddingLeft: 10,
-        fontFamily: 'HkGrotesk_Medium',
-    }
-})
 
 export default ButtonSignup;

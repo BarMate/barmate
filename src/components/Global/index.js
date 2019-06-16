@@ -9,12 +9,12 @@ import DefaultTextInputForm from './TextInputs/DefaultTextInputForm/DefaultTextI
 
 /* Views */
 import BackgroundView from './Views/BackgroundView/BackgroundView';
-import ForegroundView from './Views/ForegroundView/ForegroundView';
 import FadeView from './Views/FadeView/FadeView';
+import PullableModalView from './Views/PullableModalView/PullableModalView';
 
 export {
     BackgroundView,
-    ForegroundView,
+    PullableModalView,
     FadeView,
     Logo,
     DefaultTextInputForm,

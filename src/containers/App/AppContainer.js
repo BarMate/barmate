@@ -1,11 +1,23 @@
 import React from 'react';
-import LoginContainer from '../Login/LoginContainer';
 
-// Will handle navigation properties in this file
-// For now just rendering the Login container as a default
+import AuthContainer from '../Auth/AuthContainer';
+import LoginContainer from '../Login/LoginContainer';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+
+const switchNavigator = createSwitchNavigator(
+  {
+    AuthContainer,
+    LoginContainer,
+  },
+  {
+    initialRouteName: 'AuthContainer',
+  },
+);
+
+const AppContainer = createAppContainer(switchNavigator);
 
 export default function App() {
   return (
-    <LoginContainer />
+    <AppContainer />
   );
 }

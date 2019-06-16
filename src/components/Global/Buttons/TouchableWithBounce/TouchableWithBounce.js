@@ -12,11 +12,11 @@ class TouchableWithBounce extends Component {
   _onPressIn() {
     let { scale } = this.state;
 
-    Animated.spring(                  
+    Animated.timing(                  
         scale,           
         {
           toValue: 1.1,                   
-          duration: 50,
+          duration: 100,
         }
     ).start(); 
   }
@@ -28,7 +28,7 @@ class TouchableWithBounce extends Component {
         scale,
         {
           toValue: 1.0,
-          duration: 50,
+          bounciness: 20,
         }
     ).start(); 
   }
