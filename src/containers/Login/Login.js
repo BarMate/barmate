@@ -49,8 +49,6 @@ const Login = (props) => {
         <BackgroundView>
           <StatusBar barStyle="light-content"/>
           <ForegroundView name="Hi">
-            <DefaultTextInputForm>Name</DefaultTextInputForm>
-            <DefaultTextInputForm>Handle</DefaultTextInputForm>
           </ForegroundView>
         </BackgroundView>
       );
