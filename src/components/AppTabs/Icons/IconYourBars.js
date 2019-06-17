@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Plans from './Plans';
+import { Ionicons } from '@expo/vector-icons';
 
-class PlansContainer extends Component {
+class IconYourBars extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,9 +11,9 @@ class PlansContainer extends Component {
 
   render() {
     return (
-      <Plans />
+        <Ionicons name={"md-beer"} size={30} color={"#ffffff"}/>
     );
   }
 }
 
-export default PlansContainer;
+export default IconYourBars;

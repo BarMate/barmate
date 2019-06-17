@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import Messages from './Messages';
 
 class MessagesContainer extends Component {
   constructor(props) {
@@ -10,9 +11,7 @@ class MessagesContainer extends Component {
 
   render() {
     return (
-      <View>
-        <Text> MessagesContainer </Text>
-      </View>
+      <Messages />
     );
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Text, Dimensions, KeyboardAvoidingView } from 'react-native';
 
 import { Logo, FadeView } from '../../Global/index';
 
@@ -12,7 +12,7 @@ class ForegroundView extends Component {
 
   render() {
     return (
-        <View style={[this.props.style, styles.rootContainer]}>
+        <KeyboardAvoidingView behavior="padding" style={[this.props.style, styles.rootContainer]}>
             {/**TODO: Move this code into its own component in the login directory */}
             <SafeAreaView style={styles.upperArea}>
                 <Logo />
@@ -20,14 +20,16 @@ class ForegroundView extends Component {
             <FadeView style={styles.lowerArea}>
                 <SafeAreaView>
                     <View style={styles.textContainer}>
-                        <Text style={styles.headerText}>{this.props.name}</Text>
+                        <View>
+                            <Text style={styles.headerText}>{this.props.name}</Text>
+                        </View>
                     </View>
                     <View style={styles.bodyContainer}>
                         {this.props.children}
                     </View>
                 </SafeAreaView>
             </FadeView>
-        </View>
+        </KeyboardAvoidingView>
     );
   }
 }

@@ -1,5 +1,7 @@
+import React from 'react';
 import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
 import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDetails } from './AppTabs/index';
+import { IconHeaderProfilePicture, IconYourBars } from '../components/AppTabs/index';
 import { Ionicons } from '@expo/vector-icons';
 
 // Tabs
@@ -10,6 +12,10 @@ const YourBarsNav = createStackNavigator(
     },
     {
         initialRouteName: 'YourBars',
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTransparent: true,
+            headerLeft: navigation.state.routeName === 'YourBars' ? <IconHeaderProfilePicture /> : '',
+        })
     }
 )
 
@@ -20,6 +26,10 @@ const PlansNav = createStackNavigator(
     },
     {
         initialRouteName: 'Plans',
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTransparent: true,
+            headerLeft: navigation.state.routeName === 'Plans' ? <IconHeaderProfilePicture /> : '',
+        })
     }
 )
 
@@ -29,6 +39,10 @@ const InsideNav = createStackNavigator(
     },
     {
         initialRouteName: 'Inside',
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTransparent: true,
+            headerLeft: navigation.state.routeName === 'Inside' ? <IconHeaderProfilePicture /> : '',
+        })
     }
 )
 
@@ -39,6 +53,10 @@ const MessagesNav = createStackNavigator(
     },
     {
         initialRouteName: 'Messages',
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerTransparent: true,
+            headerLeft: navigation.state.routeName === 'Messages' ? <IconHeaderProfilePicture /> : '',
+        })
     }
 )
 
@@ -55,26 +73,38 @@ const TabNav = createBottomTabNavigator(
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused }) => {
                 const { routeName } = navigation.state;
-                if(routeName === 'YourBars') {
-                    return (focused ? <Ionicons name={"ios-beer"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-beer"} size={25} color={"#536497"} />)
+                if(routeName === 'YourBarsNav') {
+                    return (focused ? <IconYourBars /> : <Ionicons name={"md-beer"} size={30} color={"rgba(255,255,255,0.3)"} />)
                 }
-                else if(routeName === 'Plans') {
-                    return (focused ? <Ionicons name={"ios-search"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-search"} size={25} color={"#536497"} />)
+                else if(routeName === 'PlansNav') {
+                    return (focused ? <Ionicons name={"ios-apps"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-apps"} size={30} color={"rgba(255,255,255,0.3)"} />)
                 }
-                else if(routeName === 'Inside') {
-                    return (focused ? <Ionicons name={"ios-people"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-people"} size={25} color={"#536497"} />)
+                else if(routeName === 'InsideNav') {
+                    return (focused ? <Ionicons name={"ios-grid"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-grid"} size={30} color={"rgba(255,255,255,0.3)"} />)
                 }
-                else if(routeName === 'Messages') {
-                    return (focused ? <Ionicons name={"ios-text"} size={25} color={"#FFFFFF"}/> : <Ionicons name={"ios-text"} size={25} color={"#536497"} />)
+                else if(routeName === 'MessagesNav') {
+                    return (focused ? <Ionicons name={"ios-chatbubbles"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-chatbubbles"} size={30} color={"rgba(255,255,255,0.3)"} />)
                 }
             },
+            
         }),
         tabBarPosition: "bottom",
         tabBarOptions: {
-           
+            activeBackgroundColor: 'rgba(0,0,0,0.0)',
+            inactiveBackgroundColor: 'rgba(0,0,0,0.0)',
+            showLabel: false,
+            style: {
+                backgroundColor: 'transparent',
+                borderTopWidth: 0,
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+            }
         },
         animationEnabled: false,
         swipeEnabled: true,
+
     }
 )
 
@@ -89,7 +119,7 @@ const App = createDrawerNavigator(
         // contentComponent: CustomDrawer,
         drawerBackgroundColor: '#302c9e',
         contentOptions: {
-            activeBackgroundColor: '#302c9e'
+        activeBackgroundColor: '#302c9e'
     }
 })
 

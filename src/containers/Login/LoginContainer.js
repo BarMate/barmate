@@ -5,14 +5,14 @@ class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
+      render: 'Login',
     };
   }
   // Lifecycle methods, etc...
 
   render() {
     return (
-      <Login determineRender='SignupSequence4' />
+      <Login determineRender={this.state.render} />
     );
   }
 }

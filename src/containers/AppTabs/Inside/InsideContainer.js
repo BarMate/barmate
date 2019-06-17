@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import Inside from './Inside';
 
 class InsideContainer extends Component {
   constructor(props) {
@@ -10,9 +11,7 @@ class InsideContainer extends Component {
 
   render() {
     return (
-      <View>
-        <Text> InsideContainer </Text>
-      </View>
+      <Inside />
     );
   }
 }

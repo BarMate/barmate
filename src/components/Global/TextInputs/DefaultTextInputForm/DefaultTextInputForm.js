@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, Animated, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import styles from './styles';
 
 class DefaultTextInputForm extends Component {
   constructor(props) {
@@ -20,18 +21,4 @@ class DefaultTextInputForm extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-    rootContainer: {
-        width: 300,
-        height: 50,
-        backgroundColor: '#ffffff',
-        borderWidth: 1,
-        borderColor: '#707070',
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        marginBottom: 10,
-    },
-})
 export default DefaultTextInputForm;

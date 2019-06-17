@@ -10,23 +10,42 @@
 */
 
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
-import { Font, Asset } from 'expo';
+import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
+import { connect } from "react-redux";
 
+import firebase from '../../config/APIs/Firebase/firebase';
 import Auth from "./Auth";
 import styles from "./style";
+import { sendUserInfo } from './actions';
 
 class AuthContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontsLoaded: false
-      // add async flags here
     };
   }
 
   componentDidMount() {
       this._loadAssets();
+  }
+
+  async _gatherUserInfo(user) {
+    await firebase.database().ref(`users/${user.uid}`).once('value', snapshot => {
+      this.props.sendUserInfo(snapshot.val());
+    })
+    this.props.navigation.navigate('AppNav');
+  }
+
+  _determineUserAuthState() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        this._gatherUserInfo(user);
+      }
+      else {
+        this.props.navigation.navigate('LoginContainer');
+      }
+    })
   }
 
   async _loadAssets() {
@@ -45,7 +64,7 @@ class AuthContainer extends Component {
 
     await Asset.loadAsync([require('../../assets/logo_final.png')]);
 
-    this.props.navigation.navigate('LoginContainer');
+    this._determineUserAuthState();
   }
 
   render() {
@@ -53,4 +72,8 @@ class AuthContainer extends Component {
   }
 }
 
-export default AuthContainer;
+const mapDispatchToProps = {
+  sendUserInfo,
+}
+
+export default connect(null, mapDispatchToProps)(AuthContainer);

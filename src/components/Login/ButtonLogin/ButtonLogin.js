@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, Animated, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Animated, StyleSheet, ActivityIndicator, Alert, AsyncStorage } from 'react-native';
 import { TouchableWithBounce } from '../../Global/index';
 import { Ionicons } from '@expo/vector-icons'
+import firebase from '../../../config/APIs/Firebase/firebase';
 
 class ButtonLogin extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class ButtonLogin extends Component {
     this.state = {
       scale: new Animated.Value(1.0),
       loading: false,
+      userData: {}
     };
   }
 
@@ -21,14 +23,25 @@ class ButtonLogin extends Component {
     }
   }
 
-  async _loginUserAsync() {
-    // Log user into app
+  _loginUser() {
+    // Update UI state
     this.setState({loading: true});
+
+    // Sign user in with email and password
+    firebase.auth().signInWithEmailAndPassword('jcontume@kent.edu', 'Kentstark001!')
+    .catch(error => {
+      Alert.alert(
+        `Couldn't log in`,
+        `It looks like your email or password is incorrect. Please try again.`,
+      )
+      console.log(`Unable to sign user in. Err code: ${error.code}`)
+      this.setState({loading: false})
+    })
   }
 
   render() {
     return (
-      <TouchableWithBounce onPress={() => {this._loginUserAsync()}} style={styles.rootContainer}>
+      <TouchableWithBounce onPress={() => {this._loginUser()}} style={styles.rootContainer}>
         {this._determineButtonState()}
       </TouchableWithBounce>
     );

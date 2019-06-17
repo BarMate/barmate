@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import YourBars from './YourBars';
 
 class YourBarsContainer extends Component {
   constructor(props) {
@@ -10,9 +11,7 @@ class YourBarsContainer extends Component {
 
   render() {
     return (
-      <View>
-        <Text> YourBarsContainer </Text>
-      </View>
+      <YourBars />
     );
   }
 }

@@ -8,7 +8,7 @@
     All rights reserved
 */
 
-import { Font } from 'expo';
+import * as Font from 'expo-font';
 
 export function loadFontHkGrotesk() {
     Font.loadAsync({

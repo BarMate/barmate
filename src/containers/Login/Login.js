@@ -6,7 +6,7 @@ import React from "react";
 import { View, PropTypes, StatusBar } from "react-native";
 
 import { BackgroundView, DefaultTextInputForm } from '../../components/Global/index';
-import { ForegroundView, ButtonLogin, ButtonLoginFB, ButtonLoginGoogle, TroubleLoggingIn, NoAccount } from '../../components/Login/index';
+import { ForegroundView, ButtonLogin, ButtonLoginFB, ButtonLoginGoogle, TroubleLoggingIn, NoAccount, TextInputEmail, TextInputPassword } from '../../components/Login/index';
 import { AlreadyHaveAccount, ButtonSignup } from '../../components/Signup/index';
 
 const Login = (props) => {
@@ -17,8 +17,8 @@ const Login = (props) => {
         <BackgroundView>
           <StatusBar barStyle="light-content"/>
           <ForegroundView name="Log In">
-            <DefaultTextInputForm>Email</DefaultTextInputForm>
-            <DefaultTextInputForm>Password</DefaultTextInputForm>
+            <TextInputEmail />
+            <TextInputPassword />
             <ButtonLogin />
             <ButtonLoginFB />
             <ButtonLoginGoogle />

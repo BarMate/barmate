@@ -6,6 +6,9 @@ import AppNav from '../index';
 
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
+import { Provider } from 'react-redux';
+import configureStore from '../../redux/Store';
+
 const switchNavigator = createSwitchNavigator(
   {
     AuthContainer,
@@ -18,9 +21,12 @@ const switchNavigator = createSwitchNavigator(
 );
 
 const AppContainer = createAppContainer(switchNavigator);
+const store = configureStore();
 
 export default function App() {
   return (
-    <AppContainer />
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
   );
 }
