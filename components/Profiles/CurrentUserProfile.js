@@ -46,11 +46,12 @@ class CurrentUserProfile extends React.Component {
         super(props);
         this.state = {
             profilePictureURL: '',
+            uid: ''
         };
     }
 
     componentWillMount() {
-        if(this.props.uid) {
+        if(this.state.uid !== '') {
             this._initialReadFromDatabase();
             this.getProfilePicture();
         }

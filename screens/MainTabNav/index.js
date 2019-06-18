@@ -59,6 +59,7 @@ const homeStackContainer = createStackNavigator({
 const plansStackContainer = createStackNavigator({
     Plans: PlansScreen,
     SelectedProfile: SelectedUserProfileScreen,
+    UserProfile: CurrentUserProfileScreen,
     CardDetails: CardDetails,
     TitleDateAndDescription: TitleDateAndDescription,
     EventLocationAndPrivacy: EventLocationAndPrivacy,
@@ -84,7 +85,7 @@ const Main = createBottomTabNavigator(
 {
     Home: homeStackContainer,
     Search: SearchScreen,
-    Plans: plansStackContainer,
+    Plans: { screen: plansStackContainer },
     Message: MessageScreen,
 },
 {

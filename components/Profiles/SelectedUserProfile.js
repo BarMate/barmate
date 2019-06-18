@@ -1,10 +1,10 @@
 //=============================================================
-// Profile.js (component)
+// SelectedUserProfile.js (component)
 //
 // A component for holding the characteristics of
 // a barmate user profile.
 //
-// Author: Joseph Contumelio
+// Author: Rodney Morgan
 // Copyright(C) 2018, Barmate l.l.c.
 // All rights reserved.
 //=============================================================
@@ -21,347 +21,525 @@ import {
     SafeAreaView,
     Alert,
     ScrollView,
-    StatusBar
+    StatusBar,
+    Text
 } from 'react-native';
 
-import getTheme from '../../native-base-theme/components';
-import Common from '../../native-base-theme/variables/commonColor';
 import { withNavigation } from 'react-navigation';
 import firebase from '../../config/Firebase';
-
-import { Col, Row, Grid } from 'react-native-easy-grid';
-import { Container, Header, Title, Content, Left, Right, Body, Icon, StyleProvider, Text, Button, List, ListItem, } from 'native-base';
-import {LinearGradient} from 'expo'
-
+import {LinearGradient} from 'expo' 
 import Variables from '../../config/Variables';
 import COLORS from '../../config/Colors.js';
 import { Ionicons } from "@expo/vector-icons";
 
 import { connect } from 'react-redux';
-import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions/CurrentUserProfileActions';
+import { updateName, updateBio, updateAge, updateHandle, updateKarma, updateModal, updateGender, updateInterest, updateLocation, updateColor, updatePicture } from '../../redux/actions/SelectedUserProfileActions';
+import AsyncImage from '../AsyncImage';
 
-class CurrentUserProfile extends React.Component {
+class SelectedUserProfile extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             profilePictureURL: '',
+            uid: '',
+            name: '',
+            handle: '',
+            karma: '',
+            bio: '', 
+            age: '',
+            gender: '',
+            location: '',
+            interest: '',
+			color: '',
+			hasFinished: false
         };
     }
 
-    componentWillMount() {
-        if(this.props.uid) {
-            this._initialReadFromDatabase();
-            this.getProfilePicture();
-        }
-        else {
-            this._accessSelectedUserProfile();
+    componentDidMount() {    
+        const { navigation } = this.props;
+		var uid = navigation.getParam('uid', 'unknown');
+        if(uid !== 'unknown') {
+            this.setState({uid: uid}, () => {this._accessSelectedUserProfile();})
         }
     }
 
     returnUserBannerColor() {
-        let color = this.props.color;
+        let color = this.state.color;
         switch(color) {
             case 'Red':
-                return 'red'
+                return '#dd2846'
             case 'Blue':
-                return 'blue'
+                return '#3333cc'
             case 'Green': 
                 return '#2c934c'
             case 'Purple':
-                return 'purple'
+                return '#642eaa'
             case 'Pink':
-                return 'pink'
+                return '#cc66cc'
             case 'White':
-                return 'white'
+                return '#f4f4f4'
             case 'Black':
-                return 'black'
+                return '#373737'
+            case 'Orange':
+                return '#ff9900'
+            case 'Yellow': 
+                return '#ddd82a'
             default:
                 return '#3333cc'
         }
     }
 
-    returnUserIconPicture() {
-        let color = this.props.color;
-        switch(color) {
-            case 'Red':
-                return 'red'
-            case 'Blue':
-                return 'blue'
-            case 'Green': 
-                return '#2c934c'
-            case 'Purple':
-                return 'purple'
-            case 'Pink':
-                return 'pink'
-            case 'White':
-                return 'white'
-            case 'Black':
-                return 'black'
-            default:
-                return '#3333cc'
+    returnUserIconPicture(type) {
+        let color = this.state.color;
+        switch(type) {
+            case 'Location': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/location.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/location.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/location.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/location.png')}
+                            />
+                        )
+                    }
+                }
+            }
+            case 'Gender': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/gender.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/gender.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/gender.png')}
+                            />
+                        )
+                    }
+                }                
+            }
+            case 'Interest': {
+                switch(color) {
+                    case 'Red': {
+                        return (
+                                <Image 
+                                    style={styles.icon}
+                                    source={require('../../assets/profile/red_glyph/interest.png')}
+                                />
+                            )
+                    }
+                    case 'Blue': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Green': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/green_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Purple': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/purple_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Pink': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/pink_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'White': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/white_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Black': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/black_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Orange': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/orange_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    case 'Yellow': {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/yellow_glyph/interest.png')}
+                            />
+                        )
+                    }
+                    default: {
+                        return (
+                            <Image 
+                                style={styles.icon}
+                                source={require('../../assets/profile/blue_glyph/interest.png')}
+                            />
+                        )
+                    }
+                }                
+            }
+            default: 
+                break;
         }
     }
 
-    getProfilePicture() {
-        let uid = firebase.auth().currentUser.uid
-        let imageRef = firebase.storage().ref(`users/${uid}/profile-picture`)
-        imageRef.getDownloadURL().then(url => {
-            this.props.updatePicture(url)
-        }).catch(error => {
-        switch (error.code) {
-          case 'storage/object-not-found':
-            // File doesn't exist
-            console.log('File doesnt exist')
-        }          
-    })}
-
-    _initialReadFromDatabase() {
-        /* Input: user data from db   Output: redux state of user data */
-        let uid = firebase.auth().currentUser.uid;
-        let profile = firebase.database().ref(`/users/${uid}`);
-        console.log('My profile')
-        profile.once('value').then(snapshot => {
-            snapshot.forEach((child) => {
-                switch(child.key) {
-                    case 'name':
-                        this.props.updateName(child.val())
-                        break;
-                    case 'handle':
-                        this.props.updateHandle(child.val())
-                        break;
-                    case 'karma':
-                        this.props.updateKarma(child.val())
-                        break;
-                    case 'bio':
-                        this.props.updateBio(child.val())
-                        break;
-                    case 'age':
-                        let bday = child.child('2');
-                        let currentDate = new Date();
-                        let result = currentDate.getFullYear().valueOf() - bday.val();
-                        this.props.updateAge(result)
-                        break;
-                    case 'gender':
-                        this.props.updateGender(child.val())
-                        break;
-                    case 'location':
-                        this.props.updateLocation(child.val())
-                        break;
-                    case 'interest':
-                        this.props.updateInterest(child.val())
-                        break;
-                    case 'color':
-                        this.props.updateColor(child.val())
-                        break;
-                    default:
-                        console.log('Could not find matching data for profile... continuing')
-                        break;
-                }  
-            })
-        })
-    }
     
     _accessSelectedUserProfile() {
         /* 
             Input: user data from db   Output: redux state of user data
             Similar to _initialReadFromDatabase but for viewing other user's profiles
         */
-        const { navigation } = this.props;
-        let userUID = navigation.getParam('uid');
+        let userUID = this.state.uid;
         let selectedUser = firebase.database().ref(`/users/${userUID}`);
-        console.log('Other profile')
         selectedUser.once('value').then(snapshot => {
             snapshot.forEach((child) => {
                 switch(child.key) {
                     case 'name':
-                        this.props.updateName(child.val())
+                        this.setState({name: child.val()})
                         break;
                     case 'handle':
-                        this.props.updateHandle(child.val())
+                        this.setState({handle: child.val()})
                         break;
                     case 'karma':
-                        this.props.updateKarma(child.val())
+                        this.setState({karma: child.val()})
                         break;
                     case 'bio':
-                        this.props.updateBio(child.val())
+                        this.setState({bio: child.val()})
                         break;
                     case 'age':
-                        this.props.updateAge(child.val())
+                        let bday = child.child('2');
+                        let currentDate = new Date();
+						let result = currentDate.getFullYear().valueOf() - bday.val();
+                        this.setState({age: result})
+                        break;
+                    case 'gender':
+                        this.setState({gender: child.val()})
+                        break;
+                    case 'location':
+                        this.setState({location: child.val()})
+                        break;
+                    case 'interest':
+                        this.setState({interest: child.val()})
+                        break;
+                    case 'color':
+						this.setState({color: child.val()})
                         break;
                     default:
-                        console.log('Could not find matching data for selected user... continuing')
+                        console.log('Could not find matching data for profile... continuing')
                         break;
                 }  
             })
-        })
-    }
-
-    _updateDatabaseProfileInfo(data, type) {
-        /* 
-            Input: Redux state of profile data  Output: send profile data to db
-            Type: 'name', 'handle', 'karma', 'bio', 'age'
-        */
-
-        let uid = firebase.auth().currentUser.uid;
-        let profile = firebase.database().ref(`/users/${uid}`);
-
-        switch(type) {
-            case 'name':
-                profile.update({
-                    name: data
-                })
-                break;
-            case 'handle':
-                profile.update({
-                    handle: data
-                })
-                break;
-            case 'karma':
-                profile.update({
-                    karma: data
-                })
-                break;
-            case 'bio':
-                profile.update({
-                    bio: data
-                })
-                break;
-            case 'age':
-                profile.update({
-                    age: data
-                })
-                break;
-            default: 
-                console.log('Upload request to database unknown... continuing')
-                break;
-        } 
-    }
-
-    _signOutAsync = async () => {
-        firebase.auth().signOut().then( () => {
-             AsyncStorage.clear().then(async () => {
-                this.props.navigation.navigate('SignUp');
-            }).catch(function(error){
-                console.log(error);
-            })
-          }).catch(function(error) {
-            console.log(error);
-          });
-    };
+        }, () => {this.setState({hasFinished: true})})
+	}
+	
+	returnProfilePicture(){
+		return(<AsyncImage
+			style={styles.profilePicture}
+			uid={this.state.uid}/>)
+	}
 
     render() {
-        return (
-            <View>
-                <StatusBar barStyle="light-content" />
-                <LinearGradient
-                style={styles.gradient}
-                colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
-                >
-                    <SafeAreaView>
-                        <View style={styles.header}>
-                            <Text style={styles.headerTitle}>Profile</Text>
-                            <View style={styles.settings}>
-                                <TouchableOpacity >
-                                    <Ionicons name={'md-settings'} size={30} color={'#FFFFFF'} style={{paddingLeft: 10}} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                        <ScrollView style={{height: Variables.deviceHeight}}>
-                            <View style={styles.pictureAndBioContainer}>
-                                <View style={[styles.banner, {backgroundColor: this.returnUserBannerColor()}]}/>
-                                {
-                                    this.props.picture === '' ? 
-                                    <Image 
-                                        style={styles.profilePicture}
-                                        source={require('../../assets/login/defaultProfilePicture.png')}
-                                    /> :
-                                    <Image 
-                                        style={styles.profilePicture}
-                                        source={{uri: this.props.picture}}
-                                    />  
-                                }
-                                <Text style={styles.bio}>"{this.props.bio}"</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.name}>{this.props.name}, {this.props.age}</Text>
-                                <Text style={styles.handle}>@{this.props.handle}</Text>
-                                <Text style={styles.karma}>BarScore: {this.props.karma}</Text>
-                            </View>
-                            <View>
-                                {
-                                    this.props.location ? 
-                                    <View style={styles.location}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/location_text_box.png')}
-                                        />
-                                        <Text style={styles.locationText}>{this.props.location}</Text>
-                                    </View>
-                                    : null
-                                }
-                                {
-                                    this.props.gender ? 
-                                    <View style={styles.gender}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/gender_text_box.png')}
-                                        />
-                                        <Text style={styles.genderText}>{this.props.gender}</Text>
-                                    </View>
-                                    : null
-                                }
-                                {
-                                    this.props.interest ? 
-                                    <View style={styles.interest}>
-                                        <Image 
-                                            style={styles.icon}
-                                            source={require('../../assets/signup/interested_text_box.png')}
-                                        />
-                                        <Text style={styles.interestText}>{this.props.interest}</Text>
-                                    </View>
-                                    : null
-                                }
-                            </View>
-                            <View>
-                                <Text style={styles.favoriteBar}>Favorite Bar</Text>
-                            </View>
-                        </ScrollView>
-                    </SafeAreaView>
-                </LinearGradient>
-            </View>
-        );
+        if(this.state.hasFinished == true){
+            return (
+                <View>
+					<StatusBar barStyle="light-content" />
+					<LinearGradient
+					style={styles.gradient}
+					colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
+					>
+						<SafeAreaView>
+							<ScrollView style={{height: Variables.deviceHeight}}>
+								<View style={styles.pictureAndBioContainer}>
+									<View style={[styles.banner, {backgroundColor: this.returnUserBannerColor()}]}/>
+									{ 
+										this.state.uid === '' ? 
+										<Image 
+											style={styles.profilePicture}
+											source={require('../../assets/login/defaultProfilePicture.png')}/>
+										:
+										<View style={styles.profilePicture}>
+											{this.returnProfilePicture}
+										</View>
+									}
+									<Text style={styles.bio}>"{this.state.bio}"</Text>
+								</View>
+								<View>
+									<Text style={styles.name}>{this.state.name}, {this.state.age}</Text>
+									<Text style={styles.handle}>@{this.state.handle}</Text>
+									<Text style={styles.karma}>BarScore: {this.state.karma}</Text>
+								</View>
+								<View>
+									{
+										this.state.location ? 
+										<View style={styles.location}>
+											{this.returnUserIconPicture('Location')}
+											<Text style={styles.locationText}>{this.state.location}</Text>
+										</View>
+										: null
+									}
+									{
+										this.state.gender ? 
+										<View style={styles.gender}>
+											{this.returnUserIconPicture('Gender')}
+											<Text style={styles.genderText}>{this.state.gender}</Text>
+										</View>
+										: null
+									}
+									{
+										this.state.interest ? 
+										<View style={styles.interest}>
+											{this.returnUserIconPicture('Interest')}
+											<Text style={styles.interestText}>{this.state.interest}</Text>
+										</View>
+										: null
+									}
+								</View>
+								<View>
+									<Text style={styles.favoriteBar}>Favorite Bar</Text>
+								</View>
+							</ScrollView>
+						</SafeAreaView>
+					</LinearGradient>
+				</View>
+        	);
+		}
+		
+		//display that profile info isn't available right now in the future
+        else{
+            return(
+                <View>
+					<StatusBar barStyle="light-content" />
+					<LinearGradient
+					style={styles.gradient}
+					colors={[COLORS.GRADIENT_COLOR_1, COLORS.GRADIENT_COLOR_2]}
+					>
+						<SafeAreaView>
+							<ScrollView style={{height: Variables.deviceHeight}}>
+								<View style={styles.pictureAndBioContainer}>
+									<View style={[styles.banner, {backgroundColor: this.returnUserBannerColor()}]}/>
+									{
+										this.state.uid === '' ? 
+										<Image 
+											style={styles.profilePicture}
+											source={require('../../assets/login/defaultProfilePicture.png')}/>
+										:
+										<View style={styles.profilePicture}>
+											<AsyncImage
+												style={styles.profilePicture}
+												uid={this.state.uid}/>
+										</View>
+										
+									}
+									<Text style={styles.bio}>"{this.state.bio}"</Text>
+								</View>
+								<View>
+									<Text style={styles.name}>{this.state.name}, {this.state.age}</Text>
+									<Text style={styles.handle}>@{this.state.handle}</Text>
+									<Text style={styles.karma}>BarScore: {this.state.karma}</Text>
+								</View>
+								<View>
+									{
+										this.state.location ? 
+										<View style={styles.location}>
+											{this.returnUserIconPicture('Location')}
+											<Text style={styles.locationText}>{this.state.location}</Text>
+										</View>
+										: null
+									}
+									{
+										this.state.gender ? 
+										<View style={styles.gender}>
+											{this.returnUserIconPicture('Gender')}
+											<Text style={styles.genderText}>{this.state.gender}</Text>
+										</View>
+										: null
+									}
+									{
+										this.state.interest ? 
+										<View style={styles.interest}>
+											{this.returnUserIconPicture('Interest')}
+											<Text style={styles.interestText}>{this.state.interest}</Text>
+										</View>
+										: null
+									}
+								</View>
+								<View>
+									<Text style={styles.favoriteBar}>Favorite Bar</Text>
+								</View>
+							</ScrollView>
+						</SafeAreaView>
+					</LinearGradient>
+				</View>
+            );
+        }
     }   
-}
-
-// Extract data from store
-const mapStateToProps = state => ({
-    name: state.profileReducer.name,
-    bio: state.profileReducer.bio,
-    age: state.profileReducer.age,
-    handle: state.profileReducer.handle,
-    karma: state.profileReducer.karma,
-    modal: state.profileReducer.modal,
-    gender: state.profileReducer.gender,
-    interest: state.profileReducer.interest,
-    location: state.profileReducer.location,
-    color: state.profileReducer.color,
-    picture: state.profileReducer.picture,
-})
-  
-// Dispatch data to store
-const mapDispatchToProps = {
-    updateName,
-    updateBio,
-    updateAge,
-    updateHandle,
-    updateKarma,
-    updateModal,
-    updateGender,
-    updateLocation,
-    updateInterest,
-    updateColor,
-    updatePicture,
 }
   
 const styles = StyleSheet.create({
@@ -485,4 +663,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(CurrentUserProfile));
+export default withNavigation(SelectedUserProfile);

@@ -10,18 +10,20 @@ export default class AsyncImage extends Component {
             loaded: false, 
             image: null,
             isActualPicture: null,
-            uid: this.props.uid
+            uid: this.props.uid ? this.props.uid : null
         }
     }
 
     componentDidMount(){
-        this.loadImage();
+        if(this.state.uid !=null){
+            this.loadImage();
+        }
     }
 
     loadImage(){
         let imageRef = firebase.storage().ref(`users/${this.state.uid}/profile-picture`)
         imageRef.getDownloadURL().then(url => {
-            console.log('successfully retrieved image for ' + this.props.uid + '\n' + url);
+            console.log('successfully retrieved image for ' + this.state.uid + '\n' + url);
             this.setState({
                 image: url,
                 loaded: true,

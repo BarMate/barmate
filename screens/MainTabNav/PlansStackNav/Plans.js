@@ -98,10 +98,10 @@ class PlansScreen extends Component {
       var eventsInOrder = [];
       eventsAndTimestamps.forEach((element) => {
         eventsInOrder.push(element.key);
+        console.log(element.key);
       })
 
       this.setState({events: eventsInOrder});
-      console.log(this.state.events);
     })
   }
 

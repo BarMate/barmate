@@ -139,52 +139,60 @@ class EventCard extends Component {
     }
 
     render() {
-        return(
-        <View style={{alignItems: "center", justifyContent: "center"}}>
-            <TouchableWithoutFeedback onPress={() => this.setCardObjectForStore()}>
-                <View style={styles.cardBackground}>
-                    <View style={styles.cardContents}>
-                        <View style={{flexDirection: "row"}}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SelectedProfile', {uid: this.state.creatorUID})}>
-                                <View style={styles.profilePictureView}>
-                                    <AsyncImage uid={this.state.creatorUID} style={styles.profilePictureView}/>
-                                </View>
-                            </TouchableOpacity> 
-                            <View style={{flexDirection: "column"}}> 
+        if(this.state.creatorUID == '' )
+        {
+            return(
+                <View></View>
+            )
+        }
+        else{
+            return(
+                <View style={{alignItems: "center", justifyContent: "center"}}>
+                    <TouchableWithoutFeedback onPress={() => this.setCardObjectForStore()}>
+                        <View style={styles.cardBackground}>
+                            <View style={styles.cardContents}>
                                 <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.creatorName}>{this.state.creator}</Text>
-                                    <Text style={{fontFamily: 'HkGrotesk_Regular'}}> created an event {this.getCreationTime(this.state.dateCreated)}</Text>
-                                </View>
-                                <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.eventName} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.eventName}</Text>
-                                    <View style={{alignItems: "center", justifyContent: "center"}}>
-                                        {
-                                            this.state.isPrivate ? <Ionicons name={'md-lock'} size={18} color={COLORS.GRADIENT_COLOR_1}/>
-                                            : <Ionicons name={'md-unlock'} size={18} color={COLORS.GRADIENT_COLOR_2}/>
-                                        }
+                                    <TouchableOpacity onPress={() => {this.props.navigation.navigate('SelectedProfile', {uid: this.state.creatorUID})}}>
+                                        <View style={styles.profilePictureView}>
+                                            <AsyncImage uid={this.state.creatorUID} style={styles.profilePictureView}/>
+                                        </View>
+                                    </TouchableOpacity>  
+                                    <View style={{flexDirection: "column"}}> 
+                                        <View style={{flexDirection: "row"}}>
+                                            <Text style={styles.creatorName}>{this.state.creator}</Text>
+                                            <Text style={{fontFamily: 'HkGrotesk_Regular'}}> created an event {this.getCreationTime(this.state.dateCreated)}</Text>
+                                        </View>
+                                        <View style={{flexDirection: "row"}}>
+                                            <Text style={styles.eventName} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.eventName}</Text>
+                                            <View style={{alignItems: "center", justifyContent: "center"}}>
+                                                {
+                                                    this.state.isPrivate ? <Ionicons name={'md-lock'} size={18} color={COLORS.GRADIENT_COLOR_1}/>
+                                                    : <Ionicons name={'md-unlock'} size={18} color={COLORS.GRADIENT_COLOR_2}/>
+                                                }
+                                            </View>
+                                            
+                                        </View>
+                                        <View style={{flexDirection: "row"}}>
+                                            <Text style={styles.eventDate} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.startTime}</Text>
+                                        </View>
                                     </View>
-                                    
                                 </View>
-                                <View style={{flexDirection: "row"}}>
-                                    <Text style={styles.eventDate} numberOfLines={1} ellipsizeMode={'tail'}>{this.state.startTime}</Text>
+                                <View>
+                                    <Text style={{fontFamily: 'HkGrotesk_Regular'}} numberOfLines={3} ellipsizeMode={'tail'}>{this.state.description}</Text>
+                                </View>
+                                <View style={{position: 'absolute', bottom: 5, flexDirection: 'row' }}>
+                                    <Ionicons name={'ios-text'} size={20} color={COLORS.GRADIENT_COLOR_1} />
+                                    <Text style={{paddingLeft: 2}}>{this.state.comments}</Text>
+                                    <Text style={styles.invitedView}>Invited: {this.state.numberInvited}</Text>
+                                    <Text style={styles.acceptedView}>Accepted: {this.state.numberAccepted}</Text>
                                 </View>
                             </View>
                         </View>
-                        <View>
-                            <Text style={{fontFamily: 'HkGrotesk_Regular'}} numberOfLines={3} ellipsizeMode={'tail'}>{this.state.description}</Text>
-                        </View>
-                        <View style={{position: 'absolute', bottom: 5, flexDirection: 'row' }}>
-                            <Ionicons name={'ios-text'} size={20} color={COLORS.GRADIENT_COLOR_1} />
-                            <Text style={{paddingLeft: 2}}>{this.state.comments}</Text>
-                            <Text style={styles.invitedView}>Invited: {this.state.numberInvited}</Text>
-                            <Text style={styles.acceptedView}>Accepted: {this.state.numberAccepted}</Text>
-                        </View>
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
-        </View>
+                    </TouchableWithoutFeedback>
+                </View> 
+                )
+        }
         
-        )
     }
 }
 
