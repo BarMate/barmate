@@ -4,6 +4,8 @@ import { TouchableWithBounce } from '../../Global/index';
 import { Ionicons } from '@expo/vector-icons'
 import firebase from '../../../config/APIs/Firebase/firebase';
 
+import styles from './styles';
+
 class ButtonLogin extends Component {
   constructor(props) {
     super(props);
@@ -47,25 +49,5 @@ class ButtonLogin extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    rootContainer: {
-        width: 300,
-        height: 50,
-        borderRadius: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        borderWidth: 1,
-        backgroundColor: '#302C9E',
-        marginTop: 30,
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 20,
-        paddingLeft: 10,
-        fontFamily: 'HkGrotesk_Bold',
-    }
-})
 
 export default ButtonLogin;

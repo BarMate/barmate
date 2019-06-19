@@ -6,11 +6,13 @@ import {
 
 const styles = StyleSheet.create({
   searchSection: {
+    position: 'absolute',
     width: wp('80%'),
     height: hp('5%'),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    alignSelf: 'center',
     backgroundColor: "#fff",
     marginTop: 15,
     borderRadius: 20,
@@ -24,14 +26,12 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingRight: 20,
     backgroundColor: "#fff",
     borderRadius: 20,
     color: "#302C9E",
     fontFamily: 'HkGrotesk_Medium',
-    fontSize: 18,
+    fontSize: wp('5%'),
+    paddingRight: 20,
     textAlign: 'center',
   }
 });

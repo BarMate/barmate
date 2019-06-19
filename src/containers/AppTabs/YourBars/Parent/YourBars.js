@@ -6,6 +6,11 @@ import { View, SafeAreaView, Text, StatusBar, StyleSheet, ScrollView, TouchableW
 import { Header } from 'react-navigation';
 import { Ionicons } from "@expo/vector-icons";
 
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+
 const YourBars = (props) => {
     return(
         <BackgroundView startY={0.9} >
@@ -28,17 +33,11 @@ const YourBars = (props) => {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        fontSize: 35,
-        fontWeight: 'bold',
-        fontFamily: 'HkGrotesk_Bold',
-        color: 'white',
-    },
     root: {
         flex: 1,
-        marginTop: Header.HEIGHT + 40,
-        marginLeft: 20,
-        marginRight: 20,
+        marginTop: Header.HEIGHT + hp('5%'),
+        marginLeft: wp('6%'),
+        marginRight: wp('6%'),
     },
     topContainer: {
         flexDirection: 'row',

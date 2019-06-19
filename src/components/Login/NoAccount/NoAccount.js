@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import styles from './styles';
 
 class NoAccount extends Component {
   constructor(props) {
@@ -19,15 +20,4 @@ class NoAccount extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-    text: {
-        color: '#302C9E',
-        fontSize: 12,
-    },
-    rootContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'HkGrotesk_Light',
-    },
-})
 export default NoAccount;

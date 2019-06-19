@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, Dimensions, KeyboardAvoidingView } from 'react-native';
 
 import { Logo, FadeView } from '../../Global/index';
+import styles from './styles';
 
 class ForegroundView extends Component {
   constructor(props) {
@@ -33,43 +34,5 @@ class ForegroundView extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-    rootContainer: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    upperArea: {
-        flex: 0.23,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    lowerArea: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#ffffff',
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        width: Dimensions.get('screen').width - 20,
-    },
-    headerText: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        fontFamily: 'HkGrotesk_Bold',
-    },
-    textContainer: {
-        flex: 0.25,
-        justifyContent: 'center',
-        width: Dimensions.get('screen').width,
-        paddingLeft: 40,
-    },
-    bodyContainer: {
-        flex: 1,
-        alignItems: 'center',
-        width: Dimensions.get('screen').width,
-    }
-})
 
 export default ForegroundView;

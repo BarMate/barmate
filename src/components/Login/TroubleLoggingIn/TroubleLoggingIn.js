@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import styles from './styles';
 
 class TroubleLoggingIn extends Component {
   constructor(props) {
@@ -19,17 +20,5 @@ class TroubleLoggingIn extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-    text: {
-        color: '#302C9E',
-        fontSize: 12,
-    },
-    rootContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 5,
-        fontFamily: 'HkGrotesk_Light',
-        paddingTop: 20,
-    },
-})
+
 export default TroubleLoggingIn;

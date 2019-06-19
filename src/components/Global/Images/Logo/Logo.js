@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
+import styles from './styles';
 
 class Logo extends Component {
   constructor(props) {
@@ -20,14 +21,5 @@ class Logo extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-    image: {
-        width: 80,
-        height: 90,
-        marginBottom: 10,
-    }
-})
 
 export default Logo;
