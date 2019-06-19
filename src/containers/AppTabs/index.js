@@ -13,9 +13,13 @@ import Inside from './Inside/InsideContainer';
 import Messages from './Messages/Parent/MessagesContainer';
 import MessageDetails from './Messages/Child/MessageDetailsContainer';
 
+// Search
+import Search from './YourBars/Parent/SearchContainer';
+
 export {
     YourBars,
     BarDetails,
+    Search,
     Inside,
     Plans,
     PlanDetails,

@@ -2,9 +2,11 @@ import IconHeaderProfilePicture from './IconHeaderProfilePicture/IconHeaderProfi
 import IconYourBars from './Icons/IconYourBars';
 
 import TextHeaderTitle from './TextHeaderTitle/TextHeaderTitle';
+import SearchBar from './YourBars/SearchBar/SearchBar';
 
 export {
     IconHeaderProfilePicture,
     TextHeaderTitle,
-    IconYourBars
+    IconYourBars,
+    SearchBar,
 }

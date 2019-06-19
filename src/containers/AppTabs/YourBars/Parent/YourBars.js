@@ -2,24 +2,32 @@ import React from "react";
 import { BackgroundView } from "../../../../components/Global/index";
 import { TextHeaderTitle } from '../../../../components/AppTabs/index';
 
-import { SafeAreaView, Text, StatusBar, StyleSheet, ScrollView } from 'react-native';
+import { View, SafeAreaView, Text, StatusBar, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Header } from 'react-navigation';
+import { Ionicons } from "@expo/vector-icons";
 
 const YourBars = (props) => {
     return(
         <BackgroundView startY={0.9} >
             <StatusBar barStyle="light-content"/>
-            <SafeAreaView style={style.root}>
+            <SafeAreaView style={styles.root}>
+                {props.mapView}
                 <ScrollView>
-                    <TextHeaderTitle>Your Bars</TextHeaderTitle>
-                    
+                    <View style={styles.topContainer}>
+                        <TextHeaderTitle>Your Bars</TextHeaderTitle>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View style={{marginLeft: 'auto' }}>
+                                <Ionicons name={"ios-add"} size={40} color={"#ffffff"}/>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </View>
                 </ScrollView>
             </SafeAreaView>
         </BackgroundView>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     header: {
         fontSize: 35,
         fontWeight: 'bold',
@@ -31,6 +39,10 @@ const style = StyleSheet.create({
         marginTop: Header.HEIGHT + 40,
         marginLeft: 20,
         marginRight: 20,
+    },
+    topContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
     }
 })
 

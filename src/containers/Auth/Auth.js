@@ -16,7 +16,7 @@ const Auth = (props) => {
     <BackgroundView style={style.root}>
         <StatusBar barStyle="light-content"/>
         <Logo style={style.logo} />
-        <ActivityIndicator size={0} style={style.indicator} />
+        <ActivityIndicator size={0} style={style.indicator} color={'#ffffff'}/>
     </BackgroundView>
   );
 };

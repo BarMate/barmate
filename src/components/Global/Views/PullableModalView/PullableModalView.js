@@ -65,13 +65,22 @@ class PullableModalView extends Component {
     }
   }
 
+  _handleSwipeDirection() {
+    if(this.props.shouldSwipe == true) {
+      return 'down'
+    }
+    else {
+      return ''
+    }
+  }
+
   render() {
     return (
       <Modal
+        hideModalContentWhileAnimating
         isVisible={this.state.visibleModal}
         onSwipeComplete={() => this.setState({ visibleModal: false })}
         onBackdropPress={() => this.setState({ visibleModal: false })}
-        swipeDirection={['down']}
         style={{margin: 0}}
         propagateSwipe
         scrollTo={this.handleScrollTo}
