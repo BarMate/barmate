@@ -15,289 +15,60 @@ import {
   StatusBar,
   Text,
   Dimensions,
-  View
+  View,
+  Platform,
+  Picker
 } from "react-native";
 
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from "react-native-responsive-screen";
 
-import { BackgroundView, Logo } from '../../components/Global/index';
-
-import { PullableModalView } from '../../components/Global/index';
+import { TextInputName, TextInputHandle } from "../../components/Signup/index";
 
 class Playground extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      language: null
+    };
   }
 
   render() {
     return (
-      <PullableModalView visible>
-          <MapView
-              provider={PROVIDER_GOOGLE}
-              customMapStyle={mapStyle}
-              style={styles.map}
-              initialRegion={{
-                latitude: 37.78825,
-                longitude: -122.4324,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-            >
-              <View style={styles.searchBar}>
-                  <Text>Search</Text>
-              </View>
-            </MapView>
-      </PullableModalView>
+      <View style={styles.root}>
+          <TextInputName />
+          <TextInputHandle />
+      </View>
     );
   }
 }
 
-const mapStyle = [
-  {
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#212121"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#212121"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.country",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#9e9e9e"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.locality",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#bdbdbd"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels.text",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.business",
-    "stylers": [
-      {
-        "color": "#302c9e"
-      },
-      {
-        "visibility": "on"
-      },
-      {
-        "weight": 1
-      }
-    ]
-  },
-  {
-    "featureType": "poi.business",
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "color": "#b51a00"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#181818"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#1b1b1b"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#2c2c2c"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#8a8a8a"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#373737"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#3c3c3c"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#4e4e4e"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "featureType": "transit",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#000000"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#3d3d3d"
-      }
-    ]
-  }
-];
-
 const styles = StyleSheet.create({
-  map: {
+  root: {
     flex: 1,
-    borderTopRightRadius: 30,
-    borderBottomRightRadius: 30,
-    alignItems: 'center',
-  },
-  searchBar: {
-    width: 300,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'white',
+    backgroundColor: 'gray',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+  },
+  buttonAllowLocation: {
+    width: wp('60%'),
+    height: hp('5%'),
+    backgroundColor: 'white',
+    shadowOpacity: 0.6,
+    shadowOffset: { width: 0, height: 1 },
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: wp('25%'),
+    borderWidth: Platform.OS === "android" ? 0.5 : 0,
+    borderColor: '#ebebeb',
+  },
+  textAllowLocation: {
+    fontSize: wp('4%'),
+    // fontFamily: 'HkGrotesk_Medium',
+    color: '#302C9E'
   }
-});
+})
 
 export default Playground;

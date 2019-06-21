@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         borderWidth: 1,
         borderColor: '#707070',
-        borderRadius: 30,
+        borderRadius: wp('40.25%'),
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,

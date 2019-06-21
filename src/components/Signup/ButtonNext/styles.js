@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        borderWidth: 1,
+        borderWidth: Platform.OS === 'android' ? 0.5 : 0,
         backgroundColor: '#302C9E',
         marginTop: 30,
     },
