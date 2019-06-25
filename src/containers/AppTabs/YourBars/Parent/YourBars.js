@@ -1,36 +1,38 @@
 import React from "react";
-import { BackgroundView } from "../../../../components/Global/index";
+import { BackgroundView, TouchableWithBounce } from "../../../../components/Global/index";
 import { TextHeaderTitle } from '../../../../components/AppTabs/index';
 
 import { View, SafeAreaView, Text, StatusBar, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { Header } from 'react-navigation';
 import { Ionicons } from "@expo/vector-icons";
+import Search from './SearchContainer';
 
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
 } from "react-native-responsive-screen";
+import { connect } from "react-redux";
+
 
 const YourBars = (props) => {
     return(
         <BackgroundView startY={0.9} >
             <StatusBar barStyle="light-content"/>
             <SafeAreaView style={styles.root}>
-                {props.mapView}
+                <Search />
                 <ScrollView>
                     <View style={styles.topContainer}>
                         <TextHeaderTitle>Your Bars</TextHeaderTitle>
-                        <TouchableWithoutFeedback onPress={() => {}}>
-                            <View style={{marginLeft: 'auto' }}>
-                                <Ionicons name={"ios-add"} size={40} color={"#ffffff"}/>
-                            </View>
-                        </TouchableWithoutFeedback>
+                            <TouchableWithBounce onPress={() => {props.toggleSearchModal(true)}} style={styles.add}>
+                                <Ionicons name={"ios-add"} size={styles.addSize} color={"#302C9E"}/>
+                            </TouchableWithBounce>
                     </View>
                 </ScrollView>
             </SafeAreaView>
         </BackgroundView>
     );
 }
+
 
 const styles = StyleSheet.create({
     root: {
@@ -41,8 +43,17 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
-    }
+    },
+    add: {
+        marginLeft: 'auto',
+        backgroundColor: '#ffffff',
+        width: wp('9%'),
+        height: wp('9%'),
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: wp('4.5%'),
+    },
+    addSize: wp('6%'),
 })
 
 export default YourBars;

@@ -1,6 +1,12 @@
 import React from 'react';
 import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
 import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDetails } from './AppTabs/index';
+
+import { DrawerContainer } from '../components/Drawer/index';
+
+import Friends from './Friends/FriendsContainer';
+import Profile from './Profile/ProfileContainer';
+
 import { IconHeaderProfilePicture, IconYourBars } from '../components/AppTabs/index';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -110,13 +116,14 @@ const TabNav = createBottomTabNavigator(
 
 const App = createDrawerNavigator(
     {
-        Tabs: TabNav,
-        // Profile: Profile,
-        // Friends: Friends,
+        Home: TabNav,
+        Profile: Profile,
+        Friends: Friends,
     },
     {
         drawerType: 'slide',
-        // contentComponent: CustomDrawer,
+        initialRouteName: 'Home',
+        contentComponent: DrawerContainer,
         drawerBackgroundColor: '#302c9e',
         contentOptions: {
         activeBackgroundColor: '#302c9e'
