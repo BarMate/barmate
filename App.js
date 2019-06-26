@@ -9,5 +9,5 @@ import Playground from './src/containers/Playground/Playground';
 YellowBox.ignoreWarnings(['Require cycle:']);
 
 export default() => (
-  <AppContainer />
+  <Playground />
 );

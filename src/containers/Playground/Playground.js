@@ -25,21 +25,27 @@ import {
   heightPercentageToDP as hp
 } from "react-native-responsive-screen";
 
-import { TextInputName, TextInputHandle } from "../../components/Signup/index";
+import BarFlatlist from "../../components/AppTabs/YourBars/BarFlatlist/BarFlatlist";
 
 class Playground extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      language: null
+      stub: {
+        formattedAddress: '360 S Main St, Akron, OH 44301',
+        name: 'Tear-EZ',
+        place_id: 'ChIJy_SfNyTWMIgRXh1b740ZPDA',
+        price_level: 1,
+        rating: 4.5,
+        photos: [{photo_reference: 'CmRaAAAA77swlJX8pAXp7GW4MAcNjN8Cdb_ilnQ_tvOZgnqdMN5vXw0yQ-XvrBGlzruU28F7TJOG5Xq7-52Mt6qc50AinCIfTnyiFT-fIjk-fZO0opBDrv3QQtPrFBOTfgU30GMIEhDFo_qIZsUiEjbJ_j6TeSGrGhRhSsi3qYt9_03fl2lQXm-BiHY58Q'}]
+      }
     };
   }
 
   render() {
     return (
       <View style={styles.root}>
-          <TextInputName />
-          <TextInputHandle />
+          <BarFlatlist />
       </View>
     );
   }

@@ -12,6 +12,9 @@ import BackgroundView from './Views/BackgroundView/BackgroundView';
 import FadeView from './Views/FadeView/FadeView';
 import PullableModalView from './Views/PullableModalView/PullableModalView';
 
+/* Custom */
+import BarTemplate from './Custom/BarTemplate/BarTemplate';
+
 export {
     BackgroundView,
     PullableModalView,
@@ -19,6 +22,7 @@ export {
     Logo,
     DefaultTextInputForm,
     TouchableWithBounce,
+    BarTemplate,
 }
 
 
