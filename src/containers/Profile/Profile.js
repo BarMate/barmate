@@ -1,11 +1,21 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { View, SafeAreaView, Text, ScrollView, RefreshControl } from 'react-native';
+import { BackgroundView } from '../../components/Global/index';
+import { DrawerButton, ProfileCard } from '../../components/Profile/index';
+
+import styles from './styles';
 
 const Profile = (props) => {
     return(
-        <SafeAreaView>
-            <Text>Profile</Text>
-        </SafeAreaView>
+        <BackgroundView style={styles.root}>
+            <View style={styles.scrollView}>
+                <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={false} />}>
+                    <DrawerButton />   
+                    <Text style={styles.headerText}>Profile</Text>
+                    <ProfileCard />
+                </ScrollView>
+            </View>
+        </BackgroundView>
     );
 }
 

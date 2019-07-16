@@ -5,9 +5,14 @@ import {
 } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
-   root: {
-    
-   }
+   iconContainer: {
+      flex: 1,
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      marginLeft: wp('6%'),
+      marginBottom: wp('7%')
+   },
+   iconSize: wp('9%'),
 })
 
 export default styles;

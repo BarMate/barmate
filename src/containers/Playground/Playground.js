@@ -17,7 +17,9 @@ import {
   Dimensions,
   View,
   Platform,
-  Picker
+  Picker,
+  ScrollView,
+  SafeAreaView
 } from "react-native";
 
 import {
@@ -26,26 +28,70 @@ import {
 } from "react-native-responsive-screen";
 
 import BarFlatlist from "../../components/AppTabs/YourBars/BarFlatlist/BarFlatlist";
+import { Ionicons } from "@expo/vector-icons";
 
 class Playground extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      stub: {
+      barStub: {
         formattedAddress: '360 S Main St, Akron, OH 44301',
         name: 'Tear-EZ',
         place_id: 'ChIJy_SfNyTWMIgRXh1b740ZPDA',
         price_level: 1,
         rating: 4.5,
         photos: [{photo_reference: 'CmRaAAAA77swlJX8pAXp7GW4MAcNjN8Cdb_ilnQ_tvOZgnqdMN5vXw0yQ-XvrBGlzruU28F7TJOG5Xq7-52Mt6qc50AinCIfTnyiFT-fIjk-fZO0opBDrv3QQtPrFBOTfgU30GMIEhDFo_qIZsUiEjbJ_j6TeSGrGhRhSsi3qYt9_03fl2lQXm-BiHY58Q'}]
-      }
+      },
+      profileStub: {
+        age: [23, 2, 1998],
+        bars: [{test: "Chidlfsdfsfsdfsd"}],
+        bio: "BarMate CTO",
+        friends: [{"dfewsfsd": "903j2fjdslfjds"}],
+        gender: "Male",
+        handle: "joeGainz",
+        interest: "Female",
+        karma: 6342,
+        name: "Joe Contumelio",
+        photoURL: "https://firebasestorage.googleapis.com/v0/b/barmate-e95b6.appspot.com/o/users%2FdaTEWcFLY5OSYHCcFbFdKKxpf0D3%2Fprofile-picture?alt=media&token=80c8b9ca-5ee8-4ee9-a4e5-75d17329e3c7",
+      },
     };
   }
 
   render() {
     return (
       <View style={styles.root}>
-          <BarFlatlist />
+          <View style={styles.testHeader}>
+              <Ionicons name={"ios-radio-button-on"} size={50} color={'white'} />
+              <Text style={styles.profiletext}>Profile</Text>
+          </View>
+          <ScrollView contentContainerStyle={styles.profileCard}>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+              <Text style={styles.test}>TEST</Text>
+          </ScrollView>
       </View>
     );
   }
@@ -54,27 +100,32 @@ class Playground extends Component {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'gray',
+    backgroundColor: '#302C9E',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonAllowLocation: {
-    width: wp('60%'),
-    height: hp('5%'),
+  profileCard: {
+    width: wp('90%'),
     backgroundColor: 'white',
-    shadowOpacity: 0.6,
-    shadowOffset: { width: 0, height: 1 },
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: wp('25%'),
-    borderWidth: Platform.OS === "android" ? 0.5 : 0,
-    borderColor: '#ebebeb',
+    borderTopLeftRadius: wp('4%'),
+    borderTopRightRadius: wp('4%'),
+
   },
-  textAllowLocation: {
-    fontSize: wp('4%'),
-    // fontFamily: 'HkGrotesk_Medium',
-    color: '#302C9E'
-  }
+  testHeader: {
+    height: hp('20%'),
+    width: wp('100%'),
+    backgroundColor: 'rgba(0,0,0,0.0)',
+    justifyContent: 'center',
+    paddingLeft: wp('5%'),
+  },
+  test: {
+    fontSize: 50,
+    color: 'black',
+  },
+  profiletext: {
+    fontSize: 50,
+    color: 'white',
+  },
 })
 
 export default Playground;

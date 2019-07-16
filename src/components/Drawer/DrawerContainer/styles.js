@@ -15,9 +15,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomContainer: {
-    flex: 0.7,
+    flex: 0.6,
     backgroundColor: '#302C9E',
-  }
+  },
+  extraIconContainer: {
+    flex: 0.1,
+    flexDirection: 'row',
+    backgroundColor: '#302C9E',
+    alignItems: 'center'
+  },
 });
 
 export default styles;

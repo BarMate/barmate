@@ -10,17 +10,19 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'row',
-      borderBottomWidth: 0.5,
+      borderBottomWidth: 0.0,
       borderBottomColor: 'rgba(255,255,255,0.3)',
     },
     iconContainer: {
       flex: 0.2,
       alignItems: 'center',
       justifyContent: 'center',
+      marginLeft: wp('6%'),
     },
     textContainer: {
       flex: 0.6,
-      alignItems: 'center'
+      alignItems: 'flex-start',
+      marginLeft: wp('6%'),
     },
     text: {
       fontSize: wp('5%'),

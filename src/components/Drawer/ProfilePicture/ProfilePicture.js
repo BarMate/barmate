@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import { TouchableWithBounce } from '../../Global/index';
 import { connect } from 'react-redux';
+import { withNavigation } from 'react-navigation';
+
 import styles from './styles';
 
 class ProfilePicture extends Component {
@@ -14,7 +16,7 @@ class ProfilePicture extends Component {
   render() {
     return (
       <View style={styles.rootContainer}>
-        <TouchableWithBounce>
+        <TouchableWithBounce onPress={() => this.props.navigation.navigate('Profile')}>
             <Image 
                source={{uri: this.props.userInfo.photoURL}}
                style={styles.profileImage}
@@ -29,4 +31,4 @@ const mapStateToProps = state => ({
     userInfo: state.AuthReducer.userInfo,
 })
 
-export default connect(mapStateToProps, null)(ProfilePicture);
+export default connect(mapStateToProps, null)(withNavigation(ProfilePicture));

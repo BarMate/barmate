@@ -8,10 +8,10 @@ const styles = StyleSheet.create({
     root: {
         width: wp('13.5%'),
         height: wp('13.5%'),
-        borderWidth: 1,
-        borderColor: 'black',
+        borderWidth: 0.1,
+        borderColor: 'white',
         backgroundColor: 'white',
-        borderRadius: 25,
+        borderRadius: wp('6.75%'),
         marginLeft: 20,
     }
 })

@@ -25,6 +25,9 @@ class DrawerContainer extends Component {
             <ButtonProfile />
             <ButtonFriends />
         </View>
+        <View style={styles.extraIconContainer}>
+          <ButtonSettings />
+        </View>
       </View>
     );
   }
