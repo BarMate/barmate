@@ -9,6 +9,8 @@ const styles = StyleSheet.create({
     rootContainer: {
        width: wp('90%'),
        height: hp('40%'),
+       borderBottomWidth: 0.3,
+       borderBottomColor: 'rgba(0,0,0,0.2)'
     },
     basicInfoContainer: {
         flex: 1,
@@ -17,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     barScoreContainer: {
-        flex: 0.3,
+        flex: 0.25,
         justifyContent: 'center',
         alignItems: 'center',
     },

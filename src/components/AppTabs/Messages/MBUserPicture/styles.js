@@ -5,13 +5,10 @@ import {
 } from "react-native-responsive-screen";
 
 const styles = StyleSheet.create({
-    header: {
-        fontSize: wp('10%'),
-        fontWeight: 'bold',
-        fontFamily: 'HkGrotesk_Bold',
-        color: 'white',
-        marginBottom: wp('6%'),
-        marginTop: wp('3%'),
+    rootContainer: {
+       width: wp('16%'),
+       height: wp('16%'),
+       borderRadius: wp('8%'),
     },
 })
 

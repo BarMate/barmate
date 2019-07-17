@@ -16,8 +16,12 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         marginBottom: wp('6%'),
     },
-    scrollView: {
+    scrollViewContainer: {
+        flex: 1,
         width: wp('90%'),
+    },
+    scrollViewContent: {
+        flexGrow: 1,
     }
 })
 

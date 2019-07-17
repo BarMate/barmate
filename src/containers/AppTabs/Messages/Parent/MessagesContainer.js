@@ -6,12 +6,13 @@ class MessagesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      stub: [{},{},{},{},{},{},{},{}]
     };
   }
 
   render() {
     return (
-      <Messages />
+      <Messages stub={this.state.stub} />
     );
   }
 }

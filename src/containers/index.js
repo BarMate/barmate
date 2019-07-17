@@ -106,6 +106,7 @@ const TabNav = createBottomTabNavigator(
                 left: 0,
                 right: 0,
                 bottom: 0,
+                zIndex: 1,
             }
         },
         animationEnabled: false,

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles';
-import { UserInfoSubView, FavoriteBarSubView } from '../index';
 
-class ProfileCard extends Component {
+class MBMessageInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,11 +12,11 @@ class ProfileCard extends Component {
   render() {
     return (
       <View style={styles.rootContainer}>
-        <UserInfoSubView />
-        <FavoriteBarSubView />
+        <Text style={styles.name}>Joe</Text>
+        <Text style={styles.messagePreview}>Hello this is a test message XD</Text>
       </View>
     );
   }
 }
 
-export default ProfileCard;
+export default MBMessageInfo;

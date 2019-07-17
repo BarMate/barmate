@@ -8,8 +8,8 @@ import styles from './styles';
 const Profile = (props) => {
     return(
         <BackgroundView style={styles.root}>
-            <View style={styles.scrollView}>
-                <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={false} />}>
+            <View style={styles.scrollViewContainer}>
+                <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={false} />}>
                     <DrawerButton />   
                     <Text style={styles.headerText}>Profile</Text>
                     <ProfileCard />
