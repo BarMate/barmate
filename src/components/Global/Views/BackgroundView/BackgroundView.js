@@ -15,9 +15,9 @@ class BackgroundView extends Component {
     return (
         <LinearGradient
             style={[this.props.style, styles.gradient]}
-            colors={['#42137B', '#302C9E']}
+            colors={['#302C9E', '#42137B']}
             start={[startX == undefined ? 0 : startX, startY == undefined ? 0 : startY]}
-            end={[endX == undefined ? 0 : endX, endY == undefined ? 0.3 : startY]}
+            end={[endX == undefined ? 0 : endX, endY == undefined ? 1 : startY]}
         >
             {this.props.children}
         </LinearGradient>

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         fontFamily: 'HkGrotesk_Medium',
         fontSize: wp('3%'),
         color: 'rgba(0,0,0,0.5)',
-    },  
+    },
 })
 
 export default styles;

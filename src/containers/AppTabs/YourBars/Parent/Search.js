@@ -8,7 +8,7 @@ import mapStyle from './CustomSearchStyle';
 
 const Search = (props) => {
     return(
-        <PullableModalView visible={props.visible}>
+        <PullableModalView visible={false}>
             <MapView
                 provider={PROVIDER_GOOGLE}
                 customMapStyle={mapStyle}

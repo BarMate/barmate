@@ -1,8 +1,8 @@
 import React from "react";
 import { BackgroundView, TouchableWithBounce } from "../../../../components/Global/index";
-import { TextHeaderTitle } from '../../../../components/AppTabs/index';
+import { TextHeaderTitle, IconHeaderProfilePicture, BarFlatlist, LatestView } from '../../../../components/AppTabs/index';
 
-import { View, SafeAreaView, Text, StatusBar, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StatusBar, SafeAreaView, ScrollView,  StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Header } from 'react-navigation';
 import { Ionicons } from "@expo/vector-icons";
 import Search from './SearchContainer';
@@ -11,24 +11,26 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
 } from "react-native-responsive-screen";
-import { connect } from "react-redux";
 
+import { connect } from "react-redux";
 
 const YourBars = (props) => {
     return(
-        <BackgroundView startY={0.9} >
+        <BackgroundView >
             <StatusBar barStyle="light-content"/>
-            <SafeAreaView style={styles.root}>
-                <Search />
-                <ScrollView>
-                    <View style={styles.topContainer}>
-                        <TextHeaderTitle>Your Bars</TextHeaderTitle>
-                            <TouchableWithBounce onPress={() => {props.toggleSearchModal(true)}} style={styles.add}>
-                                <Ionicons name={"ios-add"} size={styles.addSize} color={"#302C9E"}/>
-                            </TouchableWithBounce>
+            <View style={styles.root}>
+                <ScrollView contentContainerStyle={styles.topContainer}>
+                    <IconHeaderProfilePicture />
+                    <View style={styles.headerView}>
+                        <TextHeaderTitle>Your Bars</TextHeaderTitle>       
+                        <TouchableWithBounce style={styles.add}>
+                            <Ionicons name={"ios-add"} size={styles.addSize} color={"#ffffff"}/>
+                        </TouchableWithBounce>
                     </View>
+                    <BarFlatlist />
+                    <LatestView />
                 </ScrollView>
-            </SafeAreaView>
+            </View>
         </BackgroundView>
     );
 }
@@ -37,23 +39,25 @@ const YourBars = (props) => {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        marginTop: Header.HEIGHT + hp('5%'),
-        marginLeft: wp('6%'),
-        marginRight: wp('6%'),
     },
-    topContainer: {
+    headerView: {
         flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: wp('3%'),
+        zIndex: 0,
     },
     add: {
-        marginLeft: 'auto',
-        backgroundColor: '#ffffff',
-        width: wp('9%'),
-        height: wp('9%'),
+        width: wp('15%'),
+        height: wp('15%'),
         alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: wp('4.5%'),
+        justifyContent: 'flex-start',
+        marginLeft: 'auto',
+        marginRight: wp('7%')
     },
-    addSize: wp('6%'),
+    topContainer: {
+
+    },
+    addSize: wp('12%'),
 })
 
 export default YourBars;

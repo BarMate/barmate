@@ -14,7 +14,7 @@ class BarButton extends Component {
   render() {
     return (
         <View style={styles.container}>
-            <BarTemplate image={this.props.info.photos[0].photo_reference}>
+            <BarTemplate style={styles.bar} image={this.props.info.photos[0].photo_reference}>
                 <Text style={styles.name}>{this.props.info.name}</Text>
             </BarTemplate>
         </View>

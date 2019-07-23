@@ -5,8 +5,13 @@ import {
 } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
+   rootContainer: {
+      height: hp('25%'),
+   },
    flatlist: {
-        width: wp('100%')
+      alignSelf: 'center',
+      paddingLeft: wp('7%'),
+      paddingRight: wp('7%'),
    }
 })
 

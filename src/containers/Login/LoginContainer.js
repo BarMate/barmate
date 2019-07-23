@@ -5,7 +5,7 @@ class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      render: 'Login',
+      render: 'SignupSequence1',
     };
   }
   // Lifecycle methods, etc...

@@ -15,7 +15,7 @@ class TouchableWithBounce extends Component {
     Animated.timing(                  
         scale,           
         {
-          toValue: 1.1,                   
+          toValue: 0.9,                   
           duration: 100,
         }
     ).start(); 

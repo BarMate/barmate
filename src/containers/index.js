@@ -1,14 +1,23 @@
 import React from 'react';
+
 import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
 import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDetails } from './AppTabs/index';
 
 import { DrawerContainer } from '../components/Drawer/index';
+import CustomTabBar from '../components/TabBar/CustomTabBar';
 
 import Friends from './Friends/FriendsContainer';
 import Profile from './Profile/ProfileContainer';
 
 import { IconHeaderProfilePicture, IconYourBars } from '../components/AppTabs/index';
 import { Ionicons } from '@expo/vector-icons';
+
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+} from "react-native-responsive-screen";
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 // Tabs
 const YourBarsNav = createStackNavigator(
@@ -18,9 +27,20 @@ const YourBarsNav = createStackNavigator(
     },
     {
         initialRouteName: 'YourBars',
+        headerMode: 'none',
         defaultNavigationOptions: ({ navigation }) => ({
             headerTransparent: true,
-            headerLeft: navigation.state.routeName === 'YourBars' ? <IconHeaderProfilePicture /> : '',
+            headerStyle: {
+                height: hp('8%')
+            },
+            headerBackground: (
+                <LinearGradient 
+                    colors={['rgba(48,44,158,0.4)', 'transparent']}
+                    style={{ flex: 1 }}
+                    start={{x: 0, y: 0}}
+                    end={{x: 0, y: 1}}
+                />
+            )
         })
     }
 )
@@ -76,25 +96,8 @@ const TabNav = createBottomTabNavigator(
         MessagesNav,
     },
     {
-        defaultNavigationOptions: ({ navigation }) => ({
-            tabBarIcon: ({ focused }) => {
-                const { routeName } = navigation.state;
-                if(routeName === 'YourBarsNav') {
-                    return (focused ? <IconYourBars /> : <Ionicons name={"md-beer"} size={30} color={"rgba(255,255,255,0.3)"} />)
-                }
-                else if(routeName === 'PlansNav') {
-                    return (focused ? <Ionicons name={"ios-apps"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-apps"} size={30} color={"rgba(255,255,255,0.3)"} />)
-                }
-                else if(routeName === 'InsideNav') {
-                    return (focused ? <Ionicons name={"ios-grid"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-grid"} size={30} color={"rgba(255,255,255,0.3)"} />)
-                }
-                else if(routeName === 'MessagesNav') {
-                    return (focused ? <Ionicons name={"ios-chatbubbles"} size={30} color={"#ffffff"}/> : <Ionicons name={"ios-chatbubbles"} size={30} color={"rgba(255,255,255,0.3)"} />)
-                }
-            },
-            
-        }),
         tabBarPosition: "bottom",
+        tabBarComponent: ({ navigation }) => <CustomTabBar navigation={navigation} />,
         tabBarOptions: {
             activeBackgroundColor: 'rgba(0,0,0,0.0)',
             inactiveBackgroundColor: 'rgba(0,0,0,0.0)',
@@ -102,12 +105,7 @@ const TabNav = createBottomTabNavigator(
             style: {
                 backgroundColor: 'transparent',
                 borderTopWidth: 0,
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 1,
-            }
+            },
         },
         animationEnabled: false,
         swipeEnabled: true,

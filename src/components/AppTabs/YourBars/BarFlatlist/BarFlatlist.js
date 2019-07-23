@@ -46,14 +46,16 @@ class BarFlatlist extends Component {
 
   render() {
     return (
-        <FlatList 
-            keyExtractor={(item, index) => String(Math.random())}
-            data={this.state.stub}
-            renderItem={({item}) => <BarButton info={item}/>}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-        />
+        <View style={styles.rootContainer}>
+            <FlatList 
+                keyExtractor={(item, index) => String(Math.random())}
+                data={this.state.stub}
+                renderItem={({item}) => <BarButton info={item}/>}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.flatlist}
+            />
+        </View>
     );
   }
 }

@@ -1,11 +1,22 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { View, SafeAreaView, Text, ScrollView, RefreshControl } from 'react-native';
+
+import { BackgroundView } from '../../components/Global/index';
+import { DrawerButton } from '../../components/Profile/index';
+import { FriendsCard } from '../../components/Friends/index';
+import styles from './styles';
 
 const Friends = (props) => {
     return(
-        <SafeAreaView>
-            <Text>Friends</Text>
-        </SafeAreaView>
+        <BackgroundView style={styles.root}>
+            <View style={styles.scrollViewContainer}>
+                <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={false} />}>
+                    <DrawerButton />   
+                    <Text style={styles.headerText}>Friends</Text>
+                    <FriendsCard />
+                </ScrollView>
+            </View>
+        </BackgroundView>
     );
 }
 

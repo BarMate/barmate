@@ -12,8 +12,11 @@ const styles = StyleSheet.create({
         margin: wp('4%'),
     },
     container: {
-        marginLeft: wp('1.25%'),
-        marginRight: wp('1.25%')
+        marginRight: wp('2%'),
+        zIndex: 1,
+    },
+    bar: {
+        width: wp('42%'),
     },
 })
 

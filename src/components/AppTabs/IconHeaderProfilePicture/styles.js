@@ -5,14 +5,17 @@ import {
 } from "react-native-responsive-screen";
 
 const styles = StyleSheet.create({
-    root: {
-        width: wp('13.5%'),
-        height: wp('13.5%'),
+    rootContainer: {
+        marginLeft: wp('7%'),
+        marginTop: hp('5%'),
+    },
+    image: {
+        width: wp('10%'),
+        height: wp('10%'),
         borderWidth: 0.1,
         borderColor: 'white',
         backgroundColor: 'white',
-        borderRadius: wp('6.75%'),
-        marginLeft: 20,
+        borderRadius: wp('5%'),
     }
 })
 

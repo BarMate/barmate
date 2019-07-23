@@ -15,7 +15,7 @@ class BarTemplate extends Component {
   render() {
     const imageApi = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.props.image}&key=${API_KEY}`
     return (
-      <TouchableWithBounce style={styles.rootContainer}>
+      <TouchableWithBounce style={[styles.rootContainer, this.props.style]}>
         <LinearGradient
             style={styles.gradient}
             colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.0)']}

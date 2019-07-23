@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { withNavigation } from 'react-navigation';
+
 import styles from './styles';
 
 class ButtonFriends extends Component {
@@ -12,7 +14,7 @@ class ButtonFriends extends Component {
 
   render() {
     return (
-        <TouchableOpacity style={styles.rootContainer}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Friends')} style={styles.rootContainer}>
           <View style={styles.iconContainer}>
             <Ionicons name={'ios-contacts'} size={styles.iconSize} color={'#ffffff'} />
           </View>
@@ -27,4 +29,4 @@ class ButtonFriends extends Component {
   }
 }
 
-export default ButtonFriends;
+export default withNavigation(ButtonFriends);

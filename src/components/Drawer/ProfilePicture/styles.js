@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
         width: wp('35%'),
         height: wp('35%'),
         borderRadius: wp('17.5%'),
+        borderWidth: 0.3,
+        borderColor: 'rgba(0,0,0,0.5)'
    }
 })
 
