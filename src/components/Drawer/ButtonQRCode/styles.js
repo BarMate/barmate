@@ -7,16 +7,10 @@ import {
 const styles = StyleSheet.create({
    iconContainer: {
       flex: 1,
-      flexDirection: 'row',
       alignItems: 'flex-start',
+      justifyContent: 'center',
       marginLeft: wp('6%'),
-      marginBottom: wp('7%'),
-   },
-   buttonSettings: {
-      margin: wp('2%'),
-   },
-   buttonQRCode: {
-      margin: wp('2%'),
+      marginBottom: wp('7%')
    },
    iconSize: wp('9%'),
 })

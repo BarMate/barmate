@@ -29,7 +29,7 @@ class CustomTabBar extends Component {
         >
           <YourBarsTabButton />
           <PlansTabButton />
-          <ActivitiesTabButton />
+          {/* <ActivitiesTabButton /> */}
           <MessagesTabButton />
           
         </LinearGradient>

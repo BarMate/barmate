@@ -14,7 +14,12 @@ class ButtonSettings extends Component {
   render() {
     return (
       <View style={styles.iconContainer}>
-        <Ionicons name={"ios-settings"} size={styles.iconSize} color={"#ffffff"}/>
+        <View style={styles.buttonSettings}>
+          <Ionicons name={"ios-settings"} size={styles.iconSize} color={"#ffffff"}/>
+        </View>
+        <View style={styles.buttonQRCode}>
+          <Ionicons name={"ios-qr-scanner"} size={styles.iconSize} color={"#ffffff"}/>
+        </View>
       </View>
     );
   }

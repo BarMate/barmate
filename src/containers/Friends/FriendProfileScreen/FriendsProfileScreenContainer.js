@@ -1,9 +1,8 @@
-
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Friends from './Friends';
+import FriendsProfileScreen from './FriendsProfileScreen';
 
-class FriendsContainer extends Component {
+class FriendsProfileScreenContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,9 +11,9 @@ class FriendsContainer extends Component {
 
   render() {
     return (
-      <Friends />
+      <FriendsProfileScreen />
     );
   }
 }
 
-export default FriendsContainer;
+export default FriendsProfileScreenContainer;

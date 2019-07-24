@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
-import { ButtonHome, ButtonFriends, ButtonProfile, ButtonSettings, ProfilePicture, UserInfo } from '../index';
+import { ButtonHome, ButtonFriends, ButtonProfile, ButtonSettings, ProfilePicture, UserInfo, ButtonQRCode } from '../index';
 
 import styles from './styles';
 

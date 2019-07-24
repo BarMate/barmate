@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
@@ -10,15 +11,15 @@ const styles = StyleSheet.create({
         marginBottom: wp('6%'),
     },
     iconContainer: {
-        width: wp('10%'),
-        height: wp('10%'),
-        backgroundColor: '#ffffff',
-        borderRadius: wp('5%'),
-        justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'row',
+    },
+    backText: {
+        fontSize: wp('5%'),
+        fontFamily: 'HkGrotesk_Regular',
+        color: '#ffffff',
     },
     iconSize: wp('7%'),
-
 })
 
 export default styles;

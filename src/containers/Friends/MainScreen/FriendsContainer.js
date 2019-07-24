@@ -1,8 +1,9 @@
+
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import Profile from './Profile';
+import Friends from './Friends';
 
-class ProfileContainer extends Component {
+class FriendsContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,9 +22,9 @@ class ProfileContainer extends Component {
 
   render() {
     return (
-      <Profile modalVisible={this.state.modalVisible} toggleModal={this._toggleModal} />
+      <Friends modalVisible={this.state.modalVisible} toggleModal={this._toggleModal} />
     );
   }
 }
 
-export default ProfileContainer;
+export default FriendsContainer;

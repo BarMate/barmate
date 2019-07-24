@@ -5,20 +5,19 @@ import {
   } from "react-native-responsive-screen";
 
 const styles = StyleSheet.create({
-    rootContainer: {
-        marginTop: wp('12%'),
-        marginBottom: wp('6%'),
-    },
-    iconContainer: {
-        width: wp('10%'),
-        height: wp('10%'),
-        backgroundColor: '#ffffff',
+    root: {
+        backgroundColor: '#302C9E',
         borderRadius: wp('5%'),
+        width: wp('17%'),
+        height: wp('8%'),
         justifyContent: 'center',
-        alignItems: 'center',
     },
-    iconSize: wp('7%'),
-
+    saveButton: {
+        fontFamily: 'HkGrotesk_Medium',
+        fontSize: wp('5%'),
+        color: '#ffffff',
+        alignSelf: 'center',
+    }
 })
 
 export default styles;

@@ -1,31 +1,32 @@
 import React from 'react';
 import { View, SafeAreaView, Text, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
-import { BackgroundView } from '../../components/Global/index';
-import { DrawerButton, ProfileCard, EditProfileRootView } from '../../components/Profile/index';
+
+import { BackgroundView } from '../../../components/Global/index';
+import { DrawerButton } from '../../../components/Profile/index';
+import { FriendsCard, AddFriendModal } from '../../../components/Friends/index';
+import styles from './styles';
 import { Ionicons } from '@expo/vector-icons';
 
-import styles from './styles';
-
-const Profile = (props) => {
+const Friends = (props) => {
     return(
         <BackgroundView style={styles.root}>
             <View style={styles.scrollViewContainer}>
-                <EditProfileRootView modalVisible={props.modalVisible} />
+                <AddFriendModal modalVisible={props.modalVisible} />
                 <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={false} />}>
                     <DrawerButton />   
                     <View style={styles.headerContainer}>
                         <View style={styles.textContainer}>
-                            <Text style={styles.headerText}>Profile</Text>
+                            <Text style={styles.headerText}>Friends</Text>
                         </View>
-                        <TouchableOpacity style={styles.editContainer} onPress={() => props.toggleModal()}>
-                            <Text style={styles.editText}>Edit</Text>
+                        <TouchableOpacity style={styles.iconContainer} onPress={() => props.toggleModal()}>
+                            <Ionicons name={'ios-add'} size={styles.iconSize} color={'#ffffff'} />
                         </TouchableOpacity>
                     </View>
-                    <ProfileCard />
+                    <FriendsCard />
                 </ScrollView>
             </View>
         </BackgroundView>
     );
 }
 
-export default Profile;
+export default Friends;

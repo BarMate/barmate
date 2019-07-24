@@ -20,8 +20,8 @@ const Login = (props) => {
             <TextInputEmail />
             <TextInputPassword />
             <ButtonLogin />
-            <ButtonLoginFB />
-            <ButtonLoginGoogle />
+            {/* <ButtonLoginFB />
+            <ButtonLoginGoogle /> */}
             <TroubleLoggingIn />
             <NoAccount />
           </ForegroundView>
@@ -103,6 +103,7 @@ const Login = (props) => {
             <NoAccount />
           </ForegroundView>
         </BackgroundView>
+        
       );
     }
   }

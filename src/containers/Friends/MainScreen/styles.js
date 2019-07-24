@@ -29,16 +29,10 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
     },
-    editContainer: {
+    iconContainer: {
         flex: 0.2,
         alignItems: 'flex-end',
         paddingRight: wp('3%'),
-        paddingTop: wp('4%'),
-    },
-    editText: {
-        fontFamily: 'HkGrotesk_Regular',
-        fontSize: wp('5%'),
-        color: '#ffffff',
     },
     iconSize: wp('12%')
 })

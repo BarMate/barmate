@@ -6,7 +6,6 @@ import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDeta
 import { DrawerContainer } from '../components/Drawer/index';
 import CustomTabBar from '../components/TabBar/CustomTabBar';
 
-import Friends from './Friends/FriendsContainer';
 import Profile from './Profile/ProfileContainer';
 
 import { IconHeaderProfilePicture, IconYourBars } from '../components/AppTabs/index';
@@ -19,7 +18,10 @@ import {
 
 import { LinearGradient } from 'expo-linear-gradient';
 
-// Tabs
+import FriendsContainer from './Friends/MainScreen/FriendsContainer';
+import FriendsProfileScreenContainer from './Friends/FriendProfileScreen/FriendsProfileScreenContainer';
+
+// Stacks
 const YourBarsNav = createStackNavigator(
     {
         YourBars: YourBars,
@@ -86,6 +88,16 @@ const MessagesNav = createStackNavigator(
     }
 )
 
+const FriendsNav = createStackNavigator(
+    {
+        Friends: FriendsContainer,
+        FriendsProfileScreen: FriendsProfileScreenContainer,
+    },
+    {
+        initialRouteName: 'Friends',
+        headerMode: 'none',
+    }
+)
 
 // Create tab navigator and drawer
 const TabNav = createBottomTabNavigator(
@@ -117,7 +129,7 @@ const App = createDrawerNavigator(
     {
         Home: TabNav,
         Profile: Profile,
-        Friends: Friends,
+        Friends: FriendsNav,
     },
     {
         drawerType: 'slide',
