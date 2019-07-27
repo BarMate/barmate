@@ -5,12 +5,6 @@ import {
   } from "react-native-responsive-screen";
   
 const styles = StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: 'gray',
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     buttonAllowLocation: {
       width: wp('60%'),
       height: hp('5%'),
@@ -22,6 +16,7 @@ const styles = StyleSheet.create({
       borderRadius: wp('25%'),
       borderWidth: Platform.OS === "android" ? 0.5 : 0,
       borderColor: '#ebebeb',
+      alignSelf: 'center',
     },
     textAllowLocation: {
       fontSize: wp('4%'),

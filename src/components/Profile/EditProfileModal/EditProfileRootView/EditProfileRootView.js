@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import Modal from 'react-native-modal';
 
 import EditProfilePictureButton from '../EditProfilePictureButton/EditProfilePictureButton';
@@ -22,6 +22,7 @@ class EditProfileRootView extends Component {
   render() {
     return (
       <View>
+        <StatusBar barStyle={'dark-content'}/>
         <Modal animationIn={'bounceInUp'} animationInTiming={600} style={{ margin: 0 }} isVisible={this.props.modalVisible}>
           <View style={styles.rootContainer}>
             <ScrollView contentContainerStyle={styles.scrollView}>

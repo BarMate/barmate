@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         fontFamily: 'HkGrotesk_Light',
+        paddingTop: wp('3%')
     },
 })
 

@@ -6,20 +6,21 @@ import {
 
 const styles = StyleSheet.create({
     rootContainer: {
-        width: wp('80.5%'),
+        width: wp('84%'),
         height: hp('6.4%'),
-        borderRadius: wp('40.25%'),
+        borderRadius: wp('47%'),
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         borderWidth: Platform.OS === 'android' ? 0.5 : 0,
+        borderColor: '#ebebeb',
+        shadowOpacity: 0.6,
+        shadowOffset: { width: 0, height: 1 },
         backgroundColor: '#302C9E',
-        marginTop: 30,
     },
     buttonText: {
         color: '#ffffff',
-        fontSize: wp('6%'),
-        paddingLeft: 10,
+        fontSize: wp('5%'),
         fontFamily: 'HkGrotesk_Bold',
     }
 })

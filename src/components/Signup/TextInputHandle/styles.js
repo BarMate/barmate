@@ -6,9 +6,8 @@ import {
   
 const styles = StyleSheet.create({
     rootContainer: {
-        width: wp('80.5%'),
-        height: hp('22%'),
-        backgroundColor: 'blue',
+        width: wp('84%'),
+        height: hp('20%'),
     },
     bodyContainer: {
         flex: 1,
@@ -16,10 +15,10 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     },  
     nameTextInput: {
-        width: wp('80.5%'),
+        width: wp('84%'),
         height: hp('6.4%'),
         backgroundColor: '#ffffff',
-        borderWidth: 1,
+        borderWidth: wp('0.1%'),
         borderColor: '#707070',
         borderRadius: wp('40.25%'),
         paddingHorizontal: 20,

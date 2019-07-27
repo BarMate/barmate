@@ -12,7 +12,7 @@ class LoginContainer extends Component {
 
   render() {
     return (
-      <Login determineRender={this.state.render} />
+      <Login />
     );
   }
 }

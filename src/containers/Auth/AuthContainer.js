@@ -43,7 +43,7 @@ class AuthContainer extends Component {
         this._gatherUserInfo(user);
       }
       else {
-        this.props.navigation.navigate('LoginContainer');
+        this.props.navigation.navigate('SignupAndLogin');
       }
     })
   }

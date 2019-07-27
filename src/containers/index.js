@@ -1,27 +1,30 @@
 import React from 'react';
-
-import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
-import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDetails } from './AppTabs/index';
-
-import { DrawerContainer } from '../components/Drawer/index';
-import CustomTabBar from '../components/TabBar/CustomTabBar';
-
-import Profile from './Profile/ProfileContainer';
-
-import { IconHeaderProfilePicture, IconYourBars } from '../components/AppTabs/index';
-import { Ionicons } from '@expo/vector-icons';
-
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
 } from "react-native-responsive-screen";
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { createStackNavigator, createBottomTabNavigator, createDrawerNavigator } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
 
+// App tabs
+import { YourBars, BarDetails, Plans, PlanDetails, Inside, Messages, MessageDetails } from './AppTabs/index';
+
+// Drawer
+import { DrawerContainer } from '../components/Drawer/index';
+
+// Tab Bar
+import CustomTabBar from '../components/TabBar/CustomTabBar';
+
+// Profile
+import Profile from './Profile/ProfileContainer';
+
+// Friends
 import FriendsContainer from './Friends/MainScreen/FriendsContainer';
 import FriendsProfileScreenContainer from './Friends/FriendProfileScreen/FriendsProfileScreenContainer';
 
-// Stacks
+
 const YourBarsNav = createStackNavigator(
     {
         YourBars: YourBars,
@@ -56,7 +59,6 @@ const PlansNav = createStackNavigator(
         initialRouteName: 'Plans',
         defaultNavigationOptions: ({ navigation }) => ({
             headerTransparent: true,
-            headerLeft: navigation.state.routeName === 'Plans' ? <IconHeaderProfilePicture /> : '',
         })
     }
 )
@@ -69,7 +71,6 @@ const InsideNav = createStackNavigator(
         initialRouteName: 'Inside',
         defaultNavigationOptions: ({ navigation }) => ({
             headerTransparent: true,
-            headerLeft: navigation.state.routeName === 'Inside' ? <IconHeaderProfilePicture /> : '',
         })
     }
 )
@@ -83,7 +84,6 @@ const MessagesNav = createStackNavigator(
         initialRouteName: 'Messages',
         defaultNavigationOptions: ({ navigation }) => ({
             headerTransparent: true,
-            headerLeft: navigation.state.routeName === 'Messages' ? <IconHeaderProfilePicture /> : '',
         })
     }
 )

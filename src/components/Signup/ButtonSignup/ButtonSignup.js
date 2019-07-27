@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Animated, TouchableWithoutFeedback, StyleSheet } from 'react-native';
 import { TouchableWithBounce } from '../../Global/index';
 import { Ionicons } from '@expo/vector-icons'
+import { withNavigation } from 'react-navigation';
+
 import styles from './styles';
 
 class ButtonSignup extends Component {
@@ -14,13 +16,11 @@ class ButtonSignup extends Component {
 
   render() {
     return (
-        <TouchableWithBounce style={styles.rootContainer}>
-            <Text style={styles.buttonText}>
-                Sign up
-            </Text>
+        <TouchableWithBounce onPress={() => this.props.navigation.push('SignupPage2Container')} style={styles.rootContainer}>
+            <Text style={styles.buttonText}>Sign up</Text>
         </TouchableWithBounce>
     );
   }
 }
 
-export default ButtonSignup;
+export default withNavigation(ButtonSignup);

@@ -14,14 +14,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderWidth: 1,
         backgroundColor: '#302C9E',
-        marginTop: 30,
+        marginTop: hp('33%'),
     },
     buttonText: {
         color: '#ffffff',
         fontSize: wp('6%'),
         paddingLeft: 10,
         fontFamily: 'HkGrotesk_Bold',
-    }
+    },
 })
 
 export default styles;
