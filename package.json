@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "1.14.0",
+    "react-native-scripts": "2.0.1",
     "jest-expo": "~27.0.0",
     "react-test-renderer": "16.3.1"
   },
@@ -23,7 +23,7 @@
     "firebase": "^5.0.4",
     "native-base": "^2.4.5",
     "react": "16.3.1",
-    "react-native": "~0.55.2",
+    "react-native": "~0.70.2",
     "react-native-catch-first-time": "0.0.1",
     "react-native-device-info": "^0.21.5",
     "react-native-dismiss-keyboard": "^1.0.0",
